@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pony — Where Flowers Come Alive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blush: #f5c2c7;
+      --rose: #e8677a;
+      --deep-rose: #c23152;
+      --ivory: #fdf8f2;
+      --cream: #f9f0e6;
+      --sage: #7a9e7e;
+      --sage-light: #b5cdb7;
+      --amber: #e8a24e;
+      --plum: #5c2d4e;
+      --charcoal: #2a1f1f;
+      --text: #3d2b2b;
+      --text-light: #8c7070;
+      --white: #ffffff;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ivory);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ──── CURSOR ──── */
+    .cursor {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--deep-rose);
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: multiply;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid var(--rose);
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease-out, width 0.2s, height 0.2s, opacity 0.2s;
+      opacity: 0.6;
+    }
+
+    /* ──── NAV ──── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(253, 248, 242, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232, 103, 122, 0.12);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 32px rgba(92,45,78,0.08); }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--plum);
+      text-decoration: none;
+    }
+    .logo span { color: var(--rose); font-style: italic; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0; height: 1.5px;
+      background: var(--rose);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--rose); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-cta {
+      background: var(--plum);
+      color: var(--white) !important;
+      padding: 0.6rem 1.6rem;
+      border-radius: 999px;
+      letter-spacing: 0.06em;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--deep-rose) !important; color: var(--white) !important; transform: translateY(-1px); }
+
+    /* ──── HERO ──── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(245,194,199,0.35) 0%, transparent 65%),
+                  radial-gradient(ellipse at 20% 80%, rgba(181,205,183,0.25) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 4rem 6rem 6rem;
+      position: relative; z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--deep-rose);
+      margin-bottom: 1.8rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 28px; height: 1.5px; background: var(--deep-rose);
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 5vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.04;
+      letter-spacing: -0.025em;
+      color: var(--charcoal);
+      margin-bottom: 1.8rem;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--deep-rose);
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--text-light);
+      max-width: 420px;
+      margin-bottom: 3rem;
+    }
+    .hero-actions { display: flex; gap: 1.2rem; align-items: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--deep-rose);
+      color: var(--white);
+      padding: 1rem 2.2rem;
+      border-radius: 999px;
+      font-size: 0.9rem; font-weight: 500; letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 24px rgba(194,49,82,0.28);
+    }
+    .btn-primary:hover {
+      background: var(--plum);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(92,45,78,0.32);
+    }
+    .btn-ghost {
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--deep-rose); }
+    .btn-ghost .arrow { font-size: 1.2rem; transition: transform 0.2s; }
+    .btn-ghost:hover .arrow { transform: translateX(4px); }
+
+    .hero-stats {
+      display: flex; gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(92,45,78,0.12);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--plum); line-height: 1;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--text-light); margin-top: 0.3rem; letter-spacing: 0.06em; }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+    }
+    .hero-image-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      height: 100%;
+      padding: 5rem 4rem 4rem 2rem;
+    }
+    .hero-img {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-img:nth-child(1) { grid-row: span 2; border-radius: 120px 20px 20px 20px; }
+    .hero-img:nth-child(2) { border-radius: 20px 80px 20px 20px; }
+    .hero-img:nth-child(3) { border-radius: 20px 20px 80px 20px; align-self: end; }
+    .hero-img svg { width: 100%; height: 100%; display: block; }
+    .hero-float-badge {
+      position: absolute; bottom: 5rem; left: 2rem;
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 16px 48px rgba(92,45,78,0.18);
+      display: flex; align-items: center; gap: 0.8rem;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .badge-icon { font-size: 1.8rem; }
+    .badge-text { font-size: 0.78rem; color: var(--text-light); }
+    .badge-text strong { display: block; font-size: 0.9rem; color: var(--charcoal); }
+
+    /* ──── MARQUEE ──── */
+    .marquee-wrap {
+      background: var(--plum);
+      overflow: hidden;
+      padding: 1.1rem 0;
+    }
+    .marquee-track {
+      display: flex; white-space: nowrap;
+      animation: marquee 22s linear infinite;
+      gap: 0;
+    }
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-style: italic;
+      color: rgba(255,255,255,0.7);
+      padding: 0 2rem;
+      flex-shrink: 0;
+    }
+    .marquee-dot { color: var(--rose); margin: 0 0.5rem; font-style: normal; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ──── SECTIONS SHARED ──── */
+    section { padding: 6rem 5rem; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--sage);
+      margin-bottom: 1rem;
+    }
+    .section-label::before {
+      content: ''; display: block;
+      width: 20px; height: 1.5px; background: var(--sage);
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 700; line-height: 1.1;
+      color: var(--charcoal); margin-bottom: 1.2rem;
+    }
+    h2 em { font-style: italic; color: var(--rose); }
+    .section-sub {
+      font-size: 1rem; color: var(--text-light);
+      line-height: 1.7; max-width: 500px;
+    }
+
+    /* ──── OCCASIONS ──── */
+    .occasions { background: var(--cream); }
+    .occasions-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3.5rem;
+    }
+    .see-all {
+      font-size: 0.85rem; color: var(--deep-rose);
+      text-decoration: none; font-weight: 500;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      border-bottom: 1px solid currentColor; padding-bottom: 2px;
+      transition: gap 0.2s;
+    }
+    .see-all:hover { gap: 0.7rem; }
+    .occasion-chips {
+      display: flex; flex-wrap: wrap; gap: 0.8rem;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.85rem; font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1.5px solid transparent;
+    }
+    .chip-rose { background: rgba(232,103,122,0.12); color: var(--deep-rose); border-color: rgba(232,103,122,0.25); }
+    .chip-rose:hover { background: var(--deep-rose); color: var(--white); }
+    .chip-plum { background: rgba(92,45,78,0.09); color: var(--plum); border-color: rgba(92,45,78,0.2); }
+    .chip-plum:hover { background: var(--plum); color: var(--white); }
+    .chip-sage { background: rgba(122,158,126,0.12); color: var(--sage); border-color: rgba(122,158,126,0.25); }
+    .chip-sage:hover { background: var(--sage); color: var(--white); }
+    .chip-amber { background: rgba(232,162,78,0.12); color: var(--amber); border-color: rgba(232,162,78,0.28); }
+    .chip-amber:hover { background: var(--amber); color: var(--white); }
+
+    /* ──── FLOWER GRID ──── */
+    .flowers-section {}
+    .flowers-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+    .flowers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .flower-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      group: true;
+    }
+    .flower-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(92,45,78,0.14); }
+    .flower-card:nth-child(2) { margin-top: 2rem; }
+    .flower-card:nth-child(4) { margin-top: -2rem; }
+
+    .flower-img {
+      height: 280px;
+      overflow: hidden;
+      position: relative;
+    }
+    .flower-img svg { width: 100%; height: 100%; display: block; transition: transform 0.4s; }
+    .flower-card:hover .flower-img svg { transform: scale(1.04); }
+    .flower-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--white);
+      border-radius: 999px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .badge-new { color: var(--sage); }
+    .badge-best { color: var(--deep-rose); }
+    .badge-sale { color: var(--amber); }
+    .flower-info { padding: 1.2rem 1.4rem 1.4rem; }
+    .flower-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--charcoal); margin-bottom: 0.25rem;
+    }
+    .flower-variety { font-size: 0.78rem; color: var(--text-light); margin-bottom: 0.9rem; }
+    .flower-footer { display: flex; align-items: center; justify-content: space-between; }
+    .flower-price { font-size: 1rem; font-weight: 600; color: var(--plum); }
+    .add-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--blush);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--deep-rose);
+      transition: background 0.2s, transform 0.15s;
+    }
+    .add-btn:hover { background: var(--deep-rose); color: var(--white); transform: scale(1.1); }
+
+    /* ──── FEATURED WIDE ──── */
+    .featured {
+      background: var(--plum);
+      padding: 5rem;
+      border-radius: 40px;
+      margin: 0 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .featured::before {
+      content: '';
+      position: absolute; top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(232,103,122,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .featured-text .section-label { color: var(--blush); }
+    .featured-text .section-label::before { background: var(--blush); }
+    .featured-text h2 { color: var(--white); }
+    .featured-text h2 em { color: var(--blush); }
+    .featured-text p { color: rgba(255,255,255,0.65); max-width: 400px; }
+    .featured-text .btn-primary { margin-top: 2rem; background: var(--rose); box-shadow: 0 8px 24px rgba(232,103,122,0.35); }
+    .featured-text .btn-primary:hover { background: var(--white); color: var(--plum); }
+    .featured-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .fv-card {
+      background: rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 1.2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(6px);
+    }
+    .fv-card:first-child { grid-column: span 2; }
+    .fv-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .fv-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--white); font-weight: 600; }
+    .fv-desc { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 0.25rem; }
+
+    /* ──── FLOWER VARIETIES ──── */
+    .varieties { background: var(--cream); }
+    .varieties-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .variety-card {
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      height: 380px;
+    }
+    .variety-card svg { width: 100%; height: 100%; display: block; transition: transform 0.5s; }
+    .variety-card:hover svg { transform: scale(1.06); }
+    .variety-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(42,31,31,0.85) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 2rem;
+    }
+    .variety-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700; font-style: italic;
+      color: var(--white); margin-bottom: 0.3rem;
+    }
+    .variety-desc { font-size: 0.82rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+    .variety-count {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.75rem; color: var(--white);
+      font-weight: 500;
+    }
+
+    /* ──── TESTIMONIALS ──── */
+    .testimonials {}
+    .testimonials-header { text-align: center; margin-bottom: 3.5rem; }
+    .testimonials-header .section-label { justify-content: center; }
+    .testimonials-header .section-label::before { display: none; }
+    .testimonials-header h2 { font-size: clamp(2rem, 3.5vw, 3rem); }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .testi-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      border: 1px solid rgba(232,103,122,0.1);
+    }
+    .testi-card:nth-child(2) { background: var(--plum); }
+    .testi-card:nth-child(2) .testi-text { color: rgba(255,255,255,0.8); }
+    .testi-card:nth-child(2) .testi-name { color: var(--white); }
+    .testi-card:nth-child(2) .testi-loc { color: rgba(255,255,255,0.4); }
+    .testi-card:nth-child(2) .stars { color: var(--blush); }
+    .testi-quote {
+      font-size: 3rem; line-height: 1;
+      color: var(--blush);
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 0.5rem;
+    }
+    .testi-text {
+      font-size: 0.92rem; line-height: 1.7;
+      color: var(--text-light); margin-bottom: 1.5rem;
+    }
+    .testi-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+    .testi-name { font-weight: 600; font-size: 0.9rem; color: var(--charcoal); }
+    .testi-loc { font-size: 0.75rem; color: var(--text-light); }
+    .stars { color: var(--rose); font-size: 0.85rem; }
+
+    /* ──── BANNER ──── */
+    .delivery-banner {
+      background: linear-gradient(135deg, var(--blush) 0%, #fce4ec 50%, var(--sage-light) 100%);
+      padding: 4rem 5rem;
+      margin: 0 3rem;
+      border-radius: 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem;
+    }
+    .banner-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--charcoal); margin-bottom: 0.6rem;
+    }
+    .banner-text p { color: var(--text-light); font-size: 0.95rem; }
+    .banner-badges { display: flex; gap: 1.5rem; }
+    .bbd {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      box-shadow: 0 4px 20px rgba(92,45,78,0.1);
+    }
+    .bbd-icon { font-size: 1.6rem; }
+    .bbd-label { font-size: 0.75rem; color: var(--text-light); }
+    .bbd-label strong { display: block; font-size: 0.88rem; color: var(--charcoal); }
+
+    /* ──── FOOTER ──── */
+    footer {
+      background: var(--charcoal);
+      color: var(--white);
+      padding: 4rem 5rem 2rem;
+      margin-top: 6rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.2fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 2rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 900;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .footer-logo span { color: var(--rose); font-style: italic; }
+    .footer-tagline { font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.7; max-width: 240px; }
+    .footer-col h4 {
+      font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul a {
+      font-size: 0.88rem; color: rgba(255,255,255,0.6);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-col ul a:hover { color: var(--blush); }
+    .newsletter-form {
+      display: flex;
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+    .newsletter-form input {
+      flex: 1; padding: 0.75rem 1.2rem;
+      background: none; border: none; outline: none;
+      color: var(--white); font-size: 0.85rem;
+    }
+    .newsletter-form input::placeholder { color: rgba(255,255,255,0.3); }
+    .newsletter-form button {
+      background: var(--rose); border: none; cursor: pointer;
+      padding: 0.75rem 1.3rem;
+      color: var(--white); font-size: 0.85rem; font-weight: 500;
+      transition: background 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .newsletter-form button:hover { background: var(--deep-rose); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; color: rgba(255,255,255,0.3);
+    }
+    .socials { display: flex; gap: 1rem; }
+    .social-pill {
+      background: rgba(255,255,255,0.07);
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem; color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .social-pill:hover { background: var(--rose); color: var(--white); }
+
+    /* ──── ANIMATIONS ──── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 0.55s; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 2rem; }
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 70px; }
+      .hero-left { padding: 3rem 2rem 2rem; }
+      .hero-right { height: 320px; }
+      .hero-image-grid { padding: 1rem; }
+      .flowers-grid { grid-template-columns: repeat(2, 1fr); }
+      .flowers-grid .flower-card:nth-child(2),
+      .flowers-grid .flower-card:nth-child(4) { margin-top: 0; }
+      .varieties-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .featured { margin: 0 1rem; padding: 3rem 2rem; grid-template-columns: 1fr; }
+      .delivery-banner { margin: 0 1rem; padding: 2.5rem 2rem; flex-direction: column; text-align: center; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .occasions-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .flowers-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="logo">Pon<span>y</span></a>
+  <ul class="nav-links">
+    <li><a href="#flowers">Flowers</a></li>
+    <li><a href="#varieties">Varieties</a></li>
+    <li><a href="#occasions">Occasions</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#" class="nav-cta">Order Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow fade-up">Premium Floral Boutique</div>
+    <h1 class="fade-up delay-1">Fresh flowers,<br><em>delivered</em><br>with love</h1>
+    <p class="hero-sub fade-up delay-2">Handpicked blooms, artfully arranged and delivered same day. From velvety roses to exotic orchids — every petal tells a story.</p>
+    <div class="hero-actions fade-up delay-3">
+      <a href="#flowers" class="btn-primary">Shop Flowers <span>→</span></a>
+      <a href="#varieties" class="btn-ghost">Explore Varieties <span class="arrow">→</span></a>
+    </div>
+    <div class="hero-stats fade-up delay-4">
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Flower Varieties</div>
+      </div>
+      <div>
+        <div class="stat-num">2K+</div>
+        <div class="stat-label">Happy Customers</div>
+      </div>
+      <div>
+        <div class="stat-num">Same</div>
+        <div class="stat-label">Day Delivery</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-grid">
+      <!-- Tall rose image -->
+      <div class="hero-img" style="background:#f5c2c7;">
+        <svg viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="rg1" cx="50%" cy="40%"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#e8677a"/></radialGradient>
+            <radialGradient id="rg1b" cx="50%" cy="50%"><stop offset="0%" stop-color="#f48fb1"/><stop offset="100%" stop-color="#c2185b"/></radialGradient>
+          </defs>
+          <rect width="300" height="600" fill="#fdf0f3"/>
+          <!-- Background petals -->
+          <ellipse cx="150" cy="300" rx="120" ry="120" fill="rgba(245,194,199,0.3)"/>
+          <!-- Rose petals layered -->
+          <g transform="translate(150,260)">
+            <ellipse cx="0" cy="-70" rx="55" ry="65" fill="url(#rg1)" opacity="0.9" transform="rotate(-20)"/>
+            <ellipse cx="60" cy="-30" rx="55" ry="65" fill="url(#rg1b)" opacity="0.85" transform="rotate(40)"/>
+            <ellipse cx="50" cy="40" rx="55" ry="65" fill="url(#rg1)" opacity="0.85" transform="rotate(100)"/>
+            <ellipse cx="-10" cy="70" rx="55" ry="65" fill="url(#rg1b)" opacity="0.85" transform="rotate(160)"/>
+            <ellipse cx="-65" cy="30" rx="55" ry="65" fill="url(#rg1)" opacity="0.85" transform="rotate(220)"/>
+            <ellipse cx="-55" cy="-40" rx="55" ry="65" fill="url(#rg1b)" opacity="0.85" transform="rotate(280)"/>
+            <!-- Inner petals -->
+            <ellipse cx="0" cy="-45" rx="35" ry="42" fill="#e8677a" opacity="0.95" transform="rotate(-15)"/>
+            <ellipse cx="38" cy="-20" rx="35" ry="42" fill="#c2185b" opacity="0.9" transform="rotate(45)"/>
+            <ellipse cx="32" cy="28" rx="35" ry="42" fill="#e8677a" opacity="0.9" transform="rotate(105)"/>
+            <ellipse cx="-8" cy="48" rx="35" ry="42" fill="#c2185b" opacity="0.9" transform="rotate(165)"/>
+            <ellipse cx="-42" cy="18" rx="35" ry="42" fill="#e8677a" opacity="0.9" transform="rotate(225)"/>
+            <ellipse cx="-36" cy="-28" rx="35" ry="42" fill="#c2185b" opacity="0.9" transform="rotate(285)"/>
+            <!-- Center -->
+            <circle cx="0" cy="0" r="22" fill="#ad1457"/>
+            <circle cx="0" cy="0" r="14" fill="#880e4f"/>
+            <circle cx="-4" cy="-4" r="6" fill="rgba(255,255,255,0.2)"/>
+          </g>
+          <!-- Stem -->
+          <path d="M150 380 Q155 450 148 530" stroke="#4caf50" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <!-- Leaves -->
+          <ellipse cx="165" cy="420" rx="28" ry="13" fill="#66bb6a" opacity="0.8" transform="rotate(30,165,420)"/>
+          <ellipse cx="138" cy="460" rx="28" ry="13" fill="#43a047" opacity="0.8" transform="rotate(-25,138,460)"/>
+          <!-- Label -->
+          <rect x="20" y="530" width="260" height="50" rx="12" fill="white" opacity="0.8"/>
+          <text x="150" y="560" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-style="italic" fill="#c23152">Red Rose</text>
+          <text x="150" y="574" text-anchor="middle" font-family="Arial" font-size="10" fill="#8c7070">Rosa centifolia</text>
+        </svg>
+      </div>
+      <!-- Sunflower -->
+      <div class="hero-img" style="background:#fff9e6;">
+        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="280" fill="#fffde7"/>
+          <g transform="translate(150,130)">
+            <!-- Petals -->
+            <g id="sfpetal">
+              <ellipse cx="0" cy="-75" rx="18" ry="40" fill="#ffd54f"/>
+            </g>
+            <use href="#sfpetal" transform="rotate(30)"/>
+            <use href="#sfpetal" transform="rotate(60)"/>
+            <use href="#sfpetal" transform="rotate(90)"/>
+            <use href="#sfpetal" transform="rotate(120)"/>
+            <use href="#sfpetal" transform="rotate(150)"/>
+            <use href="#sfpetal" transform="rotate(180)"/>
+            <use href="#sfpetal" transform="rotate(210)"/>
+            <use href="#sfpetal" transform="rotate(240)"/>
+            <use href="#sfpetal" transform="rotate(270)"/>
+            <use href="#sfpetal" transform="rotate(300)"/>
+            <use href="#sfpetal" transform="rotate(330)"/>
+            <circle cx="0" cy="0" r="42" fill="#5d4037"/>
+            <circle cx="0" cy="0" r="34" fill="#4e342e"/>
+            <!-- Seed dots -->
+            <circle cx="0" cy="-18" r="3" fill="#6d4c41"/>
+            <circle cx="12" cy="-13" r="3" fill="#6d4c41"/>
+            <circle cx="18" cy="0" r="3" fill="#6d4c41"/>
+            <circle cx="12" cy="13" r="3" fill="#6d4c41"/>
+            <circle cx="0" cy="18" r="3" fill="#6d4c41"/>
+            <circle cx="-12" cy="13" r="3" fill="#6d4c41"/>
+            <circle cx="-18" cy="0" r="3" fill="#6d4c41"/>
+            <circle cx="-12" cy="-13" r="3" fill="#6d4c41"/>
+            <circle cx="0" cy="0" r="4" fill="#3e2723"/>
+          </g>
+          <text x="150" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" fill="#b7800a">Sunflower</text>
+          <text x="150" y="268" text-anchor="middle" font-family="Arial" font-size="10" fill="#8c7070">Helianthus annuus</text>
+        </svg>
+      </div>
+      <!-- Lavender -->
+      <div class="hero-img" style="background:#f3e5f5;">
+        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="280" fill="#f9f0ff"/>
+          <g transform="translate(150,140)">
+            <!-- Lavender stems -->
+            <g opacity="0.95">
+              <!-- Main spike -->
+              <path d="M0,80 Q0,20 0,-80" stroke="#78909c" stroke-width="2.5" fill="none"/>
+              <ellipse cx="0" cy="-80" rx="6" ry="9" fill="#9c27b0" opacity="0.9"/>
+              <ellipse cx="0" cy="-68" rx="7" ry="9" fill="#7b1fa2" opacity="0.9"/>
+              <ellipse cx="0" cy="-55" rx="7" ry="9" fill="#9c27b0" opacity="0.9"/>
+              <ellipse cx="0" cy="-42" rx="8" ry="9" fill="#7b1fa2" opacity="0.9"/>
+              <ellipse cx="0" cy="-30" rx="8" ry="10" fill="#9c27b0" opacity="0.9"/>
+              <!-- Left spike -->
+              <path d="M-30,70 Q-25,30 -15,-55" stroke="#78909c" stroke-width="2" fill="none"/>
+              <ellipse cx="-15" cy="-55" rx="5" ry="8" fill="#ab47bc" opacity="0.85" transform="rotate(-8)"/>
+              <ellipse cx="-18" cy="-44" rx="6" ry="8" fill="#9c27b0" opacity="0.85" transform="rotate(-8)"/>
+              <ellipse cx="-21" cy="-33" rx="6" ry="8" fill="#ab47bc" opacity="0.85" transform="rotate(-8)"/>
+              <!-- Right spike -->
+              <path d="M30,70 Q25,30 15,-55" stroke="#78909c" stroke-width="2" fill="none"/>
+              <ellipse cx="15" cy="-55" rx="5" ry="8" fill="#ab47bc" opacity="0.85" transform="rotate(8)"/>
+              <ellipse cx="18" cy="-44" rx="6" ry="8" fill="#9c27b0" opacity="0.85" transform="rotate(8)"/>
+              <ellipse cx="21" cy="-33" rx="6" ry="8" fill="#ab47bc" opacity="0.85" transform="rotate(8)"/>
+              <!-- Leaves -->
+              <ellipse cx="-12" cy="20" rx="18" ry="7" fill="#90a4ae" transform="rotate(-30,-12,20)"/>
+              <ellipse cx="12" cy="30" rx="18" ry="7" fill="#78909c" transform="rotate(30,12,30)"/>
+            </g>
+          </g>
+          <text x="150" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" fill="#7b1fa2">Lavender</text>
+          <text x="150" y="268" text-anchor="middle" font-family="Arial" font-size="10" fill="#8c7070">Lavandula angustifolia</text>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-float-badge">
+      <div class="badge-icon">🚚</div>
+      <div class="badge-text">
+        <strong>Same Day Delivery</strong>
+        Order before 2pm
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Red Roses <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Sunflowers <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Lavender <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">White Lilies <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Orchids <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Chrysanthemums <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Tulips <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Peonies <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Dahlias <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Gerberas <span class="marquee-dot">✿</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Red Roses <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Sunflowers <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Lavender <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">White Lilies <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Orchids <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Chrysanthemums <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Tulips <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Peonies <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Dahlias <span class="marquee-dot">✿</span></span>
+    <span class="marquee-item">Gerberas <span class="marquee-dot">✿</span></span>
+  </div>
+</div>
+
+<!-- OCCASIONS -->
+<section class="occasions" id="occasions">
+  <div class="occasions-header">
+    <div>
+      <div class="section-label">Shop by Occasion</div>
+      <h2>Perfect for every <em>moment</em></h2>
+    </div>
+    <a href="#" class="see-all">View all collections →</a>
+  </div>
+  <div class="occasion-chips">
+    <span class="chip chip-rose">💕 Anniversary</span>
+    <span class="chip chip-plum">🎂 Birthday</span>
+    <span class="chip chip-rose">💍 Proposal</span>
+    <span class="chip chip-sage">💐 Wedding</span>
+    <span class="chip chip-amber">🌹 Valentine's</span>
+    <span class="chip chip-plum">🕊 Funeral</span>
+    <span class="chip chip-sage">🌿 Get Well Soon</span>
+    <span class="chip chip-rose">🎉 Celebration</span>
+    <span class="chip chip-amber">💛 Just Because</span>
+    <span class="chip chip-plum">🌙 Date Night</span>
+    <span class="chip chip-rose">👰 Bridal Bouquet</span>
+    <span class="chip chip-sage">🌸 Mother's Day</span>
+  </div>
+</section>
+
+<!-- FLOWER SHOP -->
+<section class="flowers-section" id="flowers">
+  <div class="flowers-header">
+    <div>
+      <div class="section-label">Our Collection</div>
+      <h2>Most <em>loved</em> flowers</h2>
+    </div>
+    <a href="#" class="see-all">All flowers →</a>
+  </div>
+  <div class="flowers-grid">
+
+    <!-- Card 1: Red Rose -->
+    <div class="flower-card">
+      <div class="flower-img">
+        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="280" fill="#fdf0f3"/>
+          <g transform="translate(150,130)">
+            <ellipse cx="0" cy="-55" rx="45" ry="52" fill="#f48fb1" opacity="0.9" transform="rotate(-20)"/>
+            <ellipse cx="48" cy="-25" rx="45" ry="52" fill="#e91e63" opacity="0.85" transform="rotate(40)"/>
+            <ellipse cx="40" cy="35" rx="45" ry="52" fill="#f48fb1" opacity="0.85" transform="rotate(100)"/>
+            <ellipse cx="-8" cy="58" rx="45" ry="52" fill="#e91e63" opacity="0.85" transform="rotate(160)"/>
+            <ellipse cx="-52" cy="24" rx="45" ry="52" fill="#f48fb1" opacity="0.85" transform="rotate(220)"/>
+            <ellipse cx="-44" cy="-33" rx="45" ry="52" fill="#e91e63" opacity="0.85" transform="rotate(280)"/>
+            <ellipse cx="0" cy="-38" rx="30" ry="36" fill="#c2185b" opacity="0.95" transform="rotate(-15)"/>
+            <ellipse cx="32" cy="-18" rx="30" ry="36" fill="#ad1457" opacity="0.9" transform="rotate(45)"/>
+            <ellipse cx="28" cy="24" rx="30" ry="36" fill="#c2185b" opacity="0.9" transform="rotate(105)"/>
+            <ellipse cx="-6" cy="40" rx="30" ry="36" fill="#ad1457" opacity="0.9" transform="rotate(165)"/>
+            <ellipse cx="-35" cy="15" rx="30" ry="36" fill="#c2185b" opacity="0.9" transform="rotate(225)"/>
+            <ellipse cx="-30" cy="-24" rx="30" ry="36" fill="#ad1457" opacity="0.9" transform="rotate(285)"/>
+            <circle cx="0" cy="0" r="18" fill="#880e4f"/>
+          </g>
+          <path d="M150,190 Q152,220 149,270" stroke="#4caf50" stroke-width="4" fill="none"/>
+          <ellipse cx="163" cy="225" rx="22" ry="10" fill="#66bb6a" opacity="0.8" transform="rotate(25,163,225)"/>
+        </svg>
+        <div class="flower-badge badge-best">⭐ Best Seller</div>
+      </div>
+      <div class="flower-info">
+        <div class="flower-name">Red Rose Bouquet</div>
+        <div class="flower-variety">Rosa centifolia · 12 stems w/ Gypsophila</div>
+        <div class="flower-footer">
+          <div class="flower-price">₦38,500</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: White Lily -->
+    <div class="flower-card">
+      <div class="flower-img">
+        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="280" fill="#f0f8f1"/>
+          <g transform="translate(150,130)">
+            <!-- Lily petals -->
+            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(0)"/>
+            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(60)"/>
+            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(120)"/>
+            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(180)"/>
+            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(240)"/>
+            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(300)"/>
+            <!-- Petal veins -->
+            <line x1="0" y1="-10" x2="0" y2="-120" stroke="#f3e5f5" stroke-width="1" opacity="0.5"/>
+            <!-- Stamens -->
+            <g>
+              <line x1="0" y1="0" x2="0" y2="-45" stroke="#a5d6a7" stroke-width="1.5"/>
+              <circle cx="0" cy="-45" r="4" fill="#ff9800"/>
+              <line x1="0" y1="0" x2="25" y2="-38" stroke="#a5d6a7" stroke-width="1.5"/>
+              <circle cx="25" cy="-38" r="4" fill="#ff9800"/>
+              <line x1="0" y1="0" x2="-25" y2="-38" stroke="#a5d6a7" stroke-width="1.5"/>
+              <circle cx="-25" cy="-38" r="4" fill="#ff9800"/>
+              <line x1="0" y1="0" x2="40" y2="-18" stroke="#a5d6a7" stroke-width="1.5"/>
+              <circle cx="40" cy="-18" r="4" fill="#ff8f00"/>
+              <line x1="0" y1="0" x2="-40" y2="-18" stroke="#a5d6a7" stroke-width="1.5"/>
+              <circle cx="-40" cy="-18" r="4" fill="#ff8f00"/>
+              <line x1="0" y1="0" x2="0" y2="5" stroke="#a5d6a7" stroke-width="2"/>
+              <circle cx="0" cy="5" r="5" fill="#66bb6a"/>
+            </g>
+          </g>
+          <path d="M150,190 Q148,225 151,270" stroke="#4caf50" stroke-width="4" fill="none"/>
+          <ellipse cx="136" cy="230" rx="24" ry="10" fill="#81c784" transform="rotate(-30,136,230)"/>
+          <ellipse cx="162" cy="255" rx="24" ry="10" fill="#66bb6a" transform="rotate(20,162,255)"/>
+        </svg>
+        <div class="flower-badge badge-new">🌿 New</div>
+      </div>
+      <div class="flower-info">
+        <div class="flower-name">White Lily Arrangement</div>
+        <div class="flower-variety">Lilium candidum · 8 stems w/ Greenery</div>
+        <div class="flower-footer">
+          <div class="flower-price">₦63,000</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Sunflower -->
+    <div class="flower-card">
+      <div class="flower-img">
+        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="280" fill="#fffde7"/>
+          <g transform="translate(150,128)">
+            <g>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(30)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(60)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(90)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(120)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(150)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(180)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(210)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(240)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(270)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(300)"/>
+              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(330)"/>
+            </g>
+            <circle cx="0" cy="0" r="44" fill="#5d4037"/>
+            <circle cx="0" cy="0" r="36" fill="#4e342e"/>
+            <!-- seed pattern -->
+            <circle cx="0" cy="-20" r="3.5" fill="#795548"/>
+            <circle cx="14" cy="-14" r="3.5" fill="#795548"/>
+            <circle cx="20" cy="0" r="3.5" fill="#795548"/>
+            <circle cx="14" cy="14" r="3.5" fill="#795548"/>
+            <circle cx="0" cy="20" r="3.5" fill="#795548"/>
+            <circle cx="-14" cy="14" r="3.5" fill="#795548"/>
+            <circle cx="-20" cy="0" r="3.5" fill="#795548"/>
+            <circle cx="-14" cy="-14" r="3.5" fill="#795548"/>
+            <circle cx="0" cy="0" r="6" fill="#3e2723"/>
+          </g>
+          <path d="M150,185 Q153,215 150,270" stroke="#558b2f" stroke-width="5" fill="none"/>
+          <ellipse cx="168" cy="218" rx="26" ry="11" fill="#7cb342" transform="rotate(20,168,218)"/>
+          <ellipse cx="135" cy="248" rx="26" ry="11" fill="#558b2f" transform="rotate(-25,135,248)"/>
+        </svg>
+        <div class="flower-badge badge-best">⭐ Popular</div>
+      </div>
+      <div class="flower-info">
+        <div class="flower-name">Sunflower Bundle</div>
+        <div class="flower-variety">Helianthus annuus · 10 stems</div>
+        <div class="flower-footer">
+          <div class="flower-price">₦28,000</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Pink Orchid -->
+    <div class="flower-card">
+      <div class="flower-img">
+        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="280" fill="#fce4ec"/>
+          <g transform="translate(150,120)">
+            <!-- Orchid petals -->
+            <!-- Dorsal sepal (top) -->
+            <ellipse cx="0" cy="-68" rx="20" ry="48" fill="#f48fb1" opacity="0.9"/>
+            <!-- Lateral sepals -->
+            <ellipse cx="-58" cy="18" rx="50" ry="20" fill="#f06292" opacity="0.85" transform="rotate(-30,-58,18)"/>
+            <ellipse cx="58" cy="18" rx="50" ry="20" fill="#f06292" opacity="0.85" transform="rotate(30,58,18)"/>
+            <!-- Petals -->
+            <ellipse cx="-40" cy="-45" rx="38" ry="18" fill="#ec407a" opacity="0.9" transform="rotate(-50,-40,-45)"/>
+            <ellipse cx="40" cy="-45" rx="38" ry="18" fill="#ec407a" opacity="0.9" transform="rotate(50,40,-45)"/>
+            <!-- Lip (labellum) -->
+            <ellipse cx="0" cy="35" rx="28" ry="38" fill="#e91e63" opacity="0.95"/>
+            <ellipse cx="0" cy="40" rx="18" ry="25" fill="#ad1457" opacity="0.7"/>
+            <!-- Column -->
+            <ellipse cx="0" cy="0" rx="10" ry="14" fill="#fce4ec"/>
+            <ellipse cx="0" cy="-3" rx="6" ry="9" fill="#f8bbd0"/>
+          </g>
+          <path d="M150,190 Q145,220 148,270" stroke="#66bb6a" stroke-width="3" fill="none" stroke-dasharray="4,3"/>
+          <ellipse cx="138" cy="215" rx="20" ry="8" fill="#81c784" transform="rotate(-20,138,215)"/>
+        </svg>
+        <div class="flower-badge badge-sale">🌸 Sale</div>
+      </div>
+      <div class="flower-info">
+        <div class="flower-name">Pink Orchid Spray</div>
+        <div class="flower-variety">Phalaenopsis · Potted arrangement</div>
+        <div class="flower-footer">
+          <div class="flower-price">₦45,000</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURED BANNER -->
+<div class="featured">
+  <div class="featured-text">
+    <div class="section-label">Limited Offer</div>
+    <h2>Build your <em>dream</em> bouquet</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.6)">Mix and match from over 50 premium flower varieties. Add chocolates, balloons, or a personalized message card — we'll make it unforgettable.</p>
+    <a href="#" class="btn-primary">Customize Bouquet →</a>
+  </div>
+  <div class="featured-visual">
+    <div class="fv-card">
+      <div class="fv-icon">💐</div>
+      <div class="fv-title">Combo Deals</div>
+      <div class="fv-desc">Flowers + chocolates + balloon bundles from ₦56,000</div>
+    </div>
+    <div class="fv-card">
+      <div class="fv-icon">🎀</div>
+      <div class="fv-title">Free Gift Wrap</div>
+      <div class="fv-desc">Premium ribbon & wrapping on every order</div>
+    </div>
+    <div class="fv-card">
+      <div class="fv-icon">✉️</div>
+      <div class="fv-title">Personalised Card</div>
+      <div class="fv-desc">Add a handwritten message at checkout</div>
+    </div>
+  </div>
+</div>
+
+<!-- VARIETIES -->
+<section class="varieties" id="varieties">
+  <div class="section-label">Explore</div>
+  <h2>Our flower <em>varieties</em></h2>
+  <p class="section-sub">From classic roses to exotic tropicals — every bloom is freshly sourced and expertly arranged.</p>
+  <div class="varieties-grid">
+
+    <div class="variety-card">
+      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="380" fill="#1a0a0f"/>
+        <!-- Dark moody rose background -->
+        <radialGradient id="vg1" cx="50%" cy="45%"><stop offset="0%" stop-color="#c62828"/><stop offset="60%" stop-color="#4a0010"/><stop offset="100%" stop-color="#1a0008"/></radialGradient>
+        <rect width="400" height="380" fill="url(#vg1)"/>
+        <g transform="translate(200,175)" opacity="0.95">
+          <!-- Rose petals -->
+          <ellipse cx="0" cy="-80" rx="60" ry="75" fill="#e53935" opacity="0.9" transform="rotate(-15)"/>
+          <ellipse cx="70" cy="-35" rx="60" ry="75" fill="#c62828" opacity="0.9" transform="rotate(45)"/>
+          <ellipse cx="58" cy="50" rx="60" ry="75" fill="#e53935" opacity="0.9" transform="rotate(105)"/>
+          <ellipse cx="-10" cy="85" rx="60" ry="75" fill="#c62828" opacity="0.9" transform="rotate(165)"/>
+          <ellipse cx="-74" cy="40" rx="60" ry="75" fill="#e53935" opacity="0.9" transform="rotate(225)"/>
+          <ellipse cx="-62" cy="-48" rx="60" ry="75" fill="#c62828" opacity="0.9" transform="rotate(285)"/>
+          <ellipse cx="0" cy="-52" rx="38" ry="48" fill="#b71c1c" opacity="0.95" transform="rotate(-10)"/>
+          <ellipse cx="44" cy="-22" rx="38" ry="48" fill="#c62828" opacity="0.9" transform="rotate(50)"/>
+          <ellipse cx="38" cy="32" rx="38" ry="48" fill="#b71c1c" opacity="0.9" transform="rotate(110)"/>
+          <ellipse cx="-6" cy="54" rx="38" ry="48" fill="#c62828" opacity="0.9" transform="rotate(170)"/>
+          <ellipse cx="-46" cy="26" rx="38" ry="48" fill="#b71c1c" opacity="0.9" transform="rotate(230)"/>
+          <ellipse cx="-40" cy="-30" rx="38" ry="48" fill="#c62828" opacity="0.9" transform="rotate(290)"/>
+          <circle cx="0" cy="0" r="20" fill="#7f0000"/>
+        </g>
+      </svg>
+      <div class="variety-count">24 styles</div>
+      <div class="variety-overlay">
+        <div class="variety-name">Roses</div>
+        <div class="variety-desc">Red, pink, white & yellow. Single stems to grand bouquets.</div>
+      </div>
+    </div>
+
+    <div class="variety-card">
+      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+        <radialGradient id="vg2" cx="50%" cy="40%"><stop offset="0%" stop-color="#6a1b9a"/><stop offset="100%" stop-color="#0d0020"/></radialGradient>
+        <rect width="400" height="380" fill="url(#vg2)"/>
+        <g transform="translate(200,175)">
+          <!-- Orchid cluster -->
+          <g opacity="0.95">
+            <ellipse cx="0" cy="-75" rx="22" ry="52" fill="#ce93d8"/>
+            <ellipse cx="-65" cy="20" rx="55" ry="22" fill="#ba68c8" transform="rotate(-35,-65,20)"/>
+            <ellipse cx="65" cy="20" rx="55" ry="22" fill="#ba68c8" transform="rotate(35,65,20)"/>
+            <ellipse cx="-45" cy="-50" rx="42" ry="20" fill="#ab47bc" transform="rotate(-55,-45,-50)"/>
+            <ellipse cx="45" cy="-50" rx="42" ry="20" fill="#ab47bc" transform="rotate(55,45,-50)"/>
+            <ellipse cx="0" cy="38" rx="30" ry="42" fill="#9c27b0"/>
+            <ellipse cx="0" cy="0" rx="12" ry="16" fill="#e1bee7"/>
+          </g>
+          <!-- Second orchid shifted -->
+          <g transform="translate(90,-30)" opacity="0.65" style="scale:0.7">
+            <ellipse cx="0" cy="-75" rx="22" ry="52" fill="#ce93d8"/>
+            <ellipse cx="-65" cy="20" rx="55" ry="22" fill="#ba68c8" transform="rotate(-35,-65,20)"/>
+            <ellipse cx="65" cy="20" rx="55" ry="22" fill="#ba68c8" transform="rotate(35,65,20)"/>
+            <ellipse cx="0" cy="38" rx="30" ry="42" fill="#9c27b0"/>
+          </g>
+        </g>
+      </svg>
+      <div class="variety-count">12 styles</div>
+      <div class="variety-overlay">
+        <div class="variety-name">Orchids</div>
+        <div class="variety-desc">Exotic elegance. Phalaenopsis, Dendrobium & more.</div>
+      </div>
+    </div>
+
+    <div class="variety-card">
+      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+        <radialGradient id="vg3" cx="50%" cy="40%"><stop offset="0%" stop-color="#e65100"/><stop offset="60%" stop-color="#4e2000"/><stop offset="100%" stop-color="#1a0800"/></radialGradient>
+        <rect width="400" height="380" fill="url(#vg3)"/>
+        <!-- Sunflower cluster moody -->
+        <g transform="translate(150,185)">
+          <g>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(30)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(60)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(90)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(120)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(150)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(180)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(210)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(240)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(270)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(300)"/>
+            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(330)"/>
+            <circle cx="0" cy="0" r="46" fill="#3e2723"/>
+            <circle cx="0" cy="0" r="38" fill="#1a0000"/>
+          </g>
+        </g>
+        <g transform="translate(270,220)" opacity="0.6">
+          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#fdd835" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#f9a825" transform="rotate(45)"/>
+          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#fdd835" transform="rotate(90)"/>
+          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#f9a825" transform="rotate(135)"/>
+          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#fdd835" transform="rotate(180)"/>
+          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#f9a825" transform="rotate(225)"/>
+          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#fdd835" transform="rotate(270)"/>
+          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#f9a825" transform="rotate(315)"/>
+          <circle cx="0" cy="0" r="34" fill="#3e2723"/>
+        </g>
+      </svg>
+      <div class="variety-count">8 styles</div>
+      <div class="variety-overlay">
+        <div class="variety-name">Sunflowers</div>
+        <div class="variety-desc">Bold & cheerful. Perfect for birthdays and celebrations.</div>
+      </div>
+    </div>
+
+    <div class="variety-card">
+      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+        <radialGradient id="vg4" cx="50%" cy="40%"><stop offset="0%" stop-color="#1a237e"/><stop offset="100%" stop-color="#050014"/></radialGradient>
+        <rect width="400" height="380" fill="url(#vg4)"/>
+        <!-- Tulips -->
+        <g transform="translate(120,200)">
+          <path d="M0,60 Q0,0 -10,-50 Q0,-90 10,-50 Q20,0 0,60" fill="#e53935" opacity="0.95"/>
+          <ellipse cx="-18" cy="-35" rx="16" ry="30" fill="#ef9a9a" opacity="0.8" transform="rotate(-15)"/>
+          <ellipse cx="18" cy="-35" rx="16" ry="30" fill="#ef9a9a" opacity="0.8" transform="rotate(15)"/>
+          <path d="M0,60 Q2,100 1,160" stroke="#388e3c" stroke-width="4" fill="none"/>
+          <ellipse cx="-16" cy="110" rx="30" ry="10" fill="#4caf50" opacity="0.8" transform="rotate(-20,-16,110)"/>
+        </g>
+        <g transform="translate(200,185)">
+          <path d="M0,60 Q0,0 -10,-55 Q0,-95 10,-55 Q20,0 0,60" fill="#f06292" opacity="0.95"/>
+          <ellipse cx="-19" cy="-38" rx="16" ry="30" fill="#f8bbd0" opacity="0.8" transform="rotate(-15)"/>
+          <ellipse cx="19" cy="-38" rx="16" ry="30" fill="#f8bbd0" opacity="0.8" transform="rotate(15)"/>
+          <path d="M0,60 Q2,100 1,165" stroke="#388e3c" stroke-width="4" fill="none"/>
+          <ellipse cx="18" cy="120" rx="28" ry="10" fill="#66bb6a" opacity="0.8" transform="rotate(25,18,120)"/>
+        </g>
+        <g transform="translate(275,210)">
+          <path d="M0,60 Q0,0 -9,-48 Q0,-85 9,-48 Q18,0 0,60" fill="#fff176" opacity="0.95"/>
+          <ellipse cx="-17" cy="-33" rx="14" ry="27" fill="#fff9c4" opacity="0.8" transform="rotate(-15)"/>
+          <ellipse cx="17" cy="-33" rx="14" ry="27" fill="#fff9c4" opacity="0.8" transform="rotate(15)"/>
+          <path d="M0,60 Q1,95 1,155" stroke="#388e3c" stroke-width="4" fill="none"/>
+        </g>
+      </svg>
+      <div class="variety-count">18 styles</div>
+      <div class="variety-overlay">
+        <div class="variety-name">Tulips</div>
+        <div class="variety-desc">Classic beauty in red, pink, yellow & purple.</div>
+      </div>
+    </div>
+
+    <div class="variety-card">
+      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+        <radialGradient id="vg5" cx="50%" cy="40%"><stop offset="0%" stop-color="#1b5e20"/><stop offset="100%" stop-color="#001a00"/></radialGradient>
+        <rect width="400" height="380" fill="url(#vg5)"/>
+        <!-- Chrysanthemum -->
+        <g transform="translate(200,185)">
+          <g opacity="0.95">
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(18)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(36)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(54)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(90)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(108)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(126)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(162)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(180)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(198)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(234)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(252)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(270)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(288)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(306)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(324)"/>
+            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(342)"/>
+            <!-- Inner -->
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(9)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(27)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(45)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(63)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(81)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(99)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(117)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(135)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(153)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(171)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(189)"/>
+            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(207)"/>
+            <circle cx="0" cy="0" r="22" fill="#e64a19"/>
+            <circle cx="0" cy="0" r="14" fill="#bf360c"/>
+          </g>
+        </g>
+      </svg>
+      <div class="variety-count">10 styles</div>
+      <div class="variety-overlay">
+        <div class="variety-name">Chrysanthemums</div>
+        <div class="variety-desc">Full, lush blooms. Mixed & single-color arrangements.</div>
+      </div>
+    </div>
+
+    <div class="variety-card">
+      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+        <radialGradient id="vg6" cx="50%" cy="40%"><stop offset="0%" stop-color="#4a148c"/><stop offset="100%" stop-color="#0d001a"/></radialGradient>
+        <rect width="400" height="380" fill="url(#vg6)"/>
+        <!-- Lavender field -->
+        <g>
+          <g transform="translate(80,200)">
+            <path d="M0,80 Q0,30 0,-70" stroke="#78909c" stroke-width="2.5" fill="none"/>
+            <ellipse cx="0" cy="-70" rx="7" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-58" rx="8" ry="10" fill="#7b1fa2"/>
+            <ellipse cx="0" cy="-46" rx="8" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-34" rx="9" ry="10" fill="#7b1fa2"/>
+            <ellipse cx="0" cy="-22" rx="9" ry="10" fill="#9c27b0"/>
+          </g>
+          <g transform="translate(130,210)">
+            <path d="M0,70 Q0,25 0,-65" stroke="#78909c" stroke-width="2.5" fill="none"/>
+            <ellipse cx="0" cy="-65" rx="7" ry="10" fill="#ab47bc"/>
+            <ellipse cx="0" cy="-53" rx="8" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-41" rx="8" ry="10" fill="#ab47bc"/>
+            <ellipse cx="0" cy="-29" rx="9" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-17" rx="9" ry="10" fill="#ab47bc"/>
+          </g>
+          <g transform="translate(185,195)">
+            <path d="M0,85 Q0,35 0,-75" stroke="#78909c" stroke-width="2.5" fill="none"/>
+            <ellipse cx="0" cy="-75" rx="7" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-63" rx="8" ry="10" fill="#7b1fa2"/>
+            <ellipse cx="0" cy="-51" rx="8" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-39" rx="9" ry="10" fill="#7b1fa2"/>
+            <ellipse cx="0" cy="-27" rx="9" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-15" rx="9" ry="10" fill="#7b1fa2"/>
+          </g>
+          <g transform="translate(240,205)">
+            <path d="M0,75 Q0,28 0,-68" stroke="#78909c" stroke-width="2.5" fill="none"/>
+            <ellipse cx="0" cy="-68" rx="7" ry="10" fill="#ab47bc"/>
+            <ellipse cx="0" cy="-56" rx="8" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-44" rx="8" ry="10" fill="#ab47bc"/>
+            <ellipse cx="0" cy="-32" rx="9" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-20" rx="9" ry="10" fill="#ab47bc"/>
+          </g>
+          <g transform="translate(300,215)">
+            <path d="M0,65 Q0,22 0,-60" stroke="#78909c" stroke-width="2.5" fill="none"/>
+            <ellipse cx="0" cy="-60" rx="7" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-48" rx="8" ry="10" fill="#7b1fa2"/>
+            <ellipse cx="0" cy="-36" rx="8" ry="10" fill="#9c27b0"/>
+            <ellipse cx="0" cy="-24" rx="9" ry="10" fill="#7b1fa2"/>
+          </g>
+        </g>
+      </svg>
+      <div class="variety-count">6 styles</div>
+      <div class="variety-overlay">
+        <div class="variety-name">Lavender</div>
+        <div class="variety-desc">Fragrant & calming. Dried or fresh bundles available.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header">
+    <div class="section-label">Love Notes</div>
+    <h2>What our customers <em>say</em></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">She was over the moon! The roses were fresh and the arrangement looked exactly like the photo. Delivery arrived before noon. Will definitely be ordering again soon!</p>
+      <div class="testi-footer">
+        <div>
+          <div class="testi-name">Adaeze O.</div>
+          <div class="testi-loc">Lagos, Nigeria</div>
+        </div>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Absolutely breathtaking bouquet. I ordered the white lily arrangement for my mum's birthday and she literally cried happy tears. Pony is the best flower shop I've found!</p>
+      <div class="testi-footer">
+        <div>
+          <div class="testi-name">Emeka K.</div>
+          <div class="testi-loc">Abuja, Nigeria</div>
+        </div>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Fast delivery, stunning flowers, and the personalized card made it so special. I've ordered three times now and they never disappoint. 10/10 every single time!</p>
+      <div class="testi-footer">
+        <div>
+          <div class="testi-name">Ngozi A.</div>
+          <div class="testi-loc">Port Harcourt, Nigeria</div>
+        </div>
+        <div class="stars">★★★★★</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY BANNER -->
+<div class="delivery-banner" id="about">
+  <div class="banner-text">
+    <h3>🌸 Same-Day Delivery Available</h3>
+    <p>Order before 2pm, delivered with love by 6pm across major cities.</p>
+  </div>
+  <div class="banner-badges">
+    <div class="bbd">
+      <div class="bbd-icon">🌹</div>
+      <div class="bbd-label"><strong>50+ Varieties</strong>Always fresh blooms</div>
+    </div>
+    <div class="bbd">
+      <div class="bbd-icon">📦</div>
+      <div class="bbd-label"><strong>Safe Packaging</strong>Arrives perfect</div>
+    </div>
+    <div class="bbd">
+      <div class="bbd-icon">💳</div>
+      <div class="bbd-label"><strong>Secure Payment</strong>Multiple options</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Pon<span>y</span></div>
+      <p class="footer-tagline">Where every petal tells a story. Premium flowers, delivered with care, right to your door.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Roses</a></li>
+        <li><a href="#">Orchids</a></li>
+        <li><a href="#">Sunflowers</a></li>
+        <li><a href="#">Tulips</a></li>
+        <li><a href="#">Lavender</a></li>
+        <li><a href="#">Chrysanthemums</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Occasions</h4>
+      <ul>
+        <li><a href="#">Birthday</a></li>
+        <li><a href="#">Anniversary</a></li>
+        <li><a href="#">Wedding</a></li>
+        <li><a href="#">Valentine's</a></li>
+        <li><a href="#">Funeral</a></li>
+        <li><a href="#">Get Well Soon</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Stay in the loop</h4>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.4);margin-bottom:0.8rem;">Get exclusive offers & new arrivals.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button>Join</button>
+      </div>
+      <div class="socials" style="margin-top:1.5rem;">
+        <a href="#" class="social-pill">Instagram</a>
+        <a href="#" class="social-pill">Twitter</a>
+        <a href="#" class="social-pill">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Pony Flowers. All rights reserved.</span>
+    <span>Made with 🌸 for flower lovers</span>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    }, 60);
+  });
+  document.querySelectorAll('a,button,.chip,.flower-card,.variety-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      ring.style.width = '52px';
+      ring.style.height = '52px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+    });
+  });
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Add to cart feedback
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const orig = this.textContent;
+      this.textContent = '✓';
+      this.style.background = '#4caf50';
+      this.style.color = '#fff';
+      setTimeout(() => {
+        this.textContent = orig;
+        this.style.background = '';
+        this.style.color = '';
+      }, 1200);
+    });
+  });
+
+  // Chip active state
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      this.style.transform = 'scale(0.95)';
+      setTimeout(() => this.style.transform = '', 120);
+    });
+  });
+</script>
+</body>
+</html>
