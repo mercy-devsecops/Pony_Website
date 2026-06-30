@@ -3390,12 +3390,37 @@
   checkoutDetailsForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    // 1. VALIDATION CHECKS
+    if (cart.length === 0) {
+      showToast("Your cart is empty!", "🛒");
+      return;
+    }
+
     const name = document.getElementById('checkoutName').value.trim();
     const phone = document.getElementById('checkoutPhone').value.trim();
     const address = document.getElementById('checkoutAddress').value.trim();
     const date = document.getElementById('checkoutDate').value;
     const cardMsg = document.getElementById('checkoutCardMsg').value.trim();
     
+    if (!name || !phone || !address || !date) {
+      showToast("Please fill in all required delivery details.", "⚠️");
+      return;
+    }
+
+    // Double check that the delivery date is not in the past
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (date < todayStr) {
+      showToast("Delivery date cannot be in the past.", "⚠️");
+      return;
+    }
+
+    // Verify subtotal calculation matches active items
+    const calculatedSubtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    if (calculatedSubtotal <= 0) {
+      showToast("Invalid order total.", "⚠️");
+      return;
+    }
+
     const ref = 'PONY-' + Math.floor(10000 + Math.random() * 90000);
     
     const orderData = {
@@ -3412,7 +3437,7 @@
         variety: item.variety || 'Fresh stems',
         image: item.image
       })),
-      subtotal: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+      subtotal: calculatedSubtotal,
     };
     
     const submitBtn = checkoutDetailsForm.querySelector('button[type="submit"]');
@@ -3421,6 +3446,15 @@
     submitBtn.textContent = "Processing...";
     
     try {
+      // 2. PAYMENT GATEWAY STAGE (MOCKING PAYSTACK INTERFACE)
+      // This is where you will integrate Paystack.
+      const paymentSuccess = await simulatePaymentGateway(orderData);
+      if (!paymentSuccess) {
+        showToast("Payment was not completed. Please try again.", "❌");
+        return;
+      }
+      
+      // 3. FINAL SAVE STAGE (Runs only after payment confirmation)
       const savedOrder = await window.PONY_DB.addOrder(orderData);
       orderRefEl.textContent = savedOrder.orderReference || orderData.orderReference;
       
@@ -3434,13 +3468,46 @@
       
       showToast("Order placed successfully! 🌸", "🎉");
     } catch (err) {
-      console.error("Order submission failed:", err);
-      showToast("Failed to place order. Please try again.", "❌");
+      console.error("Checkout process failed:", err);
+      showToast("An error occurred during checkout. Please try again.", "❌");
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = originalBtnText;
     }
   });
+
+  /**
+   * Mock payment wrapper prepared for Paystack Integration.
+   * To implement Paystack later, follow these steps:
+   * 1. Include Paystack inline JS SDK in index.html head or dynamically import it:
+   *    <script src="https://js.paystack.co/v1/inline.js"></script>
+   * 2. Replace this simulated implementation with Paystack's initialization popup:
+   *    const handler = PaystackPop.setup({
+   *      key: 'YOUR_PAYSTACK_PUBLIC_KEY', // Put your public key here
+   *      email: 'customer@example.com',    // Customer email (add an input field or fallback)
+   *      amount: orderData.subtotal * 100, // Amount in kobo/cents
+   *      ref: orderData.orderReference,    // Reference number
+   *      callback: function(response){
+   *         // Payment successful: response.reference
+   *         resolve(true);
+   *      },
+   *      onClose: function(){
+   *         // Customer closed window
+   *         resolve(false);
+   *      }
+   *    });
+   *    handler.openIframe();
+   */
+  async function simulatePaymentGateway(orderData) {
+    console.log("🌸 simulatedPaymentGateway: Initializing checkout connection...", orderData);
+    // Currently, payment mock defaults instantly to success.
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("🌸 simulatedPaymentGateway: Mock payment verification successful for ref " + orderData.orderReference);
+        resolve(true);
+      }, 1000);
+    });
+  }
 
   // Success modal closing handlers
   document.getElementById('closeCheckoutBtn').addEventListener('click', () => {
