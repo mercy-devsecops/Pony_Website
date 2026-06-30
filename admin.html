@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pony — Admin Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blush: #f5c2c7;
+      --rose: #e8677a;
+      --deep-rose: #c23152;
+      --ivory: #fdf8f2;
+      --cream: #f9f0e6;
+      --plum: #5c2d4e;
+      --charcoal: #2a1f1f;
+      --text: #3d2b2b;
+      --text-light: #8c7070;
+      --white: #ffffff;
+      --border: rgba(92, 45, 78, 0.12);
+      
+      --pending: #e8a24e;
+      --preparing: #7a9e7e;
+      --shipping: #5c85d6;
+      --completed: #2e7d32;
+      --cancelled: #c62828;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ivory);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ──── SCROLLBAR ──── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--blush); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--rose); }
+
+    /* ──── LOGIN SCREEN ──── */
+    #loginOverlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(42, 31, 31, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 1; transition: opacity 0.4s ease;
+    }
+    .login-card {
+      background: var(--ivory);
+      padding: 3rem; border-radius: 24px;
+      width: 100%; max-width: 440px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.3);
+      border: 1px solid rgba(232, 103, 122, 0.2);
+      text-align: center;
+    }
+    .login-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 900;
+      color: var(--plum); margin-bottom: 0.5rem;
+    }
+    .login-card h2 span { color: var(--rose); font-style: italic; }
+    .login-card p {
+      font-size: 0.92rem; color: var(--text-light);
+      margin-bottom: 2rem;
+    }
+    .login-form {
+      display: flex; flex-direction: column; gap: 1.2rem; text-align: left;
+    }
+    .form-group {
+      display: flex; flex-direction: column; gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-light);
+    }
+    .form-control {
+      padding: 0.8rem 1rem; border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--white); font-family: inherit; font-size: 0.95rem;
+      color: var(--text); outline: none; transition: border-color 0.2s;
+    }
+    .form-control:focus { border-color: var(--rose); }
+    .btn-login {
+      background: var(--plum); color: var(--white);
+      border: none; padding: 0.9rem; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+      margin-top: 1rem; display: flex; align-items: center; justify-content: center;
+    }
+    .btn-login:hover { background: var(--deep-rose); transform: translateY(-1px); }
+    .login-mode-tag {
+      font-size: 0.72rem; color: var(--text-light);
+      background: var(--cream); padding: 0.4rem 0.8rem;
+      border-radius: 99px; display: inline-block; margin-top: 1.5rem;
+    }
+
+    /* ──── SIDEBAR ──── */
+    aside {
+      width: 280px; background: var(--plum);
+      color: var(--white); display: flex; flex-direction: column;
+      padding: 2.5rem 1.5rem; border-right: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0; min-height: 100vh;
+    }
+    .aside-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 900;
+      color: var(--white); text-decoration: none;
+      margin-bottom: 3.5rem; text-align: center;
+    }
+    .aside-logo span { color: var(--rose); font-style: italic; }
+    .nav-menu {
+      list-style: none; display: flex; flex-direction: column; gap: 0.8rem;
+      flex: 1;
+    }
+    .nav-item a {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.9rem 1.2rem; border-radius: 12px;
+      color: rgba(255,255,255,0.7); text-decoration: none;
+      font-size: 0.92rem; font-weight: 500;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .nav-item a:hover {
+      color: var(--white); background: rgba(255,255,255,0.05);
+    }
+    .nav-item.active a {
+      color: var(--white); background: var(--rose);
+      box-shadow: 0 4px 16px rgba(232, 103, 122, 0.35);
+    }
+    .nav-item-icon { font-size: 1.2rem; }
+    .aside-footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem;
+    }
+
+    /* ──── MAIN CONTENT ──── */
+    main {
+      flex: 1; display: flex; flex-direction: column;
+      min-width: 0; /* fixes flexbox item overflow */
+    }
+    header {
+      padding: 1.8rem 3rem; background: rgba(253, 248, 242, 0.85);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .header-title h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: var(--plum);
+    }
+    .header-status {
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .status-pill {
+      font-size: 0.8rem; font-weight: 600;
+      padding: 0.5rem 1.2rem; border-radius: 99px;
+      display: flex; align-items: center; gap: 0.5rem;
+      border: 1px solid var(--border);
+    }
+    .status-pill.local {
+      background: rgba(232, 162, 78, 0.08);
+      color: var(--pending); border-color: rgba(232, 162, 78, 0.2);
+    }
+    .status-pill.cloud {
+      background: rgba(46, 125, 50, 0.08);
+      color: var(--completed); border-color: rgba(46, 125, 50, 0.2);
+    }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block;
+    }
+    .status-pill.local .status-dot { background: var(--pending); }
+    .status-pill.cloud .status-dot { background: var(--completed); }
+    
+    .btn-storefront {
+      background: var(--cream); color: var(--plum);
+      border: 1px solid var(--border); padding: 0.5rem 1.2rem;
+      border-radius: 99px; text-decoration: none; font-size: 0.8rem;
+      font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .btn-storefront:hover { background: var(--blush); border-color: var(--rose); }
+
+    .content-area {
+      padding: 3rem; flex: 1; overflow-y: auto;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.4s ease-out; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ──── DASHBOARD TAB ──── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem; margin-bottom: 3rem;
+    }
+    .stat-card {
+      background: var(--white); padding: 2rem; border-radius: 18px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(92, 45, 78, 0.02);
+      display: flex; flex-direction: column; gap: 0.5rem;
+      position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--blush);
+    }
+    .stat-card:nth-child(2)::before { background: var(--rose); }
+    .stat-card:nth-child(3)::before { background: var(--plum); }
+    .stat-card:nth-child(4)::before { background: var(--pending); }
+
+    .stat-label {
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .stat-val {
+      font-size: 2.2rem; font-weight: 700; color: var(--charcoal);
+      font-family: 'Playfair Display', serif;
+    }
+    .stat-trend {
+      font-size: 0.75rem; color: var(--text-light);
+    }
+
+    .dashboard-split {
+      display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;
+    }
+    .panel-card {
+      background: var(--white); padding: 2rem; border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 24px rgba(92, 45, 78, 0.02);
+      margin-bottom: 2rem;
+    }
+    .panel-card-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .panel-card-header h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--plum);
+    }
+    
+    /* ──── TABLES ──── */
+    .table-container { width: 100%; overflow-x: auto; }
+    table {
+      width: 100%; border-collapse: collapse; text-align: left;
+    }
+    th {
+      padding: 1rem; border-bottom: 1px solid var(--border);
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-light);
+      background: rgba(92, 45, 78, 0.02);
+    }
+    td {
+      padding: 1.1rem 1rem; border-bottom: 1px solid var(--border);
+      font-size: 0.88rem; color: var(--text);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(253, 248, 242, 0.5); }
+
+    .badge {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+      padding: 0.35rem 0.8rem; border-radius: 99px; display: inline-block;
+    }
+    .badge.pending { background: rgba(232, 162, 78, 0.1); color: var(--pending); }
+    .badge.preparing { background: rgba(122, 158, 126, 0.1); color: var(--preparing); }
+    .badge.shipping { background: rgba(92, 133, 214, 0.1); color: var(--shipping); }
+    .badge.completed { background: rgba(46, 125, 50, 0.1); color: var(--completed); }
+    .badge.cancelled { background: rgba(198, 40, 40, 0.1); color: var(--cancelled); }
+
+    .btn-action {
+      background: none; border: none; outline: none; cursor: pointer;
+      font-size: 0.8rem; font-weight: 600; color: var(--rose);
+      text-decoration: none; padding: 0.2rem 0.5rem; transition: color 0.2s;
+    }
+    .btn-action:hover { color: var(--deep-rose); }
+    .btn-action.secondary { color: var(--text-light); }
+    .btn-action.secondary:hover { color: var(--text); }
+
+    /* ──── ORDERS TAB ──── */
+    .filter-bar {
+      display: flex; gap: 1.5rem; align-items: center; margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      flex: 1; min-width: 250px; position: relative;
+    }
+    .search-input {
+      width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border-radius: 99px; border: 1.5px solid var(--border);
+      background: var(--white); font-family: inherit; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--rose); }
+    .search-icon {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-light); font-size: 0.95rem; pointer-events: none;
+    }
+    .filter-chips { display: flex; gap: 0.6rem; overflow-x: auto; padding: 0.2rem 0; }
+    .filter-chip {
+      background: var(--white); border: 1.5px solid var(--border);
+      padding: 0.5rem 1.2rem; border-radius: 99px; font-size: 0.8rem;
+      font-weight: 600; cursor: pointer; transition: all 0.2s;
+      white-space: nowrap; color: var(--text-light);
+    }
+    .filter-chip:hover { border-color: var(--rose); color: var(--rose); }
+    .filter-chip.active {
+      background: var(--plum); border-color: var(--plum); color: var(--white);
+    }
+
+    /* ──── FLOWERS CATALOG TAB ──── */
+    .catalog-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 2rem;
+    }
+    .btn-primary {
+      background: var(--plum); color: var(--white); border: none;
+      padding: 0.75rem 1.8rem; border-radius: 99px; font-size: 0.88rem;
+      font-weight: 600; cursor: pointer; display: flex; align-items: center;
+      gap: 0.6rem; transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--deep-rose); transform: translateY(-1px); }
+    
+    .catalog-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .catalog-card {
+      background: var(--white); border-radius: 16px; border: 1px solid var(--border);
+      overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: 0 4px 20px rgba(92, 45, 78, 0.02);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .catalog-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(92, 45, 78, 0.06);
+    }
+    .catalog-card-img {
+      height: 180px; position: relative; background: var(--cream);
+    }
+    .catalog-card-img img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .catalog-card-badge {
+      position: absolute; top: 12px; left: 12px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      padding: 0.35rem 0.8rem; border-radius: 99px;
+      color: var(--white); background: var(--rose);
+    }
+    .catalog-card-badge.badge-new { background: var(--rose); }
+    .catalog-card-badge.badge-best { background: var(--plum); }
+    .catalog-card-badge.badge-sale { background: var(--amber); }
+
+    .catalog-card-body {
+      padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;
+      flex: 1;
+    }
+    .catalog-card-category {
+      font-size: 0.72rem; font-weight: 700; color: var(--rose);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .catalog-card-name {
+      font-family: 'Playfair Display', serif; font-size: 1.15rem;
+      font-weight: 700; color: var(--charcoal);
+    }
+    .catalog-card-variety {
+      font-size: 0.78rem; color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+    .catalog-card-price {
+      font-size: 1.1rem; font-weight: 700; color: var(--plum);
+      margin-top: auto;
+    }
+    .catalog-card-actions {
+      border-top: 1px solid var(--border); padding: 1rem 1.5rem;
+      display: flex; justify-content: space-between; background: rgba(253, 248, 242, 0.2);
+    }
+
+    /* ──── FIREBASE TAB ──── */
+    .wizard-container {
+      max-width: 760px;
+    }
+    .step-list {
+      display: flex; flex-direction: column; gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .step-item {
+      display: flex; gap: 1.2rem;
+    }
+    .step-number {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--blush); color: var(--plum);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+    }
+    .step-content h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem;
+      color: var(--plum); margin-bottom: 0.3rem;
+    }
+    .step-content p {
+      font-size: 0.88rem; color: var(--text-light); line-height: 1.5;
+    }
+    .step-content a { color: var(--rose); text-decoration: none; font-weight: 600; }
+    .step-content a:hover { text-decoration: underline; }
+
+    /* ──── MODALS ──── */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(42, 31, 31, 0.4);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      z-index: 100; display: none; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    
+    .modal {
+      background: var(--ivory); border-radius: 20px;
+      width: 100%; max-width: 580px;
+      box-shadow: 0 20px 60px rgba(92, 45, 78, 0.15);
+      border: 1px solid var(--border);
+      overflow: hidden; transform: translateY(20px);
+      transition: transform 0.3s ease;
+      display: flex; flex-direction: column; max-height: 85vh;
+    }
+    .modal-overlay.active .modal { transform: translateY(0); }
+    
+    .modal-header {
+      padding: 1.5rem 2rem; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .modal-header h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--plum);
+    }
+    .close-modal-btn {
+      background: none; border: none; font-size: 1.5rem; cursor: pointer;
+      color: var(--text-light); transition: color 0.2s;
+    }
+    .close-modal-btn:hover { color: var(--rose); }
+
+    .modal-body {
+      padding: 2rem; overflow-y: auto; flex: 1;
+    }
+    .modal-footer {
+      padding: 1.2rem 2rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 1rem;
+      background: rgba(253, 248, 242, 0.3);
+    }
+    .btn-secondary {
+      background: var(--cream); color: var(--text); border: 1px solid var(--border);
+      padding: 0.75rem 1.8rem; border-radius: 99px; font-size: 0.88rem;
+      font-weight: 600; cursor: pointer; transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: var(--blush); }
+
+    /* ──── TOAST NOTIFICATIONS ──── */
+    .toast-container {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      z-index: 99999; display: flex; flex-direction: column; gap: 0.8rem;
+      pointer-events: none;
+    }
+    .toast {
+      background: var(--plum); color: var(--white);
+      padding: 0.9rem 1.8rem; border-radius: 99px;
+      font-size: 0.88rem; font-weight: 500;
+      box-shadow: 0 8px 32px rgba(92, 45, 78, 0.25);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 0.6rem;
+      animation: toastSlideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: auto;
+    }
+    @keyframes toastSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOASTS -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- LOGIN OVERLAY -->
+  <div id="loginOverlay">
+    <div class="login-card">
+      <h2>Pony <span>Dashboard</span></h2>
+      <p>Secure authentication required for administrator access.</p>
+      <form class="login-form" id="loginForm">
+        <div class="form-group" id="loginEmailGroup" style="display:none;">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" class="form-control" placeholder="admin@ponyflowers.com">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Administrator Password</label>
+          <input type="password" id="loginPassword" class="form-control" required placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn-login" id="loginSubmitBtn">Access Control Panel ➔</button>
+      </form>
+      <span class="login-mode-tag" id="loginModeTag">🟢 Local Mode (Sandbox)</span>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside>
+    <a href="#" class="aside-logo">Pony <span>Admin</span></a>
+    <ul class="nav-menu">
+      <li class="nav-item active" data-tab="dashboard">
+        <a><span class="nav-item-icon">📊</span> Dashboard</a>
+      </li>
+      <li class="nav-item" data-tab="orders">
+        <a><span class="nav-item-icon">📋</span> Orders <span id="ordersCountBadge" style="background:var(--rose); color:white; font-size:0.7rem; font-weight:700; padding:0.1rem 0.4rem; border-radius:10px; margin-left:auto; display:none;">0</span></a>
+      </li>
+      <li class="nav-item" data-tab="flowers">
+        <a><span class="nav-item-icon">🌸</span> Flowers Catalog</a>
+      </li>
+      <li class="nav-item" data-tab="firebase">
+        <a><span class="nav-item-icon">⚙️</span> Database Config</a>
+      </li>
+    </ul>
+    <div class="aside-footer">
+      <a href="index.html" class="nav-item" style="padding:0; margin-bottom: 0.5rem;">
+        <span class="nav-item-icon">🏬</span> Go to Storefront
+      </a>
+      <button class="btn-secondary" id="logoutBtn" style="width: 100%; border-radius: 12px; padding: 0.7rem;">🚪 Log Out</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+    <header>
+      <div class="header-title">
+        <h1 id="panelTitle">Overview Dashboard</h1>
+      </div>
+      <div class="header-status">
+        <span class="status-pill local" id="dbStatusPill">
+          <span class="status-dot"></span>
+          <span id="dbStatusText">Local Sandbox</span>
+        </span>
+        <a href="index.html" target="_blank" class="btn-storefront">View Store ↗</a>
+      </div>
+    </header>
+
+    <div class="content-area">
+
+      <!-- ==================== DASHBOARD PANEL ==================== -->
+      <div class="tab-panel active" id="tab-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Total Revenue</span>
+            <div class="stat-val" id="statRevenue">₦0</div>
+            <span class="stat-trend">Cumulative sales count</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Active Catalog</span>
+            <div class="stat-val" id="statProducts">0</div>
+            <span class="stat-trend">Flower cards online</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Total Orders</span>
+            <div class="stat-val" id="statOrders">0</div>
+            <span class="stat-trend">Orders placed so far</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Pending Delivery</span>
+            <div class="stat-val" id="statPending">0</div>
+            <span class="stat-trend">Awaiting dispatch</span>
+          </div>
+        </div>
+
+        <div class="dashboard-split">
+          <!-- Recent Orders -->
+          <div class="panel-card" style="margin-bottom:0;">
+            <div class="panel-card-header">
+              <h2>Recent Orders</h2>
+              <button class="btn-action" onclick="switchTab('orders')">See All Orders →</button>
+            </div>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Reference</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="recentOrdersTableBody">
+                  <tr>
+                    <td colspan="6" style="text-align:center;color:var(--text-light);padding:2rem;">No orders recorded. Place an order on the storefront to test.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Catalog Overview -->
+          <div class="panel-card" style="margin-bottom:0;">
+            <div class="panel-card-header">
+              <h2>Quick Actions</h2>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+              <button class="btn-primary" style="width:100%; justify-content:center; border-radius:12px; padding:0.9rem;" onclick="openAddFlowerModal()">
+                ➕ Add New Flower
+              </button>
+              <button class="btn-secondary" style="width:100%; justify-content:center; border-radius:12px; padding:0.9rem;" onclick="switchTab('firebase')">
+                ⚙️ Database Setup Wizard
+              </button>
+              <div style="background:var(--cream); padding:1.2rem; border-radius:12px; border:1px dashed var(--border); margin-top:0.5rem; text-align:center;">
+                <p style="font-size:0.8rem; color:var(--text-light); line-height:1.5;">
+                  <strong>Pony Flower Shop</strong> operates in client-only mode by default. Connect to Firebase in the config tab to save orders and products in the cloud.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ORDERS PANEL ==================== -->
+      <div class="tab-panel" id="tab-orders">
+        <div class="filter-bar">
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="orderSearchInput" class="search-input" placeholder="Search by customer name or reference...">
+          </div>
+          <div class="filter-chips">
+            <div class="filter-chip active" data-status="all">All</div>
+            <div class="filter-chip" data-status="pending">Pending</div>
+            <div class="filter-chip" data-status="preparing">Preparing</div>
+            <div class="filter-chip" data-status="shipping">Out for Delivery</div>
+            <div class="filter-chip" data-status="completed">Delivered</div>
+            <div class="filter-chip" data-status="cancelled">Cancelled</div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ref</th>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Delivery Date</th>
+                  <th>Subtotal</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody">
+                <!-- Orders will be dynamically injected -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== FLOWERS CATALOG PANEL ==================== -->
+      <div class="tab-panel" id="tab-flowers">
+        <div class="catalog-header">
+          <div style="font-size: 0.9rem; color: var(--text-light);">
+            Total products: <strong id="catalogTotalCount">0</strong>
+          </div>
+          <button class="btn-primary" onclick="openAddFlowerModal()">
+            <span>➕</span> Add New Flower Card
+          </button>
+        </div>
+
+        <div class="catalog-grid" id="catalogGrid">
+          <!-- Flowers will be dynamically injected -->
+        </div>
+      </div>
+
+      <!-- ==================== FIREBASE CONFIG PANEL ==================== -->
+      <div class="tab-panel" id="tab-firebase">
+        <div class="wizard-container">
+          <div class="panel-card" style="margin-bottom:2rem;">
+            <h2>Firebase Database Connection</h2>
+            <p style="font-size:0.9rem; color:var(--text-light); margin-bottom:1.5rem; line-height:1.5;">
+              Sync products and orders with the cloud in real-time. Follow the steps below to initialize your free Google Firebase project.
+            </p>
+
+            <div class="step-list">
+              <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h3>Create a Firebase Project</h3>
+                  <p>Go to the <a href="https://console.firebase.google.com/" target="_blank">Firebase Console</a>, click <strong>Add Project</strong>, and give it a name (e.g. <em>Pony Flowers</em>).</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h3>Enable Firestore Database & Authentication</h3>
+                  <p>In the console sidebar, go to <strong>Build ➔ Firestore Database</strong> and click <strong>Create database</strong> (start in Test mode). Then go to <strong>Build ➔ Authentication</strong>, click <strong>Get Started</strong>, and enable the <strong>Email/Password</strong> provider.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h3>Register a Web App</h3>
+                  <p>Go to Project Settings (gear icon), click the <strong>&lt;/&gt; Web App</strong> icon, and register your application. Copy the `firebaseConfig` object variables displayed in the snippet.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <h2 style="margin-bottom:1rem;">Connection Settings</h2>
+            <form id="firebaseConfigForm" style="display:flex; flex-direction:column; gap:1.2rem;">
+              <div class="form-group">
+                <label for="firebaseConfigJson">Firebase configuration JSON</label>
+                <textarea id="firebaseConfigJson" class="form-control" rows="8" required style="font-family:monospace; font-size:0.85rem;" placeholder='{
+  "apiKey": "AIzaSy...",
+  "authDomain": "pony-flowers.firebaseapp.com",
+  "projectId": "pony-flowers",
+  "storageBucket": "pony-flowers.appspot.com",
+  "messagingSenderId": "12345678",
+  "appId": "1:12345:web:abcd"
+}'></textarea>
+              </div>
+              <div style="display:flex; gap:1rem;">
+                <button type="submit" class="btn-primary" style="flex:1; justify-content:center; border-radius:10px;">
+                  Connect and Synchronize
+                </button>
+                <button type="button" class="btn-secondary" id="btnDisconnectFirebase" style="border-radius:10px; display:none;">
+                  Disconnect Cloud
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==================== MODAL: ADD FLOWER ==================== -->
+  <div class="modal-overlay" id="addFlowerOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add New Flower</h3>
+        <button class="close-modal-btn" onclick="closeAddFlowerModal()">&times;</button>
+      </div>
+      <form id="addFlowerForm">
+        <div class="modal-body" style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="form-group">
+            <label for="addFlowerName">Flower Name</label>
+            <input type="text" id="addFlowerName" class="form-control" required placeholder="e.g. Lavender Blossom">
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label for="addFlowerPrice">Price (₦)</label>
+              <input type="number" id="addFlowerPrice" class="form-control" required placeholder="e.g. 25000">
+            </div>
+            <div class="form-group">
+              <label for="addFlowerCategory">Category</label>
+              <select id="addFlowerCategory" class="form-control" required>
+                <option value="rose">Roses</option>
+                <option value="lily">Lilies</option>
+                <option value="orchid">Orchids</option>
+                <option value="sunflower">Sunflowers</option>
+                <option value="tulip">Tulips</option>
+                <option value="lavender">Lavender</option>
+                <option value="chrysanthemum">Chrysanthemums</option>
+                <option value="hibiscus">Hibiscus</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="addFlowerVariety">Variety & Specs</label>
+            <input type="text" id="addFlowerVariety" class="form-control" required placeholder="e.g. Lavandula dentata · 12 stems">
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label for="addFlowerBadge">Badge (Optional)</label>
+              <input type="text" id="addFlowerBadge" class="form-control" placeholder="e.g. 🌟 Popular, 🌿 New, 💖 Sale">
+            </div>
+            <div class="form-group">
+              <label for="addFlowerImage">Image Source</label>
+              <select id="addFlowerImage" class="form-control">
+                <option value="images/rose1.png">images/rose1.png (Red Rose)</option>
+                <option value="images/rose2.png">images/rose2.png (Pink Rose)</option>
+                <option value="images/rose3.png">images/rose3.png (White Rose)</option>
+                <option value="images/rose4.png">images/rose4.png (Yellow Rose)</option>
+                <option value="images/lily1.png">images/lily1.png (White Lily)</option>
+                <option value="images/lily2.png">images/lily2.png (Tiger Lily)</option>
+                <option value="images/lily3.png">images/lily3.png (Stargazer)</option>
+                <option value="images/orchid1.png">images/orchid1.png (Pink Orchid)</option>
+                <option value="images/orchid2.png">images/orchid2.png (White Orchid)</option>
+                <option value="images/orchid3.png">images/orchid3.png (Purple Orchid)</option>
+                <option value="images/orchid4.png">images/orchid4.png (Golden Orchid)</option>
+                <option value="images/sunflower1.png">images/sunflower1.png (Sunflower Bundle)</option>
+                <option value="images/sunflower2.png">images/sunflower2.png (Sunflower Rose Mix)</option>
+                <option value="images/sunflower3.png">images/sunflower3.png (Grand Sunflower)</option>
+                <option value="images/tulip1.png">images/tulip1.png (Pink Tulips)</option>
+                <option value="images/tulip2.png">images/tulip2.png (White Tulips)</option>
+                <option value="images/tulip3.png">images/tulip3.png (Purple Tulips)</option>
+                <option value="images/lavender1.png">images/lavender1.png (Fresh Lavender)</option>
+                <option value="images/lavender2.png">images/lavender2.png (Dried Lavender)</option>
+                <option value="images/lavender3.png">images/lavender3.png (Lavender & White)</option>
+                <option value="images/chrysanthemum1.png">images/chrysanthemum1.png (Yellow Chrys.)</option>
+                <option value="images/chrysanthemum2.png">images/chrysanthemum2.png (White Chrys.)</option>
+                <option value="images/chrysanthemum3.png">images/chrysanthemum3.png (Mixed Vase)</option>
+                <option value="images/hisbicus1.png">images/hisbicus1.png (Red Hibiscus)</option>
+                <option value="images/hibiscus2.png">images/hibiscus2.png (Coral Hibiscus)</option>
+                <option value="images/hibiscus3.png">images/hibiscus3.png (Pink Hibiscus)</option>
+                <option value="custom">-- Custom URL --</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" id="addFlowerCustomImageGroup" style="display:none;">
+            <label for="addFlowerCustomImage">Custom Image URL</label>
+            <input type="url" id="addFlowerCustomImage" class="form-control" placeholder="https://example.com/flower.png">
+          </div>
+          <div class="form-group" style="margin-top: 1rem;">
+            <label for="addFlowerFile">Or Upload Local Image (Cloudinary)</label>
+            <input type="file" id="addFlowerFile" class="form-control" accept="image/*" style="padding: 0.4rem;">
+            <div id="addFlowerUploadProgress" style="font-size: 0.85rem; margin-top: 0.25rem; font-weight: 500; display: none;"></div>
+          </div>
+          <div class="form-group">
+            <label for="addFlowerOccasions">Occasions (Space Separated tags)</label>
+            <input type="text" id="addFlowerOccasions" class="form-control" placeholder="e.g. birthday anniversary celebration just-because">
+          </div>
+          <div class="form-group">
+            <label for="addFlowerDesc">Detailed Description</label>
+            <textarea id="addFlowerDesc" class="form-control" rows="3" required placeholder="A beautiful description of the flower bouquet..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeAddFlowerModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Add Flower</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: EDIT FLOWER ==================== -->
+  <div class="modal-overlay" id="editFlowerOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Edit Flower details</h3>
+        <button class="close-modal-btn" onclick="closeEditFlowerModal()">&times;</button>
+      </div>
+      <form id="editFlowerForm">
+        <input type="hidden" id="editFlowerId">
+        <div class="modal-body" style="display:flex; flex-direction:column; gap:1rem;">
+          <div class="form-group">
+            <label for="editFlowerName">Flower Name</label>
+            <input type="text" id="editFlowerName" class="form-control" required>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label for="editFlowerPrice">Price (₦)</label>
+              <input type="number" id="editFlowerPrice" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="editFlowerCategory">Category</label>
+              <select id="editFlowerCategory" class="form-control" required>
+                <option value="rose">Roses</option>
+                <option value="lily">Lilies</option>
+                <option value="orchid">Orchids</option>
+                <option value="sunflower">Sunflowers</option>
+                <option value="tulip">Tulips</option>
+                <option value="lavender">Lavender</option>
+                <option value="chrysanthemum">Chrysanthemums</option>
+                <option value="hibiscus">Hibiscus</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="editFlowerVariety">Variety & Specs</label>
+            <input type="text" id="editFlowerVariety" class="form-control" required>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label for="editFlowerBadge">Badge (Optional)</label>
+              <input type="text" id="editFlowerBadge" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="editFlowerImage">Image Source</label>
+              <select id="editFlowerImage" class="form-control">
+                <option value="images/rose1.png">images/rose1.png</option>
+                <option value="images/rose2.png">images/rose2.png</option>
+                <option value="images/rose3.png">images/rose3.png</option>
+                <option value="images/rose4.png">images/rose4.png</option>
+                <option value="images/lily1.png">images/lily1.png</option>
+                <option value="images/lily2.png">images/lily2.png</option>
+                <option value="images/lily3.png">images/lily3.png</option>
+                <option value="images/orchid1.png">images/orchid1.png</option>
+                <option value="images/orchid2.png">images/orchid2.png</option>
+                <option value="images/orchid3.png">images/orchid3.png</option>
+                <option value="images/orchid4.png">images/orchid4.png</option>
+                <option value="images/sunflower1.png">images/sunflower1.png</option>
+                <option value="images/sunflower2.png">images/sunflower2.png</option>
+                <option value="images/sunflower3.png">images/sunflower3.png</option>
+                <option value="images/tulip1.png">images/tulip1.png</option>
+                <option value="images/tulip2.png">images/tulip2.png</option>
+                <option value="images/tulip3.png">images/tulip3.png</option>
+                <option value="images/lavender1.png">images/lavender1.png</option>
+                <option value="images/lavender2.png">images/lavender2.png</option>
+                <option value="images/lavender3.png">images/lavender3.png</option>
+                <option value="images/chrysanthemum1.png">images/chrysanthemum1.png</option>
+                <option value="images/chrysanthemum2.png">images/chrysanthemum2.png</option>
+                <option value="images/chrysanthemum3.png">images/chrysanthemum3.png</option>
+                <option value="images/hisbicus1.png">images/hisbicus1.png</option>
+                <option value="images/hibiscus2.png">images/hibiscus2.png</option>
+                <option value="images/hibiscus3.png">images/hibiscus3.png</option>
+                <option value="custom">-- Custom URL --</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" id="editFlowerCustomImageGroup" style="display:none;">
+            <label for="editFlowerCustomImage">Custom Image URL</label>
+            <input type="url" id="editFlowerCustomImage" class="form-control">
+          </div>
+          <div class="form-group" style="margin-top: 1rem;">
+            <label for="editFlowerFile">Or Upload Local Image (Cloudinary)</label>
+            <input type="file" id="editFlowerFile" class="form-control" accept="image/*" style="padding: 0.4rem;">
+            <div id="editFlowerUploadProgress" style="font-size: 0.85rem; margin-top: 0.25rem; font-weight: 500; display: none;"></div>
+          </div>
+          <div class="form-group">
+            <label for="editFlowerOccasions">Occasions (Space Separated tags)</label>
+            <input type="text" id="editFlowerOccasions" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="editFlowerDesc">Detailed Description</label>
+            <textarea id="editFlowerDesc" class="form-control" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeEditFlowerModal()">Cancel</button>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: ORDER DETAILS ==================== -->
+  <div class="modal-overlay" id="orderDetailOverlay">
+    <div class="modal" style="max-width: 640px;">
+      <div class="modal-header">
+        <h3>Order Invoice: <span id="odRef">#PONY-00000</span></h3>
+        <button class="close-modal-btn" onclick="closeOrderDetailModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="display:flex; flex-direction:column; gap:1.5rem;">
+        <!-- Status & Update -->
+        <div style="background:var(--cream); padding:1.2rem; border-radius:12px; display:flex; justify-content:space-between; align-items:center; border: 1px solid var(--border);">
+          <div>
+            <span style="font-size:0.75rem; text-transform:uppercase; color:var(--text-light); font-weight:700; display:block; margin-bottom:0.2rem;">Order Status</span>
+            <span class="badge" id="odStatusBadge">Pending</span>
+          </div>
+          <div class="form-group" style="min-width:200px;">
+            <label for="odStatusSelect" style="font-size:0.7rem;">Update Status</label>
+            <select id="odStatusSelect" class="form-control" style="padding:0.4rem 0.8rem; font-size:0.85rem;">
+              <option value="Pending">Pending</option>
+              <option value="Preparing">Preparing</option>
+              <option value="Shipping">Out for Delivery</option>
+              <option value="Completed">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Customer Card -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+          <div>
+            <h4 style="font-family:'Playfair Display', serif; color:var(--plum); margin-bottom:0.5rem; border-bottom: 1px solid var(--border); padding-bottom:0.3rem;">Delivery Address</h4>
+            <p style="font-size:0.9rem; font-weight:700; color:var(--charcoal);" id="odName">Jane Doe</p>
+            <p style="font-size:0.88rem; color:var(--text-light); margin-top:0.2rem;" id="odPhone">+234 80 1234 5678</p>
+            <p style="font-size:0.88rem; color:var(--text-light); line-height:1.4; margin-top:0.4rem;" id="odAddress">Apt 4B, 15 Rose Avenue, Victoria Island, Lagos</p>
+          </div>
+          <div>
+            <h4 style="font-family:'Playfair Display', serif; color:var(--plum); margin-bottom:0.5rem; border-bottom: 1px solid var(--border); padding-bottom:0.3rem;">Delivery Details</h4>
+            <p style="font-size:0.88rem; color:var(--text);"><span style="color:var(--text-light);">Delivery Date:</span> <strong id="odDate">June 20, 2026</strong></p>
+            <p style="font-size:0.88rem; color:var(--text); margin-top:0.3rem;"><span style="color:var(--text-light);">Date Placed:</span> <span id="odPlaced">June 19, 2026</span></p>
+            <div style="background:rgba(232, 103, 122, 0.05); padding:0.8rem; border-radius:8px; margin-top:0.8rem; border:1px solid rgba(232, 103, 122, 0.12);">
+              <span style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:var(--rose); display:block; margin-bottom:0.2rem;">Message Card</span>
+              <p style="font-size:0.85rem; font-style:italic; color:var(--text); line-height:1.4;" id="odMessage">No card message attached.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Items Table -->
+        <div>
+          <h4 style="font-family:'Playfair Display', serif; color:var(--plum); margin-bottom:0.8rem; border-bottom:1px solid var(--border); padding-bottom:0.3rem;">Cart Items</h4>
+          <div style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius:10px;">
+            <table style="background:var(--white);">
+              <thead>
+                <tr style="position:sticky; top:0; z-index:1;">
+                  <th>Item</th>
+                  <th>Variety</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th style="text-align:right;">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="odItemsTableBody">
+                <!-- Items list -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Invoice Total -->
+        <div style="text-align:right; border-top:1px solid var(--border); padding-top:1rem;">
+          <span style="font-size:0.85rem; color:var(--text-light); text-transform:uppercase; font-weight:700; letter-spacing:0.04em;">Subtotal:</span>
+          <span style="font-family:'Playfair Display', serif; font-size:1.6rem; font-weight:700; color:var(--plum); margin-left:0.8rem;" id="odTotal">₦0</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeOrderDetailModal()">Close Invoice</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIREBASE SCRIPTS -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
+  <!-- ADMIN CONTROL JAVASCRIPT -->
+  <script>
+    let currentTab = 'dashboard';
+    let flowersCatalog = [];
+    let ordersList = [];
+    let selectedOrder = null;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      // 1. Initialize PONY_DB
+      await window.PONY_DB.init();
+      
+      // Update DB Connection Status header
+      const dbStatusPill = document.getElementById('dbStatusPill');
+      const dbStatusText = document.getElementById('dbStatusText');
+      const loginModeTag = document.getElementById('loginModeTag');
+      const loginEmailGroup = document.getElementById('loginEmailGroup');
+      
+      if (window.PONY_DB.isCloud) {
+        dbStatusPill.className = 'status-pill cloud';
+        dbStatusText.textContent = 'Connected to Cloud';
+        loginModeTag.textContent = '🟢 Firebase Cloud Mode';
+        loginModeTag.style.background = 'rgba(46, 125, 50, 0.08)';
+        loginModeTag.style.color = '#2e7d32';
+        loginEmailGroup.style.display = 'flex';
+        document.getElementById('loginEmail').required = true;
+        document.getElementById('btnDisconnectFirebase').style.display = 'none'; // hidden in production
+        document.getElementById('firebaseConfigJson').value = JSON.stringify(window.PONY_DB.config, null, 2);
+        document.getElementById('firebaseConfigJson').disabled = true;
+      } else {
+        dbStatusPill.className = 'status-pill local';
+        dbStatusText.textContent = 'Local Sandbox';
+        loginModeTag.textContent = '🟢 Local Sandbox Mode';
+        loginEmailGroup.style.display = 'none';
+        document.getElementById('loginEmail').required = false;
+        document.getElementById('btnDisconnectFirebase').style.display = 'none';
+        document.getElementById('firebaseConfigJson').value = JSON.stringify(window.PONY_DB.config, null, 2);
+        document.getElementById('firebaseConfigJson').disabled = true;
+      }
+
+      // Check Authentication State
+      const authSession = sessionStorage.getItem('pony_admin_auth');
+      if (authSession === 'true') {
+        document.getElementById('loginOverlay').style.opacity = '0';
+        setTimeout(() => document.getElementById('loginOverlay').style.display = 'none', 400);
+        loadAllData();
+      } else if (window.PONY_DB.isCloud) {
+        // If Firebase mode, check Firebase Auth state
+        window.PONY_DB.auth.onAuthStateChanged(user => {
+          if (user) {
+            sessionStorage.setItem('pony_admin_auth', 'true');
+            document.getElementById('loginOverlay').style.opacity = '0';
+            setTimeout(() => document.getElementById('loginOverlay').style.display = 'none', 400);
+            loadAllData();
+          }
+        });
+      }
+
+      // Login form event
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const pwd = document.getElementById('loginPassword').value.trim();
+        const submitBtn = document.getElementById('loginSubmitBtn');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Authenticating...';
+
+        if (window.PONY_DB.isCloud) {
+          // Firebase auth sign in
+          const email = document.getElementById('loginEmail').value.trim();
+          try {
+            await window.PONY_DB.auth.signInWithEmailAndPassword(email, pwd);
+            showToast("Welcome Administrator! 🌸", "🔑");
+            sessionStorage.setItem('pony_admin_auth', 'true');
+            document.getElementById('loginOverlay').style.opacity = '0';
+            setTimeout(() => document.getElementById('loginOverlay').style.display = 'none', 400);
+            loadAllData();
+          } catch (err) {
+            console.error("Firebase auth login failed:", err);
+            showToast("Invalid credentials. If this is the first setup, please create an admin user in Firebase console.", "❌");
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+          }
+        } else {
+          showToast("Firebase Authentication is unavailable. Local sandbox login has been disabled.", "❌");
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
+      });
+
+      // Sidebar Tab Clicks
+      document.querySelectorAll('.nav-menu .nav-item').forEach(item => {
+        item.addEventListener('click', function() {
+          document.querySelectorAll('.nav-menu .nav-item').forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+          switchTab(this.getAttribute('data-tab'));
+        });
+      });
+
+      // Logout handler
+      document.getElementById('logoutBtn').addEventListener('click', async () => {
+        if (window.PONY_DB.isCloud) {
+          await window.PONY_DB.auth.signOut();
+        }
+        sessionStorage.removeItem('pony_admin_auth');
+        showToast("Logged out successfully.", "🚪");
+        setTimeout(() => location.reload(), 800);
+      });
+
+      // Firebase Config form submission
+      document.getElementById('firebaseConfigForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        showToast("Database config is managed in codebase. Edit config inside firebase-config.js", "⚙️");
+      });
+
+      // Image selector change events
+      document.getElementById('addFlowerImage').addEventListener('change', function() {
+        document.getElementById('addFlowerCustomImageGroup').style.display = this.value === 'custom' ? 'block' : 'none';
+      });
+      document.getElementById('editFlowerImage').addEventListener('change', function() {
+        document.getElementById('editFlowerCustomImageGroup').style.display = this.value === 'custom' ? 'block' : 'none';
+      });
+
+      // Cloudinary image upload helper (unsigned uploads)
+      async function uploadToCloudinary(file, progressElement) {
+        const cloudConfig = window.PONY_DB.config && window.PONY_DB.config.cloudinary;
+        if (!cloudConfig || !cloudConfig.cloudName || !cloudConfig.uploadPreset ||
+            cloudConfig.cloudName.startsWith("YOUR_") || cloudConfig.uploadPreset.startsWith("YOUR_")) {
+          throw new Error("Cloudinary configuration missing or invalid. Please update config in firebase-config.js.");
+        }
+        
+        if (progressElement) {
+          progressElement.style.display = 'block';
+          progressElement.style.color = '#3b82f6';
+          progressElement.textContent = 'Uploading: 0%';
+        }
+        
+        const url = `https://api.cloudinary.com/v1_1/${cloudConfig.cloudName}/image/upload`;
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', cloudConfig.uploadPreset);
+        
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', url, true);
+          
+          xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable && progressElement) {
+              const percent = Math.round((e.loaded / e.total) * 100);
+              progressElement.textContent = `Uploading: ${percent}%`;
+            }
+          };
+          
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              try {
+                const response = JSON.parse(xhr.responseText);
+                if (progressElement) {
+                  progressElement.style.color = '#2e7d32';
+                  progressElement.textContent = 'Upload complete! ✨';
+                }
+                resolve(response.secure_url);
+              } catch (err) {
+                reject(new Error("Failed to parse Cloudinary response."));
+              }
+            } else {
+              try {
+                const response = JSON.parse(xhr.responseText);
+                reject(new Error(response.error.message || "Upload failed."));
+              } catch (e) {
+                reject(new Error(`Upload failed (Status: ${xhr.status})`));
+              }
+            }
+          };
+          
+          xhr.onerror = () => {
+            reject(new Error("Connection error occurred."));
+          };
+          
+          xhr.send(formData);
+        });
+      }
+
+      // Add Flower form submit
+      document.getElementById('addFlowerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        let img = document.getElementById('addFlowerImage').value;
+        const fileInput = document.getElementById('addFlowerFile');
+        const progressEl = document.getElementById('addFlowerUploadProgress');
+        
+        if (fileInput.files.length > 0) {
+          try {
+            img = await uploadToCloudinary(fileInput.files[0], progressEl);
+          } catch (uploadErr) {
+            console.error(uploadErr);
+            if (progressEl) {
+              progressEl.style.color = '#d32f2f';
+              progressEl.textContent = `Upload failed: ${uploadErr.message}`;
+            }
+            showToast(`Upload failed: ${uploadErr.message}`, "❌");
+            return;
+          }
+        } else if (img === 'custom') {
+          img = document.getElementById('addFlowerCustomImage').value.trim() || 'images/rose1.png';
+        }
+        
+        const newFlower = {
+          name: document.getElementById('addFlowerName').value.trim(),
+          price: parseInt(document.getElementById('addFlowerPrice').value),
+          category: document.getElementById('addFlowerCategory').value,
+          variety: document.getElementById('addFlowerVariety').value.trim(),
+          badge: document.getElementById('addFlowerBadge').value.trim(),
+          image: img,
+          occasions: document.getElementById('addFlowerOccasions').value.trim(),
+          desc: document.getElementById('addFlowerDesc').value.trim()
+        };
+
+        try {
+          await window.PONY_DB.addFlower(newFlower);
+          showToast(`Flower "${newFlower.name}" added successfully!`, "🌸");
+          closeAddFlowerModal();
+          document.getElementById('addFlowerForm').reset();
+          loadAllData();
+        } catch (err) {
+          console.error(err);
+          showToast("Failed to save product.", "❌");
+        }
+      });
+
+      // Edit Flower form submit
+      document.getElementById('editFlowerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editFlowerId').value;
+        
+        let img = document.getElementById('editFlowerImage').value;
+        const fileInput = document.getElementById('editFlowerFile');
+        const progressEl = document.getElementById('editFlowerUploadProgress');
+        
+        if (fileInput.files.length > 0) {
+          try {
+            img = await uploadToCloudinary(fileInput.files[0], progressEl);
+          } catch (uploadErr) {
+            console.error(uploadErr);
+            if (progressEl) {
+              progressEl.style.color = '#d32f2f';
+              progressEl.textContent = `Upload failed: ${uploadErr.message}`;
+            }
+            showToast(`Upload failed: ${uploadErr.message}`, "❌");
+            return;
+          }
+        } else if (img === 'custom') {
+          img = document.getElementById('editFlowerCustomImage').value.trim() || 'images/rose1.png';
+        }
+
+        const updatedFlower = {
+          name: document.getElementById('editFlowerName').value.trim(),
+          price: parseInt(document.getElementById('editFlowerPrice').value),
+          category: document.getElementById('editFlowerCategory').value,
+          variety: document.getElementById('editFlowerVariety').value.trim(),
+          badge: document.getElementById('editFlowerBadge').value.trim(),
+          image: img,
+          occasions: document.getElementById('editFlowerOccasions').value.trim(),
+          desc: document.getElementById('editFlowerDesc').value.trim()
+        };
+
+        try {
+          await window.PONY_DB.updateFlower(id, updatedFlower);
+          showToast("Changes saved successfully!", "🌸");
+          closeEditFlowerModal();
+          loadAllData();
+        } catch (err) {
+          console.error(err);
+          showToast("Failed to update product.", "❌");
+        }
+      });
+
+      // Order status update select change
+      document.getElementById('odStatusSelect').addEventListener('change', async function() {
+        if (selectedOrder) {
+          const newStatus = this.value;
+          try {
+            await window.PONY_DB.updateOrderStatus(selectedOrder.id, newStatus);
+            selectedOrder.status = newStatus;
+            
+            // update detail modal badge styling
+            const badge = document.getElementById('odStatusBadge');
+            badge.textContent = newStatus;
+            badge.className = `badge ${newStatus.toLowerCase()}`;
+            
+            showToast(`Order status updated to "${newStatus}"`, "⚙️");
+            loadAllData();
+          } catch (err) {
+            console.error(err);
+            showToast("Failed to update status", "❌");
+          }
+        }
+      });
+
+      // Order search filter
+      document.getElementById('orderSearchInput').addEventListener('input', renderOrdersTab);
+
+      // Order status chip filters
+      document.querySelectorAll('.filter-chips .filter-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+          document.querySelectorAll('.filter-chips .filter-chip').forEach(c => c.classList.remove('active'));
+          this.classList.add('active');
+          renderOrdersTab();
+        });
+      });
+    });
+
+    // ==================== TAB NAVIGATION ====================
+    function switchTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+      });
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+
+      // Update sidebar highlight
+      document.querySelectorAll('.nav-menu .nav-item').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('data-tab') === tabName);
+      });
+
+      // Update title text
+      const titleMap = {
+        dashboard: 'Overview Dashboard',
+        orders: 'Orders Management',
+        flowers: 'Flowers Catalog Manager',
+        firebase: 'Database Connection Wizard'
+      };
+      document.getElementById('panelTitle').textContent = titleMap[tabName] || 'Admin Panel';
+    }
+
+    // ==================== DATA LOADING ====================
+    async function loadAllData() {
+      try {
+        flowersCatalog = await window.PONY_DB.getFlowers();
+        ordersList = await window.PONY_DB.getOrders();
+        
+        // If flowers catalog is empty, wait a second and retry (since index.html might seed it)
+        if (flowersCatalog.length === 0) {
+          // Let's seed default flowers locally if they are not initialized anywhere yet
+          // In local mode, admin panel should also seed if index.html hasn't run.
+          const defaultSeeds = getSeedProducts();
+          await window.PONY_DB.saveFlowers(defaultSeeds);
+          flowersCatalog = defaultSeeds;
+        }
+
+        renderDashboard();
+        renderOrdersTab();
+        renderFlowersCatalog();
+      } catch (err) {
+        console.error("Failed to load catalog/orders data:", err);
+      }
+    }
+
+    // ==================== DASHBOARD RENDERING ====================
+    function renderDashboard() {
+      // 1. Calculate statistics
+      let revenue = 0;
+      let pending = 0;
+      ordersList.forEach(o => {
+        if (o.status !== 'Cancelled') {
+          revenue += o.subtotal || 0;
+        }
+        if (o.status === 'Pending' || o.status === 'Preparing') {
+          pending++;
+        }
+      });
+
+      document.getElementById('statRevenue').textContent = '₦' + revenue.toLocaleString();
+      document.getElementById('statProducts').textContent = flowersCatalog.length;
+      document.getElementById('statOrders').textContent = ordersList.length;
+      document.getElementById('statPending').textContent = pending;
+
+      // Update orders count badge in sidebar
+      const badge = document.getElementById('ordersCountBadge');
+      if (pending > 0) {
+        badge.textContent = pending;
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+
+      // Render Recent Orders table (max 5)
+      const tbody = document.getElementById('recentOrdersTableBody');
+      tbody.innerHTML = '';
+      
+      const recents = ordersList.slice(0, 5);
+      if (recents.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-light);padding:2rem;">No orders recorded. Place an order on the storefront to test.</td></tr>`;
+        return;
+      }
+
+      recents.forEach(order => {
+        const orderDateStr = order.timestamp ? new Date(order.timestamp).toLocaleDateString(undefined, {month: 'short', day: 'numeric'}) : 'N/A';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${order.orderReference}</strong></td>
+          <td>${order.customerName}</td>
+          <td>${orderDateStr}</td>
+          <td>₦${(order.subtotal || 0).toLocaleString()}</td>
+          <td><span class="badge ${order.status.toLowerCase()}">${order.status}</span></td>
+          <td><button class="btn-action" onclick="openOrderDetailModal('${order.id}')">View</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ==================== ORDERS TAB RENDERING ====================
+    function renderOrdersTab() {
+      const query = document.getElementById('orderSearchInput').value.toLowerCase().trim();
+      const activeChip = document.querySelector('.filter-chips .filter-chip.active');
+      const filterStatus = activeChip ? activeChip.getAttribute('data-status') : 'all';
+
+      const tbody = document.getElementById('ordersTableBody');
+      tbody.innerHTML = '';
+
+      const filteredOrders = ordersList.filter(order => {
+        const matchesSearch = order.customerName.toLowerCase().includes(query) || 
+                              order.orderReference.toLowerCase().includes(query) ||
+                              (order.customerPhone && order.customerPhone.includes(query));
+        
+        let matchesStatus = true;
+        if (filterStatus !== 'all') {
+          if (filterStatus === 'pending') matchesStatus = order.status === 'Pending';
+          else if (filterStatus === 'preparing') matchesStatus = order.status === 'Preparing';
+          else if (filterStatus === 'shipping') matchesStatus = order.status === 'Shipping';
+          else if (filterStatus === 'completed') matchesStatus = order.status === 'Completed';
+          else if (filterStatus === 'cancelled') matchesStatus = order.status === 'Cancelled';
+        }
+
+        return matchesSearch && matchesStatus;
+      });
+
+      if (filteredOrders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-light);padding:3rem;">No orders match the filter criteria.</td></tr>`;
+        return;
+      }
+
+      filteredOrders.forEach(order => {
+        const dateStr = order.deliveryDate ? new Date(order.deliveryDate).toLocaleDateString(undefined, {month: 'long', day: 'numeric', year: 'numeric'}) : 'N/A';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${order.orderReference}</strong></td>
+          <td>${order.customerName}</td>
+          <td>${order.customerPhone || 'N/A'}</td>
+          <td>${dateStr}</td>
+          <td><strong>₦${(order.subtotal || 0).toLocaleString()}</strong></td>
+          <td><span class="badge ${order.status.toLowerCase()}">${order.status}</span></td>
+          <td>
+            <button class="btn-action" onclick="openOrderDetailModal('${order.id}')">Inspect</button>
+            <button class="btn-action secondary" onclick="deleteOrderPrompt('${order.id}', '${order.orderReference}')">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ==================== FLOWERS TAB RENDERING ====================
+    function renderFlowersCatalog() {
+      const grid = document.getElementById('catalogGrid');
+      document.getElementById('catalogTotalCount').textContent = flowersCatalog.length;
+      grid.innerHTML = '';
+
+      flowersCatalog.forEach(flower => {
+        const badgeHTML = flower.badge 
+          ? `<div class="catalog-card-badge ${getBadgeClass(flower.badge)}">${flower.badge}</div>` 
+          : '';
+
+        const card = document.createElement('div');
+        card.className = 'catalog-card';
+        card.innerHTML = `
+          <div class="catalog-card-img">
+            <img src="${flower.image}" alt="${flower.name}">
+            ${badgeHTML}
+          </div>
+          <div class="catalog-card-body">
+            <span class="catalog-card-category">${flower.category}</span>
+            <div class="catalog-card-name">${flower.name}</div>
+            <div class="catalog-card-variety">${flower.variety}</div>
+            <div class="catalog-card-price">₦${flower.price.toLocaleString()}</div>
+          </div>
+          <div class="catalog-card-actions">
+            <button class="btn-action" onclick="openEditFlowerModal('${flower.id}')">✏️ Edit Details</button>
+            <button class="btn-action secondary" onclick="deleteFlowerPrompt('${flower.id}', '${flower.name}')">🗑️ Delete</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function getBadgeClass(badge) {
+      if (!badge) return '';
+      const b = badge.toLowerCase();
+      if (b.includes('new')) return 'badge-new';
+      if (b.includes('best') || b.includes('popular') || b.includes('home')) return 'badge-best';
+      if (b.includes('sale') || b.includes('exotic')) return 'badge-sale';
+      return 'badge-new';
+    }
+
+    // ==================== ORDER INSPECT MODAL ====================
+    function openOrderDetailModal(id) {
+      selectedOrder = ordersList.find(o => o.id === id);
+      if (!selectedOrder) return;
+
+      document.getElementById('odRef').textContent = selectedOrder.orderReference;
+      
+      const badge = document.getElementById('odStatusBadge');
+      badge.textContent = selectedOrder.status;
+      badge.className = `badge ${selectedOrder.status.toLowerCase()}`;
+      
+      document.getElementById('odStatusSelect').value = selectedOrder.status;
+      
+      document.getElementById('odName').textContent = selectedOrder.customerName;
+      document.getElementById('odPhone').textContent = selectedOrder.customerPhone || 'N/A';
+      document.getElementById('odAddress').textContent = selectedOrder.deliveryAddress;
+      
+      const dateStr = selectedOrder.deliveryDate 
+        ? new Date(selectedOrder.deliveryDate).toLocaleDateString(undefined, {month: 'long', day: 'numeric', year: 'numeric'}) 
+        : 'N/A';
+      document.getElementById('odDate').textContent = dateStr;
+
+      const placedStr = selectedOrder.timestamp 
+        ? new Date(selectedOrder.timestamp).toLocaleDateString(undefined, {month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'}) 
+        : 'N/A';
+      document.getElementById('odPlaced').textContent = placedStr;
+      
+      document.getElementById('odMessage').textContent = selectedOrder.giftMessage ? `"${selectedOrder.giftMessage}"` : 'No card message attached.';
+      document.getElementById('odTotal').textContent = '₦' + (selectedOrder.subtotal || 0).toLocaleString();
+
+      // Render Items list table
+      const tbody = document.getElementById('odItemsTableBody');
+      tbody.innerHTML = '';
+      
+      if (selectedOrder.items && selectedOrder.items.length > 0) {
+        selectedOrder.items.forEach(item => {
+          const qty = item.quantity || item.qty || 1;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>
+              <div style="display:flex; align-items:center; gap:0.5rem;">
+                <img src="${item.image}" style="width:30px; height:30px; object-fit:cover; border-radius:4px;">
+                <strong>${item.name}</strong>
+              </div>
+            </td>
+            <td><span style="font-size:0.75rem; color:var(--text-light);">${item.variety || 'Standard'}</span></td>
+            <td>${qty}</td>
+            <td>₦${item.price.toLocaleString()}</td>
+            <td style="text-align:right;"><strong>₦${(item.price * qty).toLocaleString()}</strong></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-light);padding:1rem;">No items list recorded.</td></tr>`;
+      }
+
+      document.getElementById('orderDetailOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeOrderDetailModal() {
+      document.getElementById('orderDetailOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+      selectedOrder = null;
+    }
+
+    async function deleteOrderPrompt(id, ref) {
+      if (confirm(`Are you sure you want to permanently delete order ${ref}? This action cannot be undone.`)) {
+        try {
+          await window.PONY_DB.deleteOrder(id);
+          showToast(`Deleted order ${ref}`, "🗑️");
+          loadAllData();
+        } catch (err) {
+          console.error(err);
+          showToast("Failed to delete order.", "❌");
+        }
+      }
+    }
+
+    // ==================== FLOWER ADD/EDIT MODALS ====================
+    function openAddFlowerModal() {
+      document.getElementById('addFlowerOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAddFlowerModal() {
+      document.getElementById('addFlowerOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+      document.getElementById('addFlowerFile').value = '';
+      const progress = document.getElementById('addFlowerUploadProgress');
+      if (progress) {
+        progress.style.display = 'none';
+        progress.textContent = '';
+      }
+    }
+
+    function openEditFlowerModal(id) {
+      const flower = flowersCatalog.find(f => f.id === id);
+      if (!flower) return;
+
+      document.getElementById('editFlowerId').value = flower.id;
+      document.getElementById('editFlowerName').value = flower.name;
+      document.getElementById('editFlowerPrice').value = flower.price;
+      document.getElementById('editFlowerCategory').value = flower.category;
+      document.getElementById('editFlowerVariety').value = flower.variety;
+      document.getElementById('editFlowerBadge').value = flower.badge || '';
+      document.getElementById('editFlowerOccasions').value = flower.occasions || '';
+      document.getElementById('editFlowerDesc').value = flower.desc || '';
+
+      const selectImg = document.getElementById('editFlowerImage');
+      const optMatch = Array.from(selectImg.options).some(opt => opt.value === flower.image);
+      if (optMatch) {
+        selectImg.value = flower.image;
+        document.getElementById('editFlowerCustomImageGroup').style.display = 'none';
+      } else {
+        selectImg.value = 'custom';
+        document.getElementById('editFlowerCustomImageGroup').style.display = 'block';
+        document.getElementById('editFlowerCustomImage').value = flower.image;
+      }
+
+      document.getElementById('editFlowerOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeEditFlowerModal() {
+      document.getElementById('editFlowerOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+      document.getElementById('editFlowerFile').value = '';
+      const progress = document.getElementById('editFlowerUploadProgress');
+      if (progress) {
+        progress.style.display = 'none';
+        progress.textContent = '';
+      }
+    }
+
+    async function deleteFlowerPrompt(id, name) {
+      if (confirm(`Are you sure you want to delete "${name}" from the flowers catalog?`)) {
+        try {
+          await window.PONY_DB.deleteFlower(id);
+          showToast(`Deleted "${name}"`, "🗑️");
+          loadAllData();
+        } catch (err) {
+          console.error(err);
+          showToast("Failed to delete product.", "❌");
+        }
+      }
+    }
+
+    // ==================== TOAST FEEDBACK ====================
+    function showToast(message, icon = '🌸') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span>${icon}</span> ${message}`;
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-20px)';
+        toast.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+        setTimeout(() => toast.remove(), 350);
+      }, 3000);
+    }
+
+    // Seeding products fallback if DB is completely clean
+    function getSeedProducts() {
+      return [
+        {
+          "id": "rose-red-bouquet",
+          "name": "Red Rose Bouquet",
+          "price": 38500,
+          "category": "rose",
+          "variety": "Rosa centifolia · 12 stems w/ Gypsophila",
+          "badge": "⭐ Best Seller",
+          "image": "images/rose1.png",
+          "occasions": "anniversary proposal valentines date-night celebration mothers-day bridal-bouquet",
+          "desc": "Indulge in the luxury of fresh velvet roses. Carefully selected and artfully arranged with delicate Gypsophila and rich eucalyptus, wrapped in premium craft paper and tied with satin ribbon."
+        },
+        {
+          "id": "rose-pink-blush",
+          "name": "Pink Blush Rose",
+          "price": 42000,
+          "category": "rose",
+          "variety": "Rosa hybrid · 15 stems Mixed",
+          "badge": "🌿 New",
+          "image": "images/rose2.png",
+          "occasions": "anniversary mothers-day bridal-bouquet valentines celebration",
+          "desc": "A soft romantic arrangement of blush pink roses, evoking tenderness and admiration. Paired with delicate peonies and white wax flowers in premium tissue wrap — ideal for bridal events and anniversaries."
+        },
+        {
+          "id": "rose-white-garden",
+          "name": "White Garden Rose",
+          "price": 51000,
+          "category": "rose",
+          "variety": "Rosa × alba · 10 garden roses",
+          "badge": "💍 Proposal",
+          "image": "images/rose3.png",
+          "occasions": "wedding proposal bridal-bouquet anniversary",
+          "desc": "The purest symbol of new beginnings. Freshly cut white garden roses wrapped in silk ribbon, perfect for proposals, weddings, and christenings. Each stem is handpicked at full bloom."
+        },
+        {
+          "id": "rose-yellow-sunshine",
+          "name": "Yellow Sunshine Rose",
+          "price": 34500,
+          "category": "rose",
+          "variety": "Rosa foetida · 12 stems",
+          "badge": "🌸 Sale",
+          "image": "images/rose4.png",
+          "occasions": "birthday celebration just-because get-well-soon mothers-day",
+          "desc": "Bright, cheerful yellow roses to uplift any spirit. These golden blooms symbolise friendship, joy, and gratitude — perfect for birthdays, thank-you gestures and celebrations."
+        },
+        {
+          "id": "lily-white",
+          "name": "White Lily Arrangement",
+          "price": 63000,
+          "category": "lily",
+          "variety": "Lilium candidum · 8 stems w/ Greenery",
+          "badge": "🌿 New",
+          "image": "images/lily1.png",
+          "occasions": "wedding anniversary funeral get-well-soon celebration bridal-bouquet",
+          "desc": "A majestic arrangement of pure white lilies symbolising purity and devotion. Beautifully styled with lush greens and eucalyptus in an elegant ceramic vase — perfect for weddings, anniversaries and sympathy."
+        },
+        {
+          "id": "lily-tiger",
+          "name": "Tiger Lily Bouquet",
+          "price": 47000,
+          "category": "lily",
+          "variety": "Lilium lancifolium · 6 stems",
+          "badge": "⭐ Popular",
+          "image": "images/lily2.png",
+          "occasions": "birthday celebration just-because mothers-day",
+          "desc": "The bold, freckled blooms of the Tiger Lily radiate confidence and vitality. This striking arrangement combines orange tiger lilies with rich tropical foliage, perfect for confident personalities."
+        },
+        {
+          "id": "lily-stargazer",
+          "name": "Stargazer Lily",
+          "price": 55000,
+          "category": "lily",
+          "variety": "Lilium orientalis · 8 stems",
+          "badge": "💜 Luxury",
+          "image": "images/lily3.png",
+          "occasions": "anniversary valentines proposal mothers-day bridal-bouquet",
+          "desc": "The Stargazer lily is one of nature's most dramatic flowers. Deep pink petals edged in white with rich speckles — this arrangement is the statement piece for any romantic occasion or luxury gift."
+        },
+        {
+          "id": "orchid-pink",
+          "name": "Pink Orchid Spray",
+          "price": 45000,
+          "category": "orchid",
+          "variety": "Phalaenopsis · Potted arrangement",
+          "badge": "🌸 Sale",
+          "image": "images/orchid1.png",
+          "occasions": "anniversary birthday get-well-soon just-because celebration mothers-day",
+          "desc": "An exotic potted pink Phalaenopsis orchid offering long-lasting elegance. Housed in a signature matte ceramic pot with arching stems filled with velvety moth-shaped blossoms."
+        },
+        {
+          "id": "orchid-white",
+          "name": "White Moth Orchid",
+          "price": 58000,
+          "category": "orchid",
+          "variety": "Phalaenopsis amabilis · Twin spike",
+          "badge": "⭐ Best Seller",
+          "image": "images/orchid2.png",
+          "occasions": "anniversary wedding get-well-soon celebration just-because",
+          "desc": "Timeless and sophisticated, the white Phalaenopsis orchid is a symbol of pure elegance. This twin-spike plant blooms for months, making it a lasting gift that grows with the recipient."
+        },
+        {
+          "id": "orchid-purple",
+          "name": "Purple Orchid Cascade",
+          "price": 72000,
+          "category": "orchid",
+          "variety": "Vanda × hybrid · Cascading spray",
+          "badge": "💍 Luxury",
+          "image": "images/orchid3.png",
+          "occasions": "proposal anniversary valentines date-night bridal-bouquet",
+          "desc": "A breathtaking cascading spray of deep purple Vanda orchids — one of the rarest and most luxurious blooms available. This arrangement exudes royalty and is perfect for high-profile events and proposals."
+        },
+        {
+          "id": "orchid-yellow",
+          "name": "Golden Dendrobium",
+          "price": 39000,
+          "category": "orchid",
+          "variety": "Dendrobium nobile · 5 stem cluster",
+          "badge": "🌿 New",
+          "image": "images/orchid4.png",
+          "occasions": "birthday celebration just-because get-well-soon",
+          "desc": "Cheerful golden Dendrobium orchids arranged in a tight cluster, radiating warmth and positivity. A versatile and long-lasting bloom that suits both corporate spaces and home gifting."
+        },
+        {
+          "id": "sunflower-bundle",
+          "name": "Sunflower Bundle",
+          "price": 28000,
+          "category": "sunflower",
+          "variety": "Helianthus annuus · 10 stems",
+          "badge": "⭐ Popular",
+          "image": "images/sunflower1.png",
+          "occasions": "birthday get-well-soon just-because celebration mothers-day",
+          "desc": "Bring radiant sunshine into any room. These bright yellow blooms are hand-tied with raw jute twine and simple kraft wrapping — the perfect cheerful gift."
+        },
+        {
+          "id": "sunflower-mixed",
+          "name": "Sunflower & Rose Mix",
+          "price": 36500,
+          "category": "sunflower",
+          "variety": "Helianthus + Rosa · Mixed bouquet",
+          "badge": "🌿 New",
+          "image": "images/sunflower2.png",
+          "occasions": "anniversary birthday celebration valentines mothers-day",
+          "desc": "A stunning combination of golden sunflowers and deep red roses — warmth meets romance. This mixed bouquet is elegantly wrapped in our signature two-tone paper and tied with a contrast ribbon."
+        },
+        {
+          "id": "sunflower-grand",
+          "name": "Grand Sunflower Bouquet",
+          "price": 44000,
+          "category": "sunflower",
+          "variety": "Helianthus annuus · 20 stems Premium",
+          "badge": "💛 Grand",
+          "image": "images/sunflower3.png",
+          "occasions": "birthday celebration anniversary mothers-day just-because",
+          "desc": "Go big with this spectacular 20-stem premium sunflower bouquet. Dramatically sized and lushly wrapped, this is the bouquet that makes an entrance — perfect for grand celebrations or heartfelt apologies!"
+        },
+        {
+          "id": "tulip-red",
+          "name": "Red Tulip Bouquet",
+          "price": 32000,
+          "category": "tulip",
+          "variety": "Tulipa gesneriana · 15 stems",
+          "badge": "⭐ Classic",
+          "image": "images/tulip1.png",
+          "occasions": "valentines anniversary proposal date-night",
+          "desc": "The quintessential spring flower — bold red tulips hand-tied in a classic upright style with minimal greenery. Fresh, architectural and deeply romantic. A timeless declaration of love."
+        },
+        {
+          "id": "tulip-pink",
+          "name": "Pink Tulip Bouquet",
+          "price": 29000,
+          "category": "tulip",
+          "variety": "Tulipa × hybrid · 12 pastel stems",
+          "badge": "🌸 Pastel",
+          "image": "images/tulip2.png",
+          "occasions": "mothers-day birthday celebration just-because bridal-bouquet",
+          "desc": "Soft, dreamy pastel pink tulips arranged in an open hand-tied style. Light and airy, this bouquet captures the delicate beauty of spring. Ideal for Mother's Day, baby showers, or simply brightening someone's day."
+        },
+        {
+          "id": "tulip-purple",
+          "name": "Purple Tulip Spray",
+          "price": 35000,
+          "category": "tulip",
+          "variety": "Tulipa × triumph · 10 stems",
+          "badge": "💜 Rare",
+          "image": "images/tulip3.png",
+          "occasions": "anniversary birthday celebration mothers-day date-night",
+          "desc": "Rare and majestic purple triumph tulips — a symbol of royalty and admiration. Elegantly wrapped in velvet tissue paper with a silk ribbon, these blooms make an unforgettable impression."
+        },
+        {
+          "id": "lavender-bundle",
+          "name": "Fresh Lavender Bundle",
+          "price": 22000,
+          "category": "lavender",
+          "variety": "Lavandula angustifolia · Fresh cut",
+          "badge": "🌿 Calming",
+          "image": "images/lavender1.png",
+          "occasions": "get-well-soon birthday just-because mothers-day celebration",
+          "desc": "Fragrant, freshly cut English lavender bound in natural twine. The calming scent of lavender promotes relaxation and well-being — beautiful displayed in a vase or dried as an everlasting keepsake."
+        },
+        {
+          "id": "lavender-dried",
+          "name": "Dried Lavender Bouquet",
+          "price": 18500,
+          "category": "lavender",
+          "variety": "Lavandula angustifolia · Dried bunch",
+          "badge": "♾️ Everlasting",
+          "image": "images/lavender2.png",
+          "occasions": "just-because celebration birthday get-well-soon",
+          "desc": "A classic bunch of dried lavender that lasts for years. Retaining its scent and colour, dried lavender is perfect for rustic home décor, drawer sachets, or as a timeless sentimental gift."
+        },
+        {
+          "id": "lavender-mixed",
+          "name": "Lavender & White Mix",
+          "price": 31000,
+          "category": "lavender",
+          "variety": "Lavandula + Gypsophila · Mixed",
+          "badge": "🤍 Elegant",
+          "image": "images/lavender3.png",
+          "occasions": "wedding anniversary bridal-bouquet celebration mothers-day",
+          "desc": "A sophisticated pairing of purple lavender and cloud-like white Gypsophila. This ethereal combination is incredibly popular for wedding table centres, christenings, and elegant home gifting."
+        },
+        {
+          "id": "chrysanthemum-yellow",
+          "name": "Yellow Chrysanthemum",
+          "price": 24500,
+          "category": "chrysanthemum",
+          "variety": "Chrysanthemum × morifolium · 12 stems",
+          "badge": "☀️ Joyful",
+          "image": "images/chrysanthemum1.png",
+          "occasions": "birthday celebration mothers-day get-well-soon funeral just-because",
+          "desc": "Lush, full yellow chrysanthemums — known as the flower of longevity and happiness. An incredibly versatile bloom that works beautifully in modern arrangements, classic bouquets, and funeral tributes."
+        },
+        {
+          "id": "chrysanthemum-white",
+          "name": "White Chrysanthemum",
+          "price": 27000,
+          "category": "chrysanthemum",
+          "variety": "Chrysanthemum × morifolium · 10 stems",
+          "badge": "🕊️ Pure",
+          "image": "images/chrysanthemum2.png",
+          "occasions": "funeral get-well-soon wedding anniversary celebration",
+          "desc": "Classic white chrysanthemums, the embodiment of truth and loyal love. Beautifully presented in a hand-tied bouquet, these pristine blooms are ideal for sympathy, memorial, and spiritual ceremonies."
+        },
+        {
+          "id": "chrysanthemum-vase",
+          "name": "Chrysanthemum Vase Arrangement",
+          "price": 41000,
+          "category": "chrysanthemum",
+          "variety": "Mixed varieties · Premium vase",
+          "badge": "🏡 Home",
+          "image": "images/chrysanthemum3.png",
+          "occasions": "celebration birthday anniversary mothers-day just-because",
+          "desc": "A stunning mix of white and cream chrysanthemums arranged in a premium ceramic vase. Long-lasting, full, and statement-making — the perfect centrepiece for any home, office, or event table."
+        },
+        {
+          "id": "hibiscus-red",
+          "name": "Tropical Red Hibiscus",
+          "price": 26000,
+          "category": "hibiscus",
+          "variety": "Hibiscus rosa-sinensis · Fresh cluster",
+          "badge": "🌺 Tropical",
+          "image": "images/hisbicus1.png",
+          "occasions": "birthday celebration just-because mothers-day",
+          "desc": "Fiery and exotic, the red hibiscus is a celebration of tropical beauty. These vibrant blooms are freshly sourced and presented in a bold, nature-inspired wrap — bringing the tropics straight to your door."
+        },
+        {
+          "id": "hibiscus-coral",
+          "name": "Coral Hibiscus Bloom",
+          "price": 29500,
+          "category": "hibiscus",
+          "variety": "Hibiscus sabdariffa · Blooming cluster",
+          "badge": "🌿 New",
+          "image": "images/hibiscus2.png",
+          "occasions": "birthday celebration just-because mothers-day",
+          "desc": "A dazzling coral hibiscus arrangement fresh from the tropics. The bold stamens and silky petals make this an eye-catching showpiece — perfect for a tropical-themed celebration or exotic home décor."
+        },
+        {
+          "id": "hibiscus-pink",
+          "name": "Pink Hibiscus Bouquet",
+          "price": 33000,
+          "category": "hibiscus",
+          "variety": "Hibiscus rosa-sinensis · Pink variety",
+          "badge": "💖 Exotic",
+          "image": "images/hibiscus3.png",
+          "occasions": "birthday celebration mothers-day anniversary just-because",
+          "desc": "Lush pink hibiscus blooms arranged in a full florist bouquet. Soft yet striking, this arrangement radiates femininity and tropical warmth — a truly unique gift for someone who stands out from the crowd."
+        }
+      ];
+    }
+  </script>
+</body>
+</html>

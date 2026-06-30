@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Flowers Catalog Collection Rules
+    match /flowers/{flowerId} {
+      // Anyone (shoppers + visitors) can view product cards
+      allow read: if true;
+      
+      // Only authenticated users (admins) can modify the products catalog
+      allow create, update, delete: if request.auth != null;
+    }
+
+    // 2. Orders Collection Rules
+    match /orders/{orderId} {
+      // Anyone can submit a checkout order document
+      allow create: if true;
+      
+      // Only authenticated users (admins) can inspect, list, modify or clear orders
+      allow read, update, delete: if request.auth != null;
+    }
+  }
+}

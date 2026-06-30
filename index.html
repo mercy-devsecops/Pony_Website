@@ -4,9 +4,70 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pony — Where Flowers Come Alive</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // NOTE: Replace G-XXXXXXXXXX with your own Google Analytics measurement ID when live
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  
+  <!-- SEO & Search Engine Optimization Tags -->
+  <meta name="description" content="Pony Flowers is a premium online florist boutique. Order fresh hand-tied bouquets, roses, orchids, lilies, and custom luxury flower arrangements with fast delivery." />
+  <meta name="keywords" content="florist, flower shop, flower delivery, custom bouquet, roses, lilies, orchids, sunflowers, gift delivery, luxury flowers" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph / Sharing Preview Metadata (WhatsApp, Facebook, LinkedIn) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Pony — Where Flowers Come Alive" />
+  <meta property="og:description" content="Order premium hand-tied bouquets, roses, orchids, and custom flower arrangements. Beautiful blooms delivered fresh to your door." />
+  <meta property="og:image" content="images/rose1.png" />
+  
+  <!-- Twitter Cards -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="Pony — Where Flowers Come Alive" />
+  <meta property="twitter:description" content="Order premium hand-tied bouquets, roses, orchids, and custom flower arrangements." />
+  <meta property="twitter:image" content="images/rose1.png" />
+
+  <!-- Google Local Business Structured Schema (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Florist",
+    "name": "Pony Flowers",
+    "image": "images/rose1.png",
+    "description": "Premium online florist boutique offering fresh hand-tied bouquets, roses, orchids, and custom flower arrangements.",
+    "priceRange": "₦₦",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Lagos",
+      "addressCountry": "NG"
+    },
+    "telephone": "+2348012345678",
+    "url": "https://www.ponyflowers.com",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "08:00",
+      "closes": "20:00"
+    }
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --blush: #f5c2c7;
@@ -64,6 +125,7 @@
       padding: 1.2rem 4rem;
       background: rgba(253, 248, 242, 0.88);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(232, 103, 122, 0.12);
       transition: box-shadow 0.3s;
     }
@@ -79,7 +141,7 @@
     }
     .logo span { color: var(--rose); font-style: italic; }
 
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
     .nav-links a {
       font-size: 0.85rem;
       font-weight: 500;
@@ -100,16 +162,93 @@
     .nav-links a:hover { color: var(--rose); }
     .nav-links a:hover::after { transform: scaleX(1); }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
     .nav-cta {
       background: var(--plum);
       color: var(--white) !important;
       padding: 0.6rem 1.6rem;
       border-radius: 999px;
       letter-spacing: 0.06em;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      text-decoration: none;
       transition: background 0.2s, transform 0.2s !important;
     }
     .nav-cta::after { display: none !important; }
     .nav-cta:hover { background: var(--deep-rose) !important; color: var(--white) !important; transform: translateY(-1px); }
+    .mobile-only-cta { display: none; }
+
+    /* Shopping Cart Icon */
+    .cart-btn {
+      position: relative;
+      cursor: pointer;
+      color: var(--plum);
+      transition: transform 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      outline: none;
+    }
+    .cart-btn:hover {
+      color: var(--deep-rose);
+      transform: scale(1.05);
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: var(--deep-rose);
+      color: var(--white);
+      font-size: 0.68rem;
+      font-weight: 700;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(194, 49, 82, 0.4);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .cart-count.pop {
+      transform: scale(1.4);
+    }
+
+    /* Mobile navigation toggle button */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 110;
+      padding: 0.2rem;
+    }
+    .mobile-menu-btn .bar {
+      width: 24px;
+      height: 2px;
+      background: var(--plum);
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    .mobile-menu-btn.active .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .mobile-menu-btn.active .bar:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-menu-btn.active .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
 
     /* ──── HERO ──── */
     .hero {
@@ -209,7 +348,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
       height: 100%;
       padding: 5rem 4rem 4rem 2rem;
     }
@@ -221,7 +360,43 @@
     .hero-img:nth-child(1) { grid-row: span 2; border-radius: 120px 20px 20px 20px; }
     .hero-img:nth-child(2) { border-radius: 20px 80px 20px 20px; }
     .hero-img:nth-child(3) { border-radius: 20px 20px 80px 20px; align-self: end; }
-    .hero-img svg { width: 100%; height: 100%; display: block; }
+    .hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .hero-img:hover img { transform: scale(1.04); }
+
+    /* Glassmorphic image labels */
+    .hero-label-overlay {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      padding: 0.65rem 0.9rem;
+      box-shadow: 0 8px 24px rgba(92, 45, 78, 0.08);
+      transform: translateY(0);
+      transition: transform 0.3s ease, background 0.3s ease;
+      pointer-events: none;
+    }
+    .hero-img:hover .hero-label-overlay {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.85);
+    }
+    .hero-label-overlay h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 0.1rem;
+    }
+    .hero-label-overlay p {
+      font-size: 0.68rem;
+      color: var(--text-light);
+      margin: 0;
+    }
+
     .hero-float-badge {
       position: absolute; bottom: 5rem; left: 2rem;
       background: var(--white);
@@ -230,6 +405,7 @@
       box-shadow: 0 16px 48px rgba(92,45,78,0.18);
       display: flex; align-items: center; gap: 0.8rem;
       animation: float 4s ease-in-out infinite;
+      z-index: 2;
     }
     @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
     .badge-icon { font-size: 1.8rem; }
@@ -306,44 +482,55 @@
       cursor: pointer;
       transition: all 0.2s;
       border: 1.5px solid transparent;
+      user-select: none;
     }
     .chip-rose { background: rgba(232,103,122,0.12); color: var(--deep-rose); border-color: rgba(232,103,122,0.25); }
-    .chip-rose:hover { background: var(--deep-rose); color: var(--white); }
+    .chip-rose:hover, .chip-rose.active { background: var(--deep-rose); color: var(--white); border-color: var(--deep-rose); }
     .chip-plum { background: rgba(92,45,78,0.09); color: var(--plum); border-color: rgba(92,45,78,0.2); }
-    .chip-plum:hover { background: var(--plum); color: var(--white); }
+    .chip-plum:hover, .chip-plum.active { background: var(--plum); color: var(--white); border-color: var(--plum); }
     .chip-sage { background: rgba(122,158,126,0.12); color: var(--sage); border-color: rgba(122,158,126,0.25); }
-    .chip-sage:hover { background: var(--sage); color: var(--white); }
+    .chip-sage:hover, .chip-sage.active { background: var(--sage); color: var(--white); border-color: var(--sage); }
     .chip-amber { background: rgba(232,162,78,0.12); color: var(--amber); border-color: rgba(232,162,78,0.28); }
-    .chip-amber:hover { background: var(--amber); color: var(--white); }
+    .chip-amber:hover, .chip-amber.active { background: var(--amber); color: var(--white); border-color: var(--amber); }
+
+    /* Active filter chip shadows */
+    .chip.active {
+      box-shadow: 0 4px 12px rgba(92, 45, 78, 0.18);
+      transform: translateY(-1px);
+    }
 
     /* ──── FLOWER GRID ──── */
-    .flowers-section {}
-    .flowers-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+    .flowers-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; }
     .flowers-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
+      transition: all 0.4s ease;
     }
     .flower-card {
       background: var(--white);
       border-radius: 20px;
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease, opacity 0.3s ease;
       position: relative;
-      group: true;
     }
     .flower-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(92,45,78,0.14); }
     .flower-card:nth-child(2) { margin-top: 2rem; }
     .flower-card:nth-child(4) { margin-top: -2rem; }
+
+    /* Disable offset layout during filtering to maintain clean alignment */
+    .flowers-grid.filtering .flower-card {
+      margin-top: 0 !important;
+    }
 
     .flower-img {
       height: 280px;
       overflow: hidden;
       position: relative;
     }
-    .flower-img svg { width: 100%; height: 100%; display: block; transition: transform 0.4s; }
-    .flower-card:hover .flower-img svg { transform: scale(1.04); }
+    .flower-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .flower-card:hover .flower-img img { transform: scale(1.04); }
     .flower-badge {
       position: absolute; top: 12px; left: 12px;
       background: var(--white);
@@ -351,6 +538,7 @@
       padding: 0.3rem 0.8rem;
       font-size: 0.7rem; font-weight: 600;
       letter-spacing: 0.08em; text-transform: uppercase;
+      z-index: 2;
     }
     .badge-new { color: var(--sage); }
     .badge-best { color: var(--deep-rose); }
@@ -373,6 +561,76 @@
       transition: background 0.2s, transform 0.15s;
     }
     .add-btn:hover { background: var(--deep-rose); color: var(--white); transform: scale(1.1); }
+
+    /* ──── CATEGORY TABS ──── */
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+    .cat-tab {
+      padding: 0.55rem 1.2rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--blush);
+      background: var(--white);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      white-space: nowrap;
+    }
+    .cat-tab:hover {
+      border-color: var(--rose);
+      color: var(--deep-rose);
+      background: var(--cream);
+    }
+    .cat-tab.active {
+      background: var(--deep-rose);
+      border-color: var(--deep-rose);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(194,49,82,0.25);
+    }
+    .cat-heading-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--blush);
+    }
+    .cat-heading-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--charcoal);
+    }
+    .cat-heading-count {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      background: var(--cream);
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+    /* Variety CTA button on cards */
+    .variety-cta {
+      margin-top: 0.5rem;
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--white);
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 999px;
+      padding: 0.28rem 0.9rem;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
+    }
+    .variety-card:hover .variety-cta { background: var(--white); color: var(--deep-rose); }
+    /* Variety card clickable cursor */
+    .variety-card[data-filter-cat] { cursor: pointer; }
 
     /* ──── FEATURED WIDE ──── */
     .featured {
@@ -412,6 +670,7 @@
       padding: 1.2rem;
       border: 1px solid rgba(255,255,255,0.1);
       backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
     .fv-card:first-child { grid-column: span 2; }
     .fv-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
@@ -433,8 +692,8 @@
       cursor: pointer;
       height: 380px;
     }
-    .variety-card svg { width: 100%; height: 100%; display: block; transition: transform 0.5s; }
-    .variety-card:hover svg { transform: scale(1.06); }
+    .variety-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
+    .variety-card:hover img { transform: scale(1.06); }
     .variety-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(to top, rgba(42,31,31,0.85) 0%, transparent 55%);
@@ -451,35 +710,99 @@
       position: absolute; top: 1rem; right: 1rem;
       background: rgba(255,255,255,0.15);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border-radius: 999px;
       padding: 0.3rem 0.9rem;
       font-size: 0.75rem; color: var(--white);
       font-weight: 500;
+      z-index: 2;
     }
 
-    /* ──── TESTIMONIALS ──── */
-    .testimonials {}
+    /* ──── TESTIMONIALS & CAROUSEL ──── */
+    .testimonials { overflow: hidden; }
     .testimonials-header { text-align: center; margin-bottom: 3.5rem; }
     .testimonials-header .section-label { justify-content: center; }
     .testimonials-header .section-label::before { display: none; }
     .testimonials-header h2 { font-size: clamp(2rem, 3.5vw, 3rem); }
-    .testi-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+    
+    .testi-carousel-container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
     }
+    .testi-carousel-wrapper {
+      overflow: hidden;
+      border-radius: 20px;
+      width: 100%;
+    }
+    .testi-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+    }
+    .testi-slide {
+      flex-shrink: 0;
+      width: 100%;
+      padding: 0.5rem;
+    }
+    .testi-slide .testi-card {
+      border: 1px solid rgba(232, 103, 122, 0.12);
+      margin-bottom: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .testi-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2.2rem;
+    }
+    .testi-arrow-btn {
+      background: var(--white);
+      border: 1.5px solid rgba(232, 103, 122, 0.15);
+      color: var(--text-light);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(92, 45, 78, 0.04);
+      transition: all 0.2s ease;
+    }
+    .testi-arrow-btn:hover {
+      background: var(--deep-rose);
+      color: var(--white);
+      border-color: var(--deep-rose);
+      box-shadow: 0 6px 16px rgba(194, 49, 82, 0.2);
+    }
+    .testi-dots {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .testi-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blush);
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .testi-dot.active {
+      background-color: var(--deep-rose);
+      transform: scale(1.3);
+    }
+
     .testi-card {
       background: var(--white);
       border-radius: 20px;
-      padding: 2rem;
+      padding: 2.5rem;
       position: relative;
-      border: 1px solid rgba(232,103,122,0.1);
     }
-    .testi-card:nth-child(2) { background: var(--plum); }
-    .testi-card:nth-child(2) .testi-text { color: rgba(255,255,255,0.8); }
-    .testi-card:nth-child(2) .testi-name { color: var(--white); }
-    .testi-card:nth-child(2) .testi-loc { color: rgba(255,255,255,0.4); }
-    .testi-card:nth-child(2) .stars { color: var(--blush); }
     .testi-quote {
       font-size: 3rem; line-height: 1;
       color: var(--blush);
@@ -487,11 +810,11 @@
       margin-bottom: 0.5rem;
     }
     .testi-text {
-      font-size: 0.92rem; line-height: 1.7;
+      font-size: 0.95rem; line-height: 1.7;
       color: var(--text-light); margin-bottom: 1.5rem;
     }
     .testi-footer { display: flex; justify-content: space-between; align-items: flex-end; }
-    .testi-name { font-weight: 600; font-size: 0.9rem; color: var(--charcoal); }
+    .testi-name { font-weight: 600; font-size: 0.95rem; color: var(--charcoal); }
     .testi-loc { font-size: 0.75rem; color: var(--text-light); }
     .stars { color: var(--rose); font-size: 0.85rem; }
 
@@ -559,7 +882,7 @@
     .footer-col ul a:hover { color: var(--blush); }
     .newsletter-form {
       display: flex;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 999px;
       overflow: hidden;
       margin-top: 1rem;
@@ -593,7 +916,586 @@
     }
     .social-pill:hover { background: var(--rose); color: var(--white); }
 
-    /* ──── ANIMATIONS ──── */
+    /* ──── TOAST NOTIFICATIONS ──── */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      z-index: 1000;
+    }
+    .toast {
+      background: var(--plum);
+      color: var(--white);
+      padding: 1rem 1.6rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(92, 45, 78, 0.22);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+      border-left: 4px solid var(--rose);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .toast-icon {
+      font-size: 1.2rem;
+    }
+
+    /* ──── CART DRAWER ──── */
+    .cart-drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(42, 31, 31, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      z-index: 150;
+    }
+    .cart-drawer-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -450px;
+      width: 100%;
+      max-width: 450px;
+      height: 100vh;
+      background: rgba(253, 248, 242, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: -10px 0 40px rgba(92, 45, 78, 0.15);
+      display: flex;
+      flex-direction: column;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 160;
+    }
+    .cart-drawer.active {
+      right: 0;
+    }
+    .cart-drawer-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(232, 103, 122, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cart-drawer-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--plum);
+      font-weight: 700;
+    }
+    .close-drawer-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: var(--text-light);
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .close-drawer-btn:hover {
+      color: var(--deep-rose);
+    }
+    .cart-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+    .cart-drawer-footer {
+      padding: 2rem;
+      border-top: 1px solid rgba(232, 103, 122, 0.12);
+      background: rgba(253, 248, 242, 0.5);
+    }
+    .cart-subtotal {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    .subtotal-amount {
+      font-size: 1.25rem;
+      color: var(--plum);
+    }
+    .checkout-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Cart Items */
+    .cart-item {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(232, 103, 122, 0.08);
+      align-items: center;
+    }
+    .cart-item-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--cream);
+    }
+    .cart-item-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .cart-item-details {
+      flex: 1;
+    }
+    .cart-item-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 0.2rem;
+    }
+    .cart-item-variety {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cart-qty-selector {
+      display: flex;
+      align-items: center;
+      border: 1px solid rgba(232, 103, 122, 0.2);
+      border-radius: 999px;
+      padding: 0.2rem 0.5rem;
+      gap: 0.8rem;
+      background: var(--white);
+    }
+    .cart-qty-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      transition: color 0.2s;
+    }
+    .cart-qty-btn:hover {
+      color: var(--deep-rose);
+    }
+    .cart-qty-val {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    .cart-item-price {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--plum);
+    }
+    .cart-item-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      font-size: 1.2rem;
+      padding: 0.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .cart-item-remove:hover {
+      color: var(--deep-rose);
+    }
+    .cart-empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 3rem 0;
+    }
+    .empty-cart-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
+    }
+    .cart-empty-state p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ──── SEARCH BAR ──── */
+    .search-filter-container {
+      margin-bottom: 2.5rem;
+      display: flex;
+      justify-content: center;
+    }
+    .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      background: var(--white);
+      border: 1.5px solid rgba(232, 103, 122, 0.18);
+      border-radius: 999px;
+      padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(92, 45, 78, 0.04);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .search-box:focus-within {
+      border-color: var(--rose);
+      box-shadow: 0 4px 24px rgba(232, 103, 122, 0.12);
+    }
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--text-light);
+      margin-right: 0.8rem;
+      flex-shrink: 0;
+    }
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: transparent;
+    }
+    .search-box input::placeholder {
+      color: var(--text-light);
+      opacity: 0.6;
+    }
+    .clear-search-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      padding: 0 0.8rem;
+      display: none;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .clear-search-btn:hover {
+      color: var(--deep-rose);
+    }
+
+    /* Empty Search State */
+    .empty-search-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--white);
+      border-radius: 24px;
+      border: 1.5px dashed rgba(232, 103, 122, 0.2);
+      margin: 2rem 0;
+      box-shadow: 0 8px 32px rgba(92, 45, 78, 0.03);
+    }
+    .empty-search-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+    .empty-search-state h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+    }
+    .empty-search-state p {
+      color: var(--text-light);
+      margin-bottom: 1.8rem;
+      max-width: 400px;
+    }
+
+    /* ──── MODALS (QUICK VIEW & CUSTOMIZER) ──── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(42, 31, 31, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+      z-index: 200;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -40%) scale(0.95);
+      width: 90%;
+      max-width: 800px;
+      background: rgba(253, 248, 242, 0.98);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+      border-radius: 28px;
+      box-shadow: 0 30px 70px rgba(92, 45, 78, 0.25);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.4s ease;
+      z-index: 210;
+      overflow: hidden;
+      max-height: 90vh;
+    }
+    .modal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+    .close-modal-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: rgba(255, 255, 255, 0.6);
+      border: none;
+      font-size: 1.8rem;
+      color: var(--text-light);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      transition: background-color 0.2s, color 0.2s;
+      box-shadow: 0 4px 12px rgba(92, 45, 78, 0.05);
+      line-height: 1;
+    }
+    .close-modal-btn:hover {
+      background-color: var(--deep-rose);
+      color: var(--white);
+    }
+
+    /* Modal layout styling */
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      height: 100%;
+    }
+    .modal-image-sec {
+      position: relative;
+      background: var(--cream);
+      height: 480px;
+    }
+    .modal-image-sec img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .modal-info-sec {
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+      max-height: 480px;
+    }
+    .qv-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--deep-rose);
+      margin-bottom: 0.6rem;
+    }
+    #qvProductTitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 0.4rem;
+      line-height: 1.2;
+    }
+    .qv-variety {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 1.2rem;
+    }
+    .qv-price {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--plum);
+    }
+    .qv-divider {
+      height: 1px;
+      background: rgba(232, 103, 122, 0.12);
+      margin: 1.5rem 0;
+      width: 100%;
+    }
+    .qv-desc {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .qv-action-row {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+    .qv-qty-selector {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid rgba(232, 103, 122, 0.2);
+      border-radius: 999px;
+      padding: 0.4rem 0.8rem;
+      gap: 1rem;
+      background: var(--white);
+    }
+    .qv-qty-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      transition: color 0.2s;
+    }
+    .qv-qty-btn:hover {
+      color: var(--deep-rose);
+    }
+    .qv-qty-val {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      width: 15px;
+      text-align: center;
+    }
+    .qv-add-to-cart-btn {
+      flex: 1;
+    }
+
+    /* Customizer Option styles */
+    .builder-section {
+      margin-bottom: 1.5rem;
+    }
+    .builder-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-light);
+      margin-bottom: 0.8rem;
+    }
+    .builder-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 0.6rem;
+    }
+    .builder-opt {
+      background: var(--white);
+      border: 1.5px solid rgba(232, 103, 122, 0.15);
+      border-radius: 14px;
+      padding: 0.8rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .builder-opt:hover {
+      border-color: var(--rose);
+      background: rgba(232, 103, 122, 0.02);
+    }
+    .builder-opt.active {
+      border-color: var(--deep-rose);
+      background: rgba(232, 103, 122, 0.06);
+      box-shadow: 0 4px 12px rgba(194, 49, 82, 0.08);
+    }
+    .opt-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.3rem;
+    }
+    .opt-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 0.15rem;
+    }
+    .opt-price {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--deep-rose);
+    }
+    .builder-addons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .builder-addon-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--white);
+      border: 1px solid rgba(232, 103, 122, 0.1);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.2s;
+    }
+    .builder-addon-item input[type="checkbox"] {
+      accent-color: var(--deep-rose);
+      width: 16px;
+      height: 16px;
+    }
+    .builder-addon-item:hover {
+      border-color: var(--rose);
+    }
+
+    /* ──── ANIMATIONS & RESPONSIVE ──── */
+    /* Add animation class triggers */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
@@ -605,23 +1507,87 @@
     .delay-4 { animation-delay: 0.55s; }
 
     @media (max-width: 900px) {
-      nav { padding: 1rem 2rem; }
-      .nav-links { display: none; }
+      nav { padding: 1.2rem 2rem; }
+      
+      .mobile-menu-btn {
+        display: flex;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 300px;
+        height: 100vh;
+        background: rgba(253, 248, 242, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem;
+        box-shadow: -10px 0 30px rgba(92, 45, 78, 0.15);
+        transition: right 0.4s cubic-bezier(0.1, 0.8, 0.25, 1);
+        z-index: 105;
+        padding: 4rem 2rem;
+      }
+      .nav-links.active {
+        right: 0;
+      }
+      .nav-links a {
+        font-size: 1.1rem;
+      }
+      .mobile-only-cta {
+        display: block;
+        margin-top: 1.5rem;
+      }
+      .mobile-only-cta .nav-cta {
+        display: inline-block !important;
+      }
+      .nav-actions .nav-cta {
+        display: none;
+      }
+      
       section { padding: 4rem 2rem; }
       .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 70px; }
       .hero-left { padding: 3rem 2rem 2rem; }
-      .hero-right { height: 320px; }
-      .hero-image-grid { padding: 1rem; }
+      .hero-right { height: 420px; }
+      .hero-image-grid { padding: 2rem 1rem 1rem; }
       .flowers-grid { grid-template-columns: repeat(2, 1fr); }
       .flowers-grid .flower-card:nth-child(2),
       .flowers-grid .flower-card:nth-child(4) { margin-top: 0; }
       .varieties-grid { grid-template-columns: 1fr; }
-      .testi-grid { grid-template-columns: 1fr; }
       .featured { margin: 0 1rem; padding: 3rem 2rem; grid-template-columns: 1fr; }
       .delivery-banner { margin: 0 1rem; padding: 2.5rem 2rem; flex-direction: column; text-align: center; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .occasions-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
       .flowers-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+
+    @media (max-width: 768px) {
+      .modal {
+        max-height: 95vh;
+        overflow-y: auto;
+      }
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+      .modal-image-sec {
+        height: 220px;
+      }
+      .modal-info-sec {
+        padding: 2rem 1.5rem;
+        max-height: none;
+      }
+      #qvProductTitle {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .flowers-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .banner-badges { flex-direction: column; gap: 1rem; }
     }
   </style>
 </head>
@@ -633,13 +1599,29 @@
 <!-- NAV -->
 <nav id="mainNav">
   <a href="#" class="logo">Pon<span>y</span></a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#flowers">Flowers</a></li>
     <li><a href="#varieties">Varieties</a></li>
     <li><a href="#occasions">Occasions</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#" class="nav-cta">Order Now</a></li>
+    <li class="mobile-only-cta"><a href="#" class="nav-cta btn-action-toast">Order Now</a></li>
   </ul>
+  <div class="nav-actions">
+    <a href="#" class="nav-cta btn-action-toast">Order Now</a>
+    <button class="cart-btn" id="cartBtn" aria-label="Shopping Cart">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -671,115 +1653,28 @@
   <div class="hero-right">
     <div class="hero-image-grid">
       <!-- Tall rose image -->
-      <div class="hero-img" style="background:#f5c2c7;">
-        <svg viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="rg1" cx="50%" cy="40%"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#e8677a"/></radialGradient>
-            <radialGradient id="rg1b" cx="50%" cy="50%"><stop offset="0%" stop-color="#f48fb1"/><stop offset="100%" stop-color="#c2185b"/></radialGradient>
-          </defs>
-          <rect width="300" height="600" fill="#fdf0f3"/>
-          <!-- Background petals -->
-          <ellipse cx="150" cy="300" rx="120" ry="120" fill="rgba(245,194,199,0.3)"/>
-          <!-- Rose petals layered -->
-          <g transform="translate(150,260)">
-            <ellipse cx="0" cy="-70" rx="55" ry="65" fill="url(#rg1)" opacity="0.9" transform="rotate(-20)"/>
-            <ellipse cx="60" cy="-30" rx="55" ry="65" fill="url(#rg1b)" opacity="0.85" transform="rotate(40)"/>
-            <ellipse cx="50" cy="40" rx="55" ry="65" fill="url(#rg1)" opacity="0.85" transform="rotate(100)"/>
-            <ellipse cx="-10" cy="70" rx="55" ry="65" fill="url(#rg1b)" opacity="0.85" transform="rotate(160)"/>
-            <ellipse cx="-65" cy="30" rx="55" ry="65" fill="url(#rg1)" opacity="0.85" transform="rotate(220)"/>
-            <ellipse cx="-55" cy="-40" rx="55" ry="65" fill="url(#rg1b)" opacity="0.85" transform="rotate(280)"/>
-            <!-- Inner petals -->
-            <ellipse cx="0" cy="-45" rx="35" ry="42" fill="#e8677a" opacity="0.95" transform="rotate(-15)"/>
-            <ellipse cx="38" cy="-20" rx="35" ry="42" fill="#c2185b" opacity="0.9" transform="rotate(45)"/>
-            <ellipse cx="32" cy="28" rx="35" ry="42" fill="#e8677a" opacity="0.9" transform="rotate(105)"/>
-            <ellipse cx="-8" cy="48" rx="35" ry="42" fill="#c2185b" opacity="0.9" transform="rotate(165)"/>
-            <ellipse cx="-42" cy="18" rx="35" ry="42" fill="#e8677a" opacity="0.9" transform="rotate(225)"/>
-            <ellipse cx="-36" cy="-28" rx="35" ry="42" fill="#c2185b" opacity="0.9" transform="rotate(285)"/>
-            <!-- Center -->
-            <circle cx="0" cy="0" r="22" fill="#ad1457"/>
-            <circle cx="0" cy="0" r="14" fill="#880e4f"/>
-            <circle cx="-4" cy="-4" r="6" fill="rgba(255,255,255,0.2)"/>
-          </g>
-          <!-- Stem -->
-          <path d="M150 380 Q155 450 148 530" stroke="#4caf50" stroke-width="5" fill="none" stroke-linecap="round"/>
-          <!-- Leaves -->
-          <ellipse cx="165" cy="420" rx="28" ry="13" fill="#66bb6a" opacity="0.8" transform="rotate(30,165,420)"/>
-          <ellipse cx="138" cy="460" rx="28" ry="13" fill="#43a047" opacity="0.8" transform="rotate(-25,138,460)"/>
-          <!-- Label -->
-          <rect x="20" y="530" width="260" height="50" rx="12" fill="white" opacity="0.8"/>
-          <text x="150" y="560" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-style="italic" fill="#c23152">Red Rose</text>
-          <text x="150" y="574" text-anchor="middle" font-family="Arial" font-size="10" fill="#8c7070">Rosa centifolia</text>
-        </svg>
+      <div class="hero-img">
+        <img src="images/hero1.png" alt="Red Rose Portrait">
+        <div class="hero-label-overlay">
+          <h4>Red Rose</h4>
+          <p>Rosa centifolia</p>
+        </div>
       </div>
       <!-- Sunflower -->
-      <div class="hero-img" style="background:#fff9e6;">
-        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="280" fill="#fffde7"/>
-          <g transform="translate(150,130)">
-            <!-- Petals -->
-            <g id="sfpetal">
-              <ellipse cx="0" cy="-75" rx="18" ry="40" fill="#ffd54f"/>
-            </g>
-            <use href="#sfpetal" transform="rotate(30)"/>
-            <use href="#sfpetal" transform="rotate(60)"/>
-            <use href="#sfpetal" transform="rotate(90)"/>
-            <use href="#sfpetal" transform="rotate(120)"/>
-            <use href="#sfpetal" transform="rotate(150)"/>
-            <use href="#sfpetal" transform="rotate(180)"/>
-            <use href="#sfpetal" transform="rotate(210)"/>
-            <use href="#sfpetal" transform="rotate(240)"/>
-            <use href="#sfpetal" transform="rotate(270)"/>
-            <use href="#sfpetal" transform="rotate(300)"/>
-            <use href="#sfpetal" transform="rotate(330)"/>
-            <circle cx="0" cy="0" r="42" fill="#5d4037"/>
-            <circle cx="0" cy="0" r="34" fill="#4e342e"/>
-            <!-- Seed dots -->
-            <circle cx="0" cy="-18" r="3" fill="#6d4c41"/>
-            <circle cx="12" cy="-13" r="3" fill="#6d4c41"/>
-            <circle cx="18" cy="0" r="3" fill="#6d4c41"/>
-            <circle cx="12" cy="13" r="3" fill="#6d4c41"/>
-            <circle cx="0" cy="18" r="3" fill="#6d4c41"/>
-            <circle cx="-12" cy="13" r="3" fill="#6d4c41"/>
-            <circle cx="-18" cy="0" r="3" fill="#6d4c41"/>
-            <circle cx="-12" cy="-13" r="3" fill="#6d4c41"/>
-            <circle cx="0" cy="0" r="4" fill="#3e2723"/>
-          </g>
-          <text x="150" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" fill="#b7800a">Sunflower</text>
-          <text x="150" y="268" text-anchor="middle" font-family="Arial" font-size="10" fill="#8c7070">Helianthus annuus</text>
-        </svg>
+      <div class="hero-img">
+        <img src="images/hero2.png" alt="Sunflower Close Up">
+        <div class="hero-label-overlay">
+          <h4>Sunflower</h4>
+          <p>Helianthus annuus</p>
+        </div>
       </div>
       <!-- Lavender -->
-      <div class="hero-img" style="background:#f3e5f5;">
-        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="280" fill="#f9f0ff"/>
-          <g transform="translate(150,140)">
-            <!-- Lavender stems -->
-            <g opacity="0.95">
-              <!-- Main spike -->
-              <path d="M0,80 Q0,20 0,-80" stroke="#78909c" stroke-width="2.5" fill="none"/>
-              <ellipse cx="0" cy="-80" rx="6" ry="9" fill="#9c27b0" opacity="0.9"/>
-              <ellipse cx="0" cy="-68" rx="7" ry="9" fill="#7b1fa2" opacity="0.9"/>
-              <ellipse cx="0" cy="-55" rx="7" ry="9" fill="#9c27b0" opacity="0.9"/>
-              <ellipse cx="0" cy="-42" rx="8" ry="9" fill="#7b1fa2" opacity="0.9"/>
-              <ellipse cx="0" cy="-30" rx="8" ry="10" fill="#9c27b0" opacity="0.9"/>
-              <!-- Left spike -->
-              <path d="M-30,70 Q-25,30 -15,-55" stroke="#78909c" stroke-width="2" fill="none"/>
-              <ellipse cx="-15" cy="-55" rx="5" ry="8" fill="#ab47bc" opacity="0.85" transform="rotate(-8)"/>
-              <ellipse cx="-18" cy="-44" rx="6" ry="8" fill="#9c27b0" opacity="0.85" transform="rotate(-8)"/>
-              <ellipse cx="-21" cy="-33" rx="6" ry="8" fill="#ab47bc" opacity="0.85" transform="rotate(-8)"/>
-              <!-- Right spike -->
-              <path d="M30,70 Q25,30 15,-55" stroke="#78909c" stroke-width="2" fill="none"/>
-              <ellipse cx="15" cy="-55" rx="5" ry="8" fill="#ab47bc" opacity="0.85" transform="rotate(8)"/>
-              <ellipse cx="18" cy="-44" rx="6" ry="8" fill="#9c27b0" opacity="0.85" transform="rotate(8)"/>
-              <ellipse cx="21" cy="-33" rx="6" ry="8" fill="#ab47bc" opacity="0.85" transform="rotate(8)"/>
-              <!-- Leaves -->
-              <ellipse cx="-12" cy="20" rx="18" ry="7" fill="#90a4ae" transform="rotate(-30,-12,20)"/>
-              <ellipse cx="12" cy="30" rx="18" ry="7" fill="#78909c" transform="rotate(30,12,30)"/>
-            </g>
-          </g>
-          <text x="150" y="250" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-style="italic" fill="#7b1fa2">Lavender</text>
-          <text x="150" y="268" text-anchor="middle" font-family="Arial" font-size="10" fill="#8c7070">Lavandula angustifolia</text>
-        </svg>
+      <div class="hero-img">
+        <img src="images/hero3.png" alt="Lavender Blossoms">
+        <div class="hero-label-overlay">
+          <h4>Lavender</h4>
+          <p>Lavandula angustifolia</p>
+        </div>
       </div>
     </div>
     <div class="hero-float-badge">
@@ -826,21 +1721,21 @@
       <div class="section-label">Shop by Occasion</div>
       <h2>Perfect for every <em>moment</em></h2>
     </div>
-    <a href="#" class="see-all">View all collections →</a>
+    <a href="#" class="see-all btn-action-toast">View all collections →</a>
   </div>
   <div class="occasion-chips">
-    <span class="chip chip-rose">💕 Anniversary</span>
-    <span class="chip chip-plum">🎂 Birthday</span>
-    <span class="chip chip-rose">💍 Proposal</span>
-    <span class="chip chip-sage">💐 Wedding</span>
-    <span class="chip chip-amber">🌹 Valentine's</span>
-    <span class="chip chip-plum">🕊 Funeral</span>
-    <span class="chip chip-sage">🌿 Get Well Soon</span>
-    <span class="chip chip-rose">🎉 Celebration</span>
-    <span class="chip chip-amber">💛 Just Because</span>
-    <span class="chip chip-plum">🌙 Date Night</span>
-    <span class="chip chip-rose">👰 Bridal Bouquet</span>
-    <span class="chip chip-sage">🌸 Mother's Day</span>
+    <span class="chip chip-rose" data-occasion="anniversary">💕 Anniversary</span>
+    <span class="chip chip-plum" data-occasion="birthday">🎂 Birthday</span>
+    <span class="chip chip-rose" data-occasion="proposal">💍 Proposal</span>
+    <span class="chip chip-sage" data-occasion="wedding">💐 Wedding</span>
+    <span class="chip chip-amber" data-occasion="valentines">🌹 Valentine's</span>
+    <span class="chip chip-plum" data-occasion="funeral">🕊 Funeral</span>
+    <span class="chip chip-sage" data-occasion="get-well-soon">🌿 Get Well Soon</span>
+    <span class="chip chip-rose" data-occasion="celebration">🎉 Celebration</span>
+    <span class="chip chip-amber" data-occasion="just-because">💛 Just Because</span>
+    <span class="chip chip-plum" data-occasion="date-night">🌙 Date Night</span>
+    <span class="chip chip-rose" data-occasion="bridal-bouquet">👰 Bridal Bouquet</span>
+    <span class="chip chip-sage" data-occasion="mothers-day">🌸 Mother's Day</span>
   </div>
 </section>
 
@@ -849,177 +1744,446 @@
   <div class="flowers-header">
     <div>
       <div class="section-label">Our Collection</div>
-      <h2>Most <em>loved</em> flowers</h2>
+      <h2>Explore our <em>flower varieties</em></h2>
     </div>
-    <a href="#" class="see-all">All flowers →</a>
   </div>
-  <div class="flowers-grid">
 
-    <!-- Card 1: Red Rose -->
-    <div class="flower-card">
-      <div class="flower-img">
-        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="280" fill="#fdf0f3"/>
-          <g transform="translate(150,130)">
-            <ellipse cx="0" cy="-55" rx="45" ry="52" fill="#f48fb1" opacity="0.9" transform="rotate(-20)"/>
-            <ellipse cx="48" cy="-25" rx="45" ry="52" fill="#e91e63" opacity="0.85" transform="rotate(40)"/>
-            <ellipse cx="40" cy="35" rx="45" ry="52" fill="#f48fb1" opacity="0.85" transform="rotate(100)"/>
-            <ellipse cx="-8" cy="58" rx="45" ry="52" fill="#e91e63" opacity="0.85" transform="rotate(160)"/>
-            <ellipse cx="-52" cy="24" rx="45" ry="52" fill="#f48fb1" opacity="0.85" transform="rotate(220)"/>
-            <ellipse cx="-44" cy="-33" rx="45" ry="52" fill="#e91e63" opacity="0.85" transform="rotate(280)"/>
-            <ellipse cx="0" cy="-38" rx="30" ry="36" fill="#c2185b" opacity="0.95" transform="rotate(-15)"/>
-            <ellipse cx="32" cy="-18" rx="30" ry="36" fill="#ad1457" opacity="0.9" transform="rotate(45)"/>
-            <ellipse cx="28" cy="24" rx="30" ry="36" fill="#c2185b" opacity="0.9" transform="rotate(105)"/>
-            <ellipse cx="-6" cy="40" rx="30" ry="36" fill="#ad1457" opacity="0.9" transform="rotate(165)"/>
-            <ellipse cx="-35" cy="15" rx="30" ry="36" fill="#c2185b" opacity="0.9" transform="rotate(225)"/>
-            <ellipse cx="-30" cy="-24" rx="30" ry="36" fill="#ad1457" opacity="0.9" transform="rotate(285)"/>
-            <circle cx="0" cy="0" r="18" fill="#880e4f"/>
-          </g>
-          <path d="M150,190 Q152,220 149,270" stroke="#4caf50" stroke-width="4" fill="none"/>
-          <ellipse cx="163" cy="225" rx="22" ry="10" fill="#66bb6a" opacity="0.8" transform="rotate(25,163,225)"/>
-        </svg>
-        <div class="flower-badge badge-best">⭐ Best Seller</div>
-      </div>
+  <!-- Search Box -->
+  <div class="search-filter-container">
+    <div class="search-box">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="flowerSearchInput" placeholder="Search flowers (e.g. roses, lilies, orchids...)" aria-label="Search flowers">
+      <button class="clear-search-btn" id="clearSearchBtn">&times;</button>
+    </div>
+  </div>
+
+  <!-- Category Tabs -->
+  <div class="category-tabs" id="categoryTabs">
+    <button class="cat-tab active" data-cat="all">🌸 All Flowers</button>
+    <button class="cat-tab" data-cat="rose">🌹 Roses</button>
+    <button class="cat-tab" data-cat="lily">⚪ Lilies</button>
+    <button class="cat-tab" data-cat="orchid">🌺 Orchids</button>
+    <button class="cat-tab" data-cat="sunflower">🌻 Sunflowers</button>
+    <button class="cat-tab" data-cat="tulip">🌷 Tulips</button>
+    <button class="cat-tab" data-cat="lavender">💜 Lavender</button>
+    <button class="cat-tab" data-cat="chrysanthemum">🌼 Chrysanthemums</button>
+    <button class="cat-tab" data-cat="hibiscus">🌺 Hibiscus</button>
+  </div>
+
+  <!-- Category Heading -->
+  <div class="cat-heading-bar" id="catHeadingBar">
+    <span class="cat-heading-label" id="catHeadingLabel">All Flowers</span>
+    <span class="cat-heading-count" id="catHeadingCount"></span>
+  </div>
+
+  <!-- Empty Search State -->
+  <div class="empty-search-state" id="emptySearchState">
+    <div class="empty-search-icon">🔍</div>
+    <h3>No flowers match your search</h3>
+    <p>Try searching for another type of flower, or clear the active filter.</p>
+    <button class="btn-primary" id="resetSearchFiltersBtn">Reset Filters</button>
+  </div>
+
+  <div class="flowers-grid" id="flowersGrid">
+
+    <!-- ══════════════════ ROSES ══════════════════ -->
+    <!-- Rose 1 -->
+    <div class="flower-card" data-category="rose"
+         data-id="rose-red-bouquet" data-name="Red Rose Bouquet" data-price="38500"
+         data-variety="Rosa centifolia · 12 stems w/ Gypsophila" data-image="images/rose1.png" data-badge="⭐ Best Seller"
+         data-desc="Indulge in the luxury of fresh velvet roses. Carefully selected and artfully arranged with delicate Gypsophila and rich eucalyptus, wrapped in premium craft paper and tied with satin ribbon."
+         data-occasions="anniversary proposal valentines date-night celebration mothers-day bridal-bouquet">
+      <div class="flower-img"><img src="images/rose1.png" alt="Red Rose Bouquet"><div class="flower-badge badge-best">⭐ Best Seller</div></div>
       <div class="flower-info">
         <div class="flower-name">Red Rose Bouquet</div>
-        <div class="flower-variety">Rosa centifolia · 12 stems w/ Gypsophila</div>
-        <div class="flower-footer">
-          <div class="flower-price">₦38,500</div>
-          <button class="add-btn">+</button>
-        </div>
+        <div class="flower-variety">Rosa centifolia · 12 stems</div>
+        <div class="flower-footer"><div class="flower-price">₦38,500</div>
+          <button class="add-btn" data-name="Red Rose Bouquet" data-price="38500" data-image="images/rose1.png" data-variety="Rosa centifolia · 12 stems">+</button></div>
       </div>
     </div>
 
-    <!-- Card 2: White Lily -->
-    <div class="flower-card">
-      <div class="flower-img">
-        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="280" fill="#f0f8f1"/>
-          <g transform="translate(150,130)">
-            <!-- Lily petals -->
-            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(0)"/>
-            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(60)"/>
-            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(120)"/>
-            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(180)"/>
-            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(240)"/>
-            <ellipse cx="0" cy="-65" rx="22" ry="60" fill="white" stroke="#e0e0e0" stroke-width="1" opacity="0.97" transform="rotate(300)"/>
-            <!-- Petal veins -->
-            <line x1="0" y1="-10" x2="0" y2="-120" stroke="#f3e5f5" stroke-width="1" opacity="0.5"/>
-            <!-- Stamens -->
-            <g>
-              <line x1="0" y1="0" x2="0" y2="-45" stroke="#a5d6a7" stroke-width="1.5"/>
-              <circle cx="0" cy="-45" r="4" fill="#ff9800"/>
-              <line x1="0" y1="0" x2="25" y2="-38" stroke="#a5d6a7" stroke-width="1.5"/>
-              <circle cx="25" cy="-38" r="4" fill="#ff9800"/>
-              <line x1="0" y1="0" x2="-25" y2="-38" stroke="#a5d6a7" stroke-width="1.5"/>
-              <circle cx="-25" cy="-38" r="4" fill="#ff9800"/>
-              <line x1="0" y1="0" x2="40" y2="-18" stroke="#a5d6a7" stroke-width="1.5"/>
-              <circle cx="40" cy="-18" r="4" fill="#ff8f00"/>
-              <line x1="0" y1="0" x2="-40" y2="-18" stroke="#a5d6a7" stroke-width="1.5"/>
-              <circle cx="-40" cy="-18" r="4" fill="#ff8f00"/>
-              <line x1="0" y1="0" x2="0" y2="5" stroke="#a5d6a7" stroke-width="2"/>
-              <circle cx="0" cy="5" r="5" fill="#66bb6a"/>
-            </g>
-          </g>
-          <path d="M150,190 Q148,225 151,270" stroke="#4caf50" stroke-width="4" fill="none"/>
-          <ellipse cx="136" cy="230" rx="24" ry="10" fill="#81c784" transform="rotate(-30,136,230)"/>
-          <ellipse cx="162" cy="255" rx="24" ry="10" fill="#66bb6a" transform="rotate(20,162,255)"/>
-        </svg>
-        <div class="flower-badge badge-new">🌿 New</div>
+    <!-- Rose 2 -->
+    <div class="flower-card" data-category="rose"
+         data-id="rose-pink-blush" data-name="Pink Blush Rose" data-price="42000"
+         data-variety="Rosa hybrid · 15 stems Mixed" data-image="images/rose2.png" data-badge="🌿 New"
+         data-desc="A soft romantic arrangement of blush pink roses, evoking tenderness and admiration. Paired with delicate peonies and white wax flowers in premium tissue wrap — ideal for bridal events and anniversaries."
+         data-occasions="anniversary mothers-day bridal-bouquet valentines celebration">
+      <div class="flower-img"><img src="images/rose2.png" alt="Pink Blush Rose"><div class="flower-badge badge-new">🌿 New</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Pink Blush Rose</div>
+        <div class="flower-variety">Rosa hybrid · 15 stems Mixed</div>
+        <div class="flower-footer"><div class="flower-price">₦42,000</div>
+          <button class="add-btn" data-name="Pink Blush Rose" data-price="42000" data-image="images/rose2.png" data-variety="Rosa hybrid · 15 stems Mixed">+</button></div>
       </div>
+    </div>
+
+    <!-- Rose 3 -->
+    <div class="flower-card" data-category="rose"
+         data-id="rose-white-garden" data-name="White Garden Rose" data-price="51000"
+         data-variety="Rosa × alba · 10 garden roses" data-image="images/rose3.png" data-badge="💍 Proposal"
+         data-desc="The purest symbol of new beginnings. Freshly cut white garden roses wrapped in silk ribbon, perfect for proposals, weddings, and christenings. Each stem is handpicked at full bloom."
+         data-occasions="wedding proposal bridal-bouquet anniversary">
+      <div class="flower-img"><img src="images/rose3.png" alt="White Garden Rose"><div class="flower-badge badge-best">💍 Proposal</div></div>
+      <div class="flower-info">
+        <div class="flower-name">White Garden Rose</div>
+        <div class="flower-variety">Rosa × alba · 10 garden roses</div>
+        <div class="flower-footer"><div class="flower-price">₦51,000</div>
+          <button class="add-btn" data-name="White Garden Rose" data-price="51000" data-image="images/rose3.png" data-variety="Rosa × alba · 10 garden roses">+</button></div>
+      </div>
+    </div>
+
+    <!-- Rose 4 -->
+    <div class="flower-card" data-category="rose"
+         data-id="rose-yellow-sunshine" data-name="Yellow Sunshine Rose" data-price="34500"
+         data-variety="Rosa foetida · 12 stems" data-image="images/rose4.png" data-badge="🌸 Sale"
+         data-desc="Bright, cheerful yellow roses to uplift any spirit. These golden blooms symbolise friendship, joy, and gratitude — perfect for birthdays, thank-you gestures and celebrations."
+         data-occasions="birthday celebration just-because get-well-soon mothers-day">
+      <div class="flower-img"><img src="images/rose4.png" alt="Yellow Sunshine Rose"><div class="flower-badge badge-sale">🌸 Sale</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Yellow Sunshine Rose</div>
+        <div class="flower-variety">Rosa foetida · 12 stems</div>
+        <div class="flower-footer"><div class="flower-price">₦34,500</div>
+          <button class="add-btn" data-name="Yellow Sunshine Rose" data-price="34500" data-image="images/rose4.png" data-variety="Rosa foetida · 12 stems">+</button></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ LILIES ══════════════════ -->
+    <!-- Lily 1 -->
+    <div class="flower-card" data-category="lily"
+         data-id="lily-white" data-name="White Lily Arrangement" data-price="63000"
+         data-variety="Lilium candidum · 8 stems w/ Greenery" data-image="images/lily1.png" data-badge="🌿 New"
+         data-desc="A majestic arrangement of pure white lilies symbolising purity and devotion. Beautifully styled with lush greens and eucalyptus in an elegant ceramic vase — perfect for weddings, anniversaries and sympathy."
+         data-occasions="wedding anniversary funeral get-well-soon celebration bridal-bouquet">
+      <div class="flower-img"><img src="images/lily1.png" alt="White Lily Arrangement"><div class="flower-badge badge-new">🌿 New</div></div>
       <div class="flower-info">
         <div class="flower-name">White Lily Arrangement</div>
-        <div class="flower-variety">Lilium candidum · 8 stems w/ Greenery</div>
-        <div class="flower-footer">
-          <div class="flower-price">₦63,000</div>
-          <button class="add-btn">+</button>
-        </div>
+        <div class="flower-variety">Lilium candidum · 8 stems</div>
+        <div class="flower-footer"><div class="flower-price">₦63,000</div>
+          <button class="add-btn" data-name="White Lily Arrangement" data-price="63000" data-image="images/lily1.png" data-variety="Lilium candidum · 8 stems">+</button></div>
       </div>
     </div>
 
-    <!-- Card 3: Sunflower -->
-    <div class="flower-card">
-      <div class="flower-img">
-        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="280" fill="#fffde7"/>
-          <g transform="translate(150,128)">
-            <g>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(30)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(60)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(90)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(120)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(150)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(180)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(210)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(240)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(270)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#fdd835" transform="rotate(300)"/>
-              <ellipse cx="0" cy="-72" rx="18" ry="42" fill="#ffb300" transform="rotate(330)"/>
-            </g>
-            <circle cx="0" cy="0" r="44" fill="#5d4037"/>
-            <circle cx="0" cy="0" r="36" fill="#4e342e"/>
-            <!-- seed pattern -->
-            <circle cx="0" cy="-20" r="3.5" fill="#795548"/>
-            <circle cx="14" cy="-14" r="3.5" fill="#795548"/>
-            <circle cx="20" cy="0" r="3.5" fill="#795548"/>
-            <circle cx="14" cy="14" r="3.5" fill="#795548"/>
-            <circle cx="0" cy="20" r="3.5" fill="#795548"/>
-            <circle cx="-14" cy="14" r="3.5" fill="#795548"/>
-            <circle cx="-20" cy="0" r="3.5" fill="#795548"/>
-            <circle cx="-14" cy="-14" r="3.5" fill="#795548"/>
-            <circle cx="0" cy="0" r="6" fill="#3e2723"/>
-          </g>
-          <path d="M150,185 Q153,215 150,270" stroke="#558b2f" stroke-width="5" fill="none"/>
-          <ellipse cx="168" cy="218" rx="26" ry="11" fill="#7cb342" transform="rotate(20,168,218)"/>
-          <ellipse cx="135" cy="248" rx="26" ry="11" fill="#558b2f" transform="rotate(-25,135,248)"/>
-        </svg>
-        <div class="flower-badge badge-best">⭐ Popular</div>
+    <!-- Lily 2 -->
+    <div class="flower-card" data-category="lily"
+         data-id="lily-tiger" data-name="Tiger Lily Bouquet" data-price="47000"
+         data-variety="Lilium lancifolium · 6 stems" data-image="images/lily2.png" data-badge="⭐ Popular"
+         data-desc="The bold, freckled blooms of the Tiger Lily radiate confidence and vitality. This striking arrangement combines orange tiger lilies with rich tropical foliage, perfect for confident personalities."
+         data-occasions="birthday celebration just-because mothers-day">
+      <div class="flower-img"><img src="images/lily2.png" alt="Tiger Lily Bouquet"><div class="flower-badge badge-best">⭐ Popular</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Tiger Lily Bouquet</div>
+        <div class="flower-variety">Lilium lancifolium · 6 stems</div>
+        <div class="flower-footer"><div class="flower-price">₦47,000</div>
+          <button class="add-btn" data-name="Tiger Lily Bouquet" data-price="47000" data-image="images/lily2.png" data-variety="Lilium lancifolium · 6 stems">+</button></div>
       </div>
+    </div>
+
+    <!-- Lily 3 -->
+    <div class="flower-card" data-category="lily"
+         data-id="lily-stargazer" data-name="Stargazer Lily" data-price="55000"
+         data-variety="Lilium orientalis · 8 stems" data-image="images/lily3.png" data-badge="💜 Luxury"
+         data-desc="The Stargazer lily is one of nature's most dramatic flowers. Deep pink petals edged in white with rich speckles — this arrangement is the statement piece for any romantic occasion or luxury gift."
+         data-occasions="anniversary valentines proposal mothers-day bridal-bouquet">
+      <div class="flower-img"><img src="images/lily3.png" alt="Stargazer Lily"><div class="flower-badge badge-sale">💜 Luxury</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Stargazer Lily</div>
+        <div class="flower-variety">Lilium orientalis · 8 stems</div>
+        <div class="flower-footer"><div class="flower-price">₦55,000</div>
+          <button class="add-btn" data-name="Stargazer Lily" data-price="55000" data-image="images/lily3.png" data-variety="Lilium orientalis · 8 stems">+</button></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ ORCHIDS ══════════════════ -->
+    <!-- Orchid 1 -->
+    <div class="flower-card" data-category="orchid"
+         data-id="orchid-pink" data-name="Pink Orchid Spray" data-price="45000"
+         data-variety="Phalaenopsis · Potted arrangement" data-image="images/orchid1.png" data-badge="🌸 Sale"
+         data-desc="An exotic potted pink Phalaenopsis orchid offering long-lasting elegance. Housed in a signature matte ceramic pot with arching stems filled with velvety moth-shaped blossoms."
+         data-occasions="anniversary birthday get-well-soon just-because celebration mothers-day">
+      <div class="flower-img"><img src="images/orchid1.png" alt="Pink Orchid Spray"><div class="flower-badge badge-sale">🌸 Sale</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Pink Orchid Spray</div>
+        <div class="flower-variety">Phalaenopsis · Potted</div>
+        <div class="flower-footer"><div class="flower-price">₦45,000</div>
+          <button class="add-btn" data-name="Pink Orchid Spray" data-price="45000" data-image="images/orchid1.png" data-variety="Phalaenopsis · Potted">+</button></div>
+      </div>
+    </div>
+
+    <!-- Orchid 2 -->
+    <div class="flower-card" data-category="orchid"
+         data-id="orchid-white" data-name="White Moth Orchid" data-price="58000"
+         data-variety="Phalaenopsis amabilis · Twin spike" data-image="images/orchid2.png" data-badge="⭐ Best Seller"
+         data-desc="Timeless and sophisticated, the white Phalaenopsis orchid is a symbol of pure elegance. This twin-spike plant blooms for months, making it a lasting gift that grows with the recipient."
+         data-occasions="anniversary wedding get-well-soon celebration just-because">
+      <div class="flower-img"><img src="images/orchid2.png" alt="White Moth Orchid"><div class="flower-badge badge-best">⭐ Best Seller</div></div>
+      <div class="flower-info">
+        <div class="flower-name">White Moth Orchid</div>
+        <div class="flower-variety">Phalaenopsis amabilis · Twin spike</div>
+        <div class="flower-footer"><div class="flower-price">₦58,000</div>
+          <button class="add-btn" data-name="White Moth Orchid" data-price="58000" data-image="images/orchid2.png" data-variety="Phalaenopsis amabilis · Twin spike">+</button></div>
+      </div>
+    </div>
+
+    <!-- Orchid 3 -->
+    <div class="flower-card" data-category="orchid"
+         data-id="orchid-purple" data-name="Purple Orchid Cascade" data-price="72000"
+         data-variety="Vanda × hybrid · Cascading spray" data-image="images/orchid3.png" data-badge="💍 Luxury"
+         data-desc="A breathtaking cascading spray of deep purple Vanda orchids — one of the rarest and most luxurious blooms available. This arrangement exudes royalty and is perfect for high-profile events and proposals."
+         data-occasions="proposal anniversary valentines date-night bridal-bouquet">
+      <div class="flower-img"><img src="images/orchid3.png" alt="Purple Orchid Cascade"><div class="flower-badge badge-sale">💍 Luxury</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Purple Orchid Cascade</div>
+        <div class="flower-variety">Vanda × hybrid · Cascading</div>
+        <div class="flower-footer"><div class="flower-price">₦72,000</div>
+          <button class="add-btn" data-name="Purple Orchid Cascade" data-price="72000" data-image="images/orchid3.png" data-variety="Vanda × hybrid · Cascading">+</button></div>
+      </div>
+    </div>
+
+    <!-- Orchid 4 -->
+    <div class="flower-card" data-category="orchid"
+         data-id="orchid-yellow" data-name="Golden Dendrobium" data-price="39000"
+         data-variety="Dendrobium nobile · 5 stem cluster" data-image="images/orchid4.png" data-badge="🌿 New"
+         data-desc="Cheerful golden Dendrobium orchids arranged in a tight cluster, radiating warmth and positivity. A versatile and long-lasting bloom that suits both corporate spaces and home gifting."
+         data-occasions="birthday celebration just-because get-well-soon">
+      <div class="flower-img"><img src="images/orchid4.png" alt="Golden Dendrobium"><div class="flower-badge badge-new">🌿 New</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Golden Dendrobium</div>
+        <div class="flower-variety">Dendrobium nobile · 5 stem cluster</div>
+        <div class="flower-footer"><div class="flower-price">₦39,000</div>
+          <button class="add-btn" data-name="Golden Dendrobium" data-price="39000" data-image="images/orchid4.png" data-variety="Dendrobium nobile · 5 stem cluster">+</button></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ SUNFLOWERS ══════════════════ -->
+    <!-- Sunflower 1 -->
+    <div class="flower-card" data-category="sunflower"
+         data-id="sunflower-bundle" data-name="Sunflower Bundle" data-price="28000"
+         data-variety="Helianthus annuus · 10 stems" data-image="images/sunflower1.png" data-badge="⭐ Popular"
+         data-desc="Bring radiant sunshine into any room. These bright yellow blooms are hand-tied with raw jute twine and simple kraft wrapping — the perfect cheerful gift."
+         data-occasions="birthday get-well-soon just-because celebration mothers-day">
+      <div class="flower-img"><img src="images/sunflower1.png" alt="Sunflower Bundle"><div class="flower-badge badge-best">⭐ Popular</div></div>
       <div class="flower-info">
         <div class="flower-name">Sunflower Bundle</div>
         <div class="flower-variety">Helianthus annuus · 10 stems</div>
-        <div class="flower-footer">
-          <div class="flower-price">₦28,000</div>
-          <button class="add-btn">+</button>
-        </div>
+        <div class="flower-footer"><div class="flower-price">₦28,000</div>
+          <button class="add-btn" data-name="Sunflower Bundle" data-price="28000" data-image="images/sunflower1.png" data-variety="Helianthus annuus · 10 stems">+</button></div>
       </div>
     </div>
 
-    <!-- Card 4: Pink Orchid -->
-    <div class="flower-card">
-      <div class="flower-img">
-        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="280" fill="#fce4ec"/>
-          <g transform="translate(150,120)">
-            <!-- Orchid petals -->
-            <!-- Dorsal sepal (top) -->
-            <ellipse cx="0" cy="-68" rx="20" ry="48" fill="#f48fb1" opacity="0.9"/>
-            <!-- Lateral sepals -->
-            <ellipse cx="-58" cy="18" rx="50" ry="20" fill="#f06292" opacity="0.85" transform="rotate(-30,-58,18)"/>
-            <ellipse cx="58" cy="18" rx="50" ry="20" fill="#f06292" opacity="0.85" transform="rotate(30,58,18)"/>
-            <!-- Petals -->
-            <ellipse cx="-40" cy="-45" rx="38" ry="18" fill="#ec407a" opacity="0.9" transform="rotate(-50,-40,-45)"/>
-            <ellipse cx="40" cy="-45" rx="38" ry="18" fill="#ec407a" opacity="0.9" transform="rotate(50,40,-45)"/>
-            <!-- Lip (labellum) -->
-            <ellipse cx="0" cy="35" rx="28" ry="38" fill="#e91e63" opacity="0.95"/>
-            <ellipse cx="0" cy="40" rx="18" ry="25" fill="#ad1457" opacity="0.7"/>
-            <!-- Column -->
-            <ellipse cx="0" cy="0" rx="10" ry="14" fill="#fce4ec"/>
-            <ellipse cx="0" cy="-3" rx="6" ry="9" fill="#f8bbd0"/>
-          </g>
-          <path d="M150,190 Q145,220 148,270" stroke="#66bb6a" stroke-width="3" fill="none" stroke-dasharray="4,3"/>
-          <ellipse cx="138" cy="215" rx="20" ry="8" fill="#81c784" transform="rotate(-20,138,215)"/>
-        </svg>
-        <div class="flower-badge badge-sale">🌸 Sale</div>
-      </div>
+    <!-- Sunflower 2 -->
+    <div class="flower-card" data-category="sunflower"
+         data-id="sunflower-mixed" data-name="Sunflower & Rose Mix" data-price="36500"
+         data-variety="Helianthus + Rosa · Mixed bouquet" data-image="images/sunflower2.png" data-badge="🌿 New"
+         data-desc="A stunning combination of golden sunflowers and deep red roses — warmth meets romance. This mixed bouquet is elegantly wrapped in our signature two-tone paper and tied with a contrast ribbon."
+         data-occasions="anniversary birthday celebration valentines mothers-day">
+      <div class="flower-img"><img src="images/sunflower2.png" alt="Sunflower Rose Mix"><div class="flower-badge badge-new">🌿 New</div></div>
       <div class="flower-info">
-        <div class="flower-name">Pink Orchid Spray</div>
-        <div class="flower-variety">Phalaenopsis · Potted arrangement</div>
-        <div class="flower-footer">
-          <div class="flower-price">₦45,000</div>
-          <button class="add-btn">+</button>
-        </div>
+        <div class="flower-name">Sunflower &amp; Rose Mix</div>
+        <div class="flower-variety">Helianthus + Rosa · Mixed</div>
+        <div class="flower-footer"><div class="flower-price">₦36,500</div>
+          <button class="add-btn" data-name="Sunflower & Rose Mix" data-price="36500" data-image="images/sunflower2.png" data-variety="Helianthus + Rosa · Mixed">+</button></div>
+      </div>
+    </div>
+
+    <!-- Sunflower 3 -->
+    <div class="flower-card" data-category="sunflower"
+         data-id="sunflower-grand" data-name="Grand Sunflower Bouquet" data-price="44000"
+         data-variety="Helianthus annuus · 20 stems Premium" data-image="images/sunflower3.png" data-badge="💛 Grand"
+         data-desc="Go big with this spectacular 20-stem premium sunflower bouquet. Dramatically sized and lushly wrapped, this is the bouquet that makes an entrance — perfect for grand celebrations or heartfelt apologies!"
+         data-occasions="birthday celebration anniversary mothers-day just-because">
+      <div class="flower-img"><img src="images/sunflower3.png" alt="Grand Sunflower Bouquet"><div class="flower-badge badge-sale">💛 Grand</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Grand Sunflower Bouquet</div>
+        <div class="flower-variety">Helianthus annuus · 20 stems</div>
+        <div class="flower-footer"><div class="flower-price">₦44,000</div>
+          <button class="add-btn" data-name="Grand Sunflower Bouquet" data-price="44000" data-image="images/sunflower3.png" data-variety="Helianthus annuus · 20 stems">+</button></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ TULIPS ══════════════════ -->
+    <!-- Tulip 1 -->
+    <div class="flower-card" data-category="tulip"
+         data-id="tulip-red" data-name="Red Tulip Bouquet" data-price="32000"
+         data-variety="Tulipa gesneriana · 15 stems" data-image="images/tulip1.png" data-badge="⭐ Classic"
+         data-desc="The quintessential spring flower — bold red tulips hand-tied in a classic upright style with minimal greenery. Fresh, architectural and deeply romantic. A timeless declaration of love."
+         data-occasions="valentines anniversary proposal date-night">
+      <div class="flower-img"><img src="images/tulip1.png" alt="Red Tulip Bouquet"><div class="flower-badge badge-best">⭐ Classic</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Red Tulip Bouquet</div>
+        <div class="flower-variety">Tulipa gesneriana · 15 stems</div>
+        <div class="flower-footer"><div class="flower-price">₦32,000</div>
+          <button class="add-btn" data-name="Red Tulip Bouquet" data-price="32000" data-image="images/tulip1.png" data-variety="Tulipa gesneriana · 15 stems">+</button></div>
+      </div>
+    </div>
+
+    <!-- Tulip 2 -->
+    <div class="flower-card" data-category="tulip"
+         data-id="tulip-pink" data-name="Pink Tulip Bouquet" data-price="29000"
+         data-variety="Tulipa × hybrid · 12 pastel stems" data-image="images/tulip2.png" data-badge="🌸 Pastel"
+         data-desc="Soft, dreamy pastel pink tulips arranged in an open hand-tied style. Light and airy, this bouquet captures the delicate beauty of spring. Ideal for Mother's Day, baby showers, or simply brightening someone's day."
+         data-occasions="mothers-day birthday celebration just-because bridal-bouquet">
+      <div class="flower-img"><img src="images/tulip2.png" alt="Pink Tulip Bouquet"><div class="flower-badge badge-new">🌸 Pastel</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Pink Tulip Bouquet</div>
+        <div class="flower-variety">Tulipa × hybrid · 12 pastel stems</div>
+        <div class="flower-footer"><div class="flower-price">₦29,000</div>
+          <button class="add-btn" data-name="Pink Tulip Bouquet" data-price="29000" data-image="images/tulip2.png" data-variety="Tulipa × hybrid · 12 pastel stems">+</button></div>
+      </div>
+    </div>
+
+    <!-- Tulip 3 -->
+    <div class="flower-card" data-category="tulip"
+         data-id="tulip-purple" data-name="Purple Tulip Spray" data-price="35000"
+         data-variety="Tulipa × triumph · 10 stems" data-image="images/tulip3.png" data-badge="💜 Rare"
+         data-desc="Rare and majestic purple triumph tulips — a symbol of royalty and admiration. Elegantly wrapped in velvet tissue paper with a silk ribbon, these blooms make an unforgettable impression."
+         data-occasions="anniversary birthday celebration mothers-day date-night">
+      <div class="flower-img"><img src="images/tulip3.png" alt="Purple Tulip Spray"><div class="flower-badge badge-sale">💜 Rare</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Purple Tulip Spray</div>
+        <div class="flower-variety">Tulipa × triumph · 10 stems</div>
+        <div class="flower-footer"><div class="flower-price">₦35,000</div>
+          <button class="add-btn" data-name="Purple Tulip Spray" data-price="35000" data-image="images/tulip3.png" data-variety="Tulipa × triumph · 10 stems">+</button></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ LAVENDER ══════════════════ -->
+    <!-- Lavender 1 -->
+    <div class="flower-card" data-category="lavender"
+         data-id="lavender-bundle" data-name="Fresh Lavender Bundle" data-price="22000"
+         data-variety="Lavandula angustifolia · Fresh cut" data-image="images/lavender1.png" data-badge="🌿 Calming"
+         data-desc="Fragrant, freshly cut English lavender bound in natural twine. The calming scent of lavender promotes relaxation and well-being — beautiful displayed in a vase or dried as an everlasting keepsake."
+         data-occasions="get-well-soon birthday just-because mothers-day celebration">
+      <div class="flower-img"><img src="images/lavender1.png" alt="Fresh Lavender Bundle"><div class="flower-badge badge-new">🌿 Calming</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Fresh Lavender Bundle</div>
+        <div class="flower-variety">Lavandula angustifolia · Fresh</div>
+        <div class="flower-footer"><div class="flower-price">₦22,000</div>
+          <button class="add-btn" data-name="Fresh Lavender Bundle" data-price="22000" data-image="images/lavender1.png" data-variety="Lavandula angustifolia · Fresh">+</button></div>
+      </div>
+    </div>
+
+    <!-- Lavender 2 -->
+    <div class="flower-card" data-category="lavender"
+         data-id="lavender-dried" data-name="Dried Lavender Bouquet" data-price="18500"
+         data-variety="Lavandula angustifolia · Dried bunch" data-image="images/lavender2.png" data-badge="♾ Everlasting"
+         data-desc="A classic bunch of dried lavender that lasts for years. Retaining its scent and colour, dried lavender is perfect for rustic home décor, drawer sachets, or as a timeless sentimental gift."
+         data-occasions="just-because celebration birthday get-well-soon">
+      <div class="flower-img"><img src="images/lavender2.png" alt="Dried Lavender Bouquet"><div class="flower-badge badge-best">♾ Everlasting</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Dried Lavender Bouquet</div>
+        <div class="flower-variety">Lavandula angustifolia · Dried</div>
+        <div class="flower-footer"><div class="flower-price">₦18,500</div>
+          <button class="add-btn" data-name="Dried Lavender Bouquet" data-price="18500" data-image="images/lavender2.png" data-variety="Lavandula angustifolia · Dried">+</button></div>
+      </div>
+    </div>
+
+    <!-- Lavender 3 -->
+    <div class="flower-card" data-category="lavender"
+         data-id="lavender-mixed" data-name="Lavender & White Mix" data-price="31000"
+         data-variety="Lavandula + Gypsophila · Mixed" data-image="images/lavender3.png" data-badge="🤍 Elegant"
+         data-desc="A sophisticated pairing of purple lavender and cloud-like white Gypsophila. This ethereal combination is incredibly popular for wedding table centres, christenings, and elegant home gifting."
+         data-occasions="wedding anniversary bridal-bouquet celebration mothers-day">
+      <div class="flower-img"><img src="images/lavender3.png" alt="Lavender White Mix"><div class="flower-badge badge-sale">🤍 Elegant</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Lavender &amp; White Mix</div>
+        <div class="flower-variety">Lavandula + Gypsophila · Mixed</div>
+        <div class="flower-footer"><div class="flower-price">₦31,000</div>
+          <button class="add-btn" data-name="Lavender & White Mix" data-price="31000" data-image="images/lavender3.png" data-variety="Lavandula + Gypsophila · Mixed">+</button></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ CHRYSANTHEMUMS ══════════════════ -->
+    <!-- Chrysanthemum 1 -->
+    <div class="flower-card" data-category="chrysanthemum"
+         data-id="chrysanthemum-yellow" data-name="Yellow Chrysanthemum" data-price="24500"
+         data-variety="Chrysanthemum × morifolium · 12 stems" data-image="images/chrysanthemum1.png" data-badge="☀️ Joyful"
+         data-desc="Lush, full yellow chrysanthemums — known as the flower of longevity and happiness. An incredibly versatile bloom that works beautifully in modern arrangements, classic bouquets, and funeral tributes."
+         data-occasions="birthday celebration mothers-day get-well-soon funeral just-because">
+      <div class="flower-img"><img src="images/chrysanthemum1.png" alt="Yellow Chrysanthemum"><div class="flower-badge badge-best">☀️ Joyful</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Yellow Chrysanthemum</div>
+        <div class="flower-variety">Chrysanthemum morifolium · 12</div>
+        <div class="flower-footer"><div class="flower-price">₦24,500</div>
+          <button class="add-btn" data-name="Yellow Chrysanthemum" data-price="24500" data-image="images/chrysanthemum1.png" data-variety="Chrysanthemum morifolium · 12">+</button></div>
+      </div>
+    </div>
+
+    <!-- Chrysanthemum 2 -->
+    <div class="flower-card" data-category="chrysanthemum"
+         data-id="chrysanthemum-white" data-name="White Chrysanthemum" data-price="27000"
+         data-variety="Chrysanthemum × morifolium · 10 stems" data-image="images/chrysanthemum2.png" data-badge="🕊 Pure"
+         data-desc="Classic white chrysanthemums, the embodiment of truth and loyal love. Beautifully presented in a hand-tied bouquet, these pristine blooms are ideal for sympathy, memorial, and spiritual ceremonies."
+         data-occasions="funeral get-well-soon wedding anniversary celebration">
+      <div class="flower-img"><img src="images/chrysanthemum2.png" alt="White Chrysanthemum"><div class="flower-badge badge-new">🕊 Pure</div></div>
+      <div class="flower-info">
+        <div class="flower-name">White Chrysanthemum</div>
+        <div class="flower-variety">Chrysanthemum morifolium · 10</div>
+        <div class="flower-footer"><div class="flower-price">₦27,000</div>
+          <button class="add-btn" data-name="White Chrysanthemum" data-price="27000" data-image="images/chrysanthemum2.png" data-variety="Chrysanthemum morifolium · 10">+</button></div>
+      </div>
+    </div>
+
+    <!-- Chrysanthemum 3 -->
+    <div class="flower-card" data-category="chrysanthemum"
+         data-id="chrysanthemum-vase" data-name="Chrysanthemum Vase Arrangement" data-price="41000"
+         data-variety="Mixed varieties · Premium vase" data-image="images/chrysanthemum3.png" data-badge="🏡 Home"
+         data-desc="A stunning mix of white and cream chrysanthemums arranged in a premium ceramic vase. Long-lasting, full, and statement-making — the perfect centrepiece for any home, office, or event table."
+         data-occasions="celebration birthday anniversary mothers-day just-because">
+      <div class="flower-img"><img src="images/chrysanthemum3.png" alt="Chrysanthemum Vase"><div class="flower-badge badge-best">🏡 Home</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Chrysanthemum Vase</div>
+        <div class="flower-variety">Mixed varieties · Premium vase</div>
+        <div class="flower-footer"><div class="flower-price">₦41,000</div>
+          <button class="add-btn" data-name="Chrysanthemum Vase Arrangement" data-price="41000" data-image="images/chrysanthemum3.png" data-variety="Mixed varieties · Premium vase">+</button></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ HIBISCUS ══════════════════ -->
+    <!-- Hibiscus 1 -->
+    <div class="flower-card" data-category="hibiscus"
+         data-id="hibiscus-red" data-name="Tropical Red Hibiscus" data-price="26000"
+         data-variety="Hibiscus rosa-sinensis · Fresh cluster" data-image="images/hisbicus1.png" data-badge="🌺 Tropical"
+         data-desc="Fiery and exotic, the red hibiscus is a celebration of tropical beauty. These vibrant blooms are freshly sourced and presented in a bold, nature-inspired wrap — bringing the tropics straight to your door."
+         data-occasions="birthday celebration just-because mothers-day">
+      <div class="flower-img"><img src="images/hisbicus1.png" alt="Tropical Red Hibiscus"><div class="flower-badge badge-sale">🌺 Tropical</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Tropical Red Hibiscus</div>
+        <div class="flower-variety">Hibiscus rosa-sinensis · Fresh</div>
+        <div class="flower-footer"><div class="flower-price">₦26,000</div>
+          <button class="add-btn" data-name="Tropical Red Hibiscus" data-price="26000" data-image="images/hisbicus1.png" data-variety="Hibiscus rosa-sinensis · Fresh">+</button></div>
+      </div>
+    </div>
+
+    <!-- Hibiscus 2 -->
+    <div class="flower-card" data-category="hibiscus"
+         data-id="hibiscus-coral" data-name="Coral Hibiscus Bloom" data-price="29500"
+         data-variety="Hibiscus sabdariffa · Blooming cluster" data-image="images/hibiscus2.png" data-badge="🌿 New"
+         data-desc="A dazzling coral hibiscus arrangement fresh from the tropics. The bold stamens and silky petals make this an eye-catching showpiece — perfect for a tropical-themed celebration or exotic home décor."
+         data-occasions="birthday celebration just-because mothers-day">
+      <div class="flower-img"><img src="images/hibiscus2.png" alt="Coral Hibiscus Bloom"><div class="flower-badge badge-new">🌿 New</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Coral Hibiscus Bloom</div>
+        <div class="flower-variety">Hibiscus sabdariffa · Cluster</div>
+        <div class="flower-footer"><div class="flower-price">₦29,500</div>
+          <button class="add-btn" data-name="Coral Hibiscus Bloom" data-price="29500" data-image="images/hibiscus2.png" data-variety="Hibiscus sabdariffa · Cluster">+</button></div>
+      </div>
+    </div>
+
+    <!-- Hibiscus 3 -->
+    <div class="flower-card" data-category="hibiscus"
+         data-id="hibiscus-pink" data-name="Pink Hibiscus Bouquet" data-price="33000"
+         data-variety="Hibiscus rosa-sinensis · Pink variety" data-image="images/hibiscus3.png" data-badge="💖 Exotic"
+         data-desc="Lush pink hibiscus blooms arranged in a full florist bouquet. Soft yet striking, this arrangement radiates femininity and tropical warmth — a truly unique gift for someone who stands out from the crowd."
+         data-occasions="birthday celebration mothers-day anniversary just-because">
+      <div class="flower-img"><img src="images/hibiscus3.png" alt="Pink Hibiscus Bouquet"><div class="flower-badge badge-sale">💖 Exotic</div></div>
+      <div class="flower-info">
+        <div class="flower-name">Pink Hibiscus Bouquet</div>
+        <div class="flower-variety">Hibiscus rosa-sinensis · Pink</div>
+        <div class="flower-footer"><div class="flower-price">₦33,000</div>
+          <button class="add-btn" data-name="Pink Hibiscus Bouquet" data-price="33000" data-image="images/hibiscus3.png" data-variety="Hibiscus rosa-sinensis · Pink">+</button></div>
       </div>
     </div>
 
@@ -1055,140 +2219,49 @@
 
 <!-- VARIETIES -->
 <section class="varieties" id="varieties">
-  <div class="section-label">Explore</div>
+  <div class="section-label">Browse by Type</div>
   <h2>Our flower <em>varieties</em></h2>
-  <p class="section-sub">From classic roses to exotic tropicals — every bloom is freshly sourced and expertly arranged.</p>
+  <p class="section-sub">Tap any variety to browse that collection — from classic roses to exotic tropicals, every bloom is freshly sourced.</p>
   <div class="varieties-grid">
 
-    <div class="variety-card">
-      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
-        <rect width="400" height="380" fill="#1a0a0f"/>
-        <!-- Dark moody rose background -->
-        <radialGradient id="vg1" cx="50%" cy="45%"><stop offset="0%" stop-color="#c62828"/><stop offset="60%" stop-color="#4a0010"/><stop offset="100%" stop-color="#1a0008"/></radialGradient>
-        <rect width="400" height="380" fill="url(#vg1)"/>
-        <g transform="translate(200,175)" opacity="0.95">
-          <!-- Rose petals -->
-          <ellipse cx="0" cy="-80" rx="60" ry="75" fill="#e53935" opacity="0.9" transform="rotate(-15)"/>
-          <ellipse cx="70" cy="-35" rx="60" ry="75" fill="#c62828" opacity="0.9" transform="rotate(45)"/>
-          <ellipse cx="58" cy="50" rx="60" ry="75" fill="#e53935" opacity="0.9" transform="rotate(105)"/>
-          <ellipse cx="-10" cy="85" rx="60" ry="75" fill="#c62828" opacity="0.9" transform="rotate(165)"/>
-          <ellipse cx="-74" cy="40" rx="60" ry="75" fill="#e53935" opacity="0.9" transform="rotate(225)"/>
-          <ellipse cx="-62" cy="-48" rx="60" ry="75" fill="#c62828" opacity="0.9" transform="rotate(285)"/>
-          <ellipse cx="0" cy="-52" rx="38" ry="48" fill="#b71c1c" opacity="0.95" transform="rotate(-10)"/>
-          <ellipse cx="44" cy="-22" rx="38" ry="48" fill="#c62828" opacity="0.9" transform="rotate(50)"/>
-          <ellipse cx="38" cy="32" rx="38" ry="48" fill="#b71c1c" opacity="0.9" transform="rotate(110)"/>
-          <ellipse cx="-6" cy="54" rx="38" ry="48" fill="#c62828" opacity="0.9" transform="rotate(170)"/>
-          <ellipse cx="-46" cy="26" rx="38" ry="48" fill="#b71c1c" opacity="0.9" transform="rotate(230)"/>
-          <ellipse cx="-40" cy="-30" rx="38" ry="48" fill="#c62828" opacity="0.9" transform="rotate(290)"/>
-          <circle cx="0" cy="0" r="20" fill="#7f0000"/>
-        </g>
-      </svg>
-      <div class="variety-count">24 styles</div>
+    <div class="variety-card" data-filter-cat="rose" role="button" tabindex="0" aria-label="Browse Roses">
+      <img src="images/rose2.png" alt="Roses Bouquet">
+      <div class="variety-count">4 varieties</div>
       <div class="variety-overlay">
         <div class="variety-name">Roses</div>
-        <div class="variety-desc">Red, pink, white & yellow. Single stems to grand bouquets.</div>
+        <div class="variety-desc">Red, pink, white &amp; yellow. Single stems to grand bouquets.</div>
+        <div class="variety-cta">Browse Roses →</div>
       </div>
     </div>
 
-    <div class="variety-card">
-      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
-        <radialGradient id="vg2" cx="50%" cy="40%"><stop offset="0%" stop-color="#6a1b9a"/><stop offset="100%" stop-color="#0d0020"/></radialGradient>
-        <rect width="400" height="380" fill="url(#vg2)"/>
-        <g transform="translate(200,175)">
-          <!-- Orchid cluster -->
-          <g opacity="0.95">
-            <ellipse cx="0" cy="-75" rx="22" ry="52" fill="#ce93d8"/>
-            <ellipse cx="-65" cy="20" rx="55" ry="22" fill="#ba68c8" transform="rotate(-35,-65,20)"/>
-            <ellipse cx="65" cy="20" rx="55" ry="22" fill="#ba68c8" transform="rotate(35,65,20)"/>
-            <ellipse cx="-45" cy="-50" rx="42" ry="20" fill="#ab47bc" transform="rotate(-55,-45,-50)"/>
-            <ellipse cx="45" cy="-50" rx="42" ry="20" fill="#ab47bc" transform="rotate(55,45,-50)"/>
-            <ellipse cx="0" cy="38" rx="30" ry="42" fill="#9c27b0"/>
-            <ellipse cx="0" cy="0" rx="12" ry="16" fill="#e1bee7"/>
-          </g>
-          <!-- Second orchid shifted -->
-          <g transform="translate(90,-30)" opacity="0.65" style="scale:0.7">
-            <ellipse cx="0" cy="-75" rx="22" ry="52" fill="#ce93d8"/>
-            <ellipse cx="-65" cy="20" rx="55" ry="22" fill="#ba68c8" transform="rotate(-35,-65,20)"/>
-            <ellipse cx="65" cy="20" rx="55" ry="22" fill="#ba68c8" transform="rotate(35,65,20)"/>
-            <ellipse cx="0" cy="38" rx="30" ry="42" fill="#9c27b0"/>
-          </g>
-        </g>
-      </svg>
-      <div class="variety-count">12 styles</div>
+    <div class="variety-card" data-filter-cat="lily" role="button" tabindex="0" aria-label="Browse Lilies">
+      <img src="images/lily2.png" alt="Lilies Arrangement">
+      <div class="variety-count">3 varieties</div>
+      <div class="variety-overlay">
+        <div class="variety-name">Lilies</div>
+        <div class="variety-desc">White, Tiger &amp; Stargazer. Elegant arrangements for every occasion.</div>
+        <div class="variety-cta">Browse Lilies →</div>
+      </div>
+    </div>
+
+    <div class="variety-card" data-filter-cat="orchid" role="button" tabindex="0" aria-label="Browse Orchids">
+      <img src="images/orchid2.png" alt="Orchids Potted">
+      <div class="variety-count">4 varieties</div>
       <div class="variety-overlay">
         <div class="variety-name">Orchids</div>
-        <div class="variety-desc">Exotic elegance. Phalaenopsis, Dendrobium & more.</div>
+        <div class="variety-desc">Exotic elegance. Phalaenopsis, Dendrobium, Vanda &amp; more.</div>
+        <div class="variety-cta">Browse Orchids →</div>
       </div>
     </div>
 
-    <div class="variety-card">
-      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
-        <radialGradient id="vg3" cx="50%" cy="40%"><stop offset="0%" stop-color="#e65100"/><stop offset="60%" stop-color="#4e2000"/><stop offset="100%" stop-color="#1a0800"/></radialGradient>
-        <rect width="400" height="380" fill="url(#vg3)"/>
-        <!-- Sunflower cluster moody -->
-        <g transform="translate(150,185)">
-          <g>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(30)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(60)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(90)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(120)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(150)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(180)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(210)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(240)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(270)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f9a825" opacity="0.9" transform="rotate(300)"/>
-            <ellipse cx="0" cy="-78" rx="19" ry="44" fill="#f57f17" opacity="0.9" transform="rotate(330)"/>
-            <circle cx="0" cy="0" r="46" fill="#3e2723"/>
-            <circle cx="0" cy="0" r="38" fill="#1a0000"/>
-          </g>
-        </g>
-        <g transform="translate(270,220)" opacity="0.6">
-          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#fdd835" transform="rotate(0)"/>
-          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#f9a825" transform="rotate(45)"/>
-          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#fdd835" transform="rotate(90)"/>
-          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#f9a825" transform="rotate(135)"/>
-          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#fdd835" transform="rotate(180)"/>
-          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#f9a825" transform="rotate(225)"/>
-          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#fdd835" transform="rotate(270)"/>
-          <ellipse cx="0" cy="-55" rx="14" ry="32" fill="#f9a825" transform="rotate(315)"/>
-          <circle cx="0" cy="0" r="34" fill="#3e2723"/>
-        </g>
-      </svg>
-      <div class="variety-count">8 styles</div>
+    <div class="variety-card" data-filter-cat="sunflower" role="button" tabindex="0" aria-label="Browse Sunflowers">
+      <img src="images/sunflower2.png" alt="Sunflowers Field">
+      <div class="variety-count">3 varieties</div>
       <div class="variety-overlay">
         <div class="variety-name">Sunflowers</div>
-        <div class="variety-desc">Bold & cheerful. Perfect for birthdays and celebrations.</div>
-      </div>
-    </div>
 
     <div class="variety-card">
-      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
-        <radialGradient id="vg4" cx="50%" cy="40%"><stop offset="0%" stop-color="#1a237e"/><stop offset="100%" stop-color="#050014"/></radialGradient>
-        <rect width="400" height="380" fill="url(#vg4)"/>
-        <!-- Tulips -->
-        <g transform="translate(120,200)">
-          <path d="M0,60 Q0,0 -10,-50 Q0,-90 10,-50 Q20,0 0,60" fill="#e53935" opacity="0.95"/>
-          <ellipse cx="-18" cy="-35" rx="16" ry="30" fill="#ef9a9a" opacity="0.8" transform="rotate(-15)"/>
-          <ellipse cx="18" cy="-35" rx="16" ry="30" fill="#ef9a9a" opacity="0.8" transform="rotate(15)"/>
-          <path d="M0,60 Q2,100 1,160" stroke="#388e3c" stroke-width="4" fill="none"/>
-          <ellipse cx="-16" cy="110" rx="30" ry="10" fill="#4caf50" opacity="0.8" transform="rotate(-20,-16,110)"/>
-        </g>
-        <g transform="translate(200,185)">
-          <path d="M0,60 Q0,0 -10,-55 Q0,-95 10,-55 Q20,0 0,60" fill="#f06292" opacity="0.95"/>
-          <ellipse cx="-19" cy="-38" rx="16" ry="30" fill="#f8bbd0" opacity="0.8" transform="rotate(-15)"/>
-          <ellipse cx="19" cy="-38" rx="16" ry="30" fill="#f8bbd0" opacity="0.8" transform="rotate(15)"/>
-          <path d="M0,60 Q2,100 1,165" stroke="#388e3c" stroke-width="4" fill="none"/>
-          <ellipse cx="18" cy="120" rx="28" ry="10" fill="#66bb6a" opacity="0.8" transform="rotate(25,18,120)"/>
-        </g>
-        <g transform="translate(275,210)">
-          <path d="M0,60 Q0,0 -9,-48 Q0,-85 9,-48 Q18,0 0,60" fill="#fff176" opacity="0.95"/>
-          <ellipse cx="-17" cy="-33" rx="14" ry="27" fill="#fff9c4" opacity="0.8" transform="rotate(-15)"/>
-          <ellipse cx="17" cy="-33" rx="14" ry="27" fill="#fff9c4" opacity="0.8" transform="rotate(15)"/>
-          <path d="M0,60 Q1,95 1,155" stroke="#388e3c" stroke-width="4" fill="none"/>
-        </g>
-      </svg>
+      <img src="images/tulip1.png" alt="Tulips Collection">
       <div class="variety-count">18 styles</div>
       <div class="variety-overlay">
         <div class="variety-name">Tulips</div>
@@ -1197,50 +2270,7 @@
     </div>
 
     <div class="variety-card">
-      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
-        <radialGradient id="vg5" cx="50%" cy="40%"><stop offset="0%" stop-color="#1b5e20"/><stop offset="100%" stop-color="#001a00"/></radialGradient>
-        <rect width="400" height="380" fill="url(#vg5)"/>
-        <!-- Chrysanthemum -->
-        <g transform="translate(200,185)">
-          <g opacity="0.95">
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(18)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(36)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(54)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(72)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(90)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(108)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(126)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(144)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(162)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(180)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(198)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(216)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(234)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(252)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(270)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(288)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(306)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff7043" transform="rotate(324)"/>
-            <ellipse cx="0" cy="-65" rx="10" ry="55" fill="#ff5722" transform="rotate(342)"/>
-            <!-- Inner -->
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(9)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(27)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(45)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(63)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(81)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(99)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(117)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(135)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(153)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(171)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(189)"/>
-            <ellipse cx="0" cy="-40" rx="7" ry="34" fill="#bf360c" transform="rotate(207)"/>
-            <circle cx="0" cy="0" r="22" fill="#e64a19"/>
-            <circle cx="0" cy="0" r="14" fill="#bf360c"/>
-          </g>
-        </g>
-      </svg>
+      <img src="images/chrysanthemum1.png" alt="Chrysanthemums Basket">
       <div class="variety-count">10 styles</div>
       <div class="variety-overlay">
         <div class="variety-name">Chrysanthemums</div>
@@ -1249,53 +2279,7 @@
     </div>
 
     <div class="variety-card">
-      <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
-        <radialGradient id="vg6" cx="50%" cy="40%"><stop offset="0%" stop-color="#4a148c"/><stop offset="100%" stop-color="#0d001a"/></radialGradient>
-        <rect width="400" height="380" fill="url(#vg6)"/>
-        <!-- Lavender field -->
-        <g>
-          <g transform="translate(80,200)">
-            <path d="M0,80 Q0,30 0,-70" stroke="#78909c" stroke-width="2.5" fill="none"/>
-            <ellipse cx="0" cy="-70" rx="7" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-58" rx="8" ry="10" fill="#7b1fa2"/>
-            <ellipse cx="0" cy="-46" rx="8" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-34" rx="9" ry="10" fill="#7b1fa2"/>
-            <ellipse cx="0" cy="-22" rx="9" ry="10" fill="#9c27b0"/>
-          </g>
-          <g transform="translate(130,210)">
-            <path d="M0,70 Q0,25 0,-65" stroke="#78909c" stroke-width="2.5" fill="none"/>
-            <ellipse cx="0" cy="-65" rx="7" ry="10" fill="#ab47bc"/>
-            <ellipse cx="0" cy="-53" rx="8" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-41" rx="8" ry="10" fill="#ab47bc"/>
-            <ellipse cx="0" cy="-29" rx="9" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-17" rx="9" ry="10" fill="#ab47bc"/>
-          </g>
-          <g transform="translate(185,195)">
-            <path d="M0,85 Q0,35 0,-75" stroke="#78909c" stroke-width="2.5" fill="none"/>
-            <ellipse cx="0" cy="-75" rx="7" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-63" rx="8" ry="10" fill="#7b1fa2"/>
-            <ellipse cx="0" cy="-51" rx="8" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-39" rx="9" ry="10" fill="#7b1fa2"/>
-            <ellipse cx="0" cy="-27" rx="9" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-15" rx="9" ry="10" fill="#7b1fa2"/>
-          </g>
-          <g transform="translate(240,205)">
-            <path d="M0,75 Q0,28 0,-68" stroke="#78909c" stroke-width="2.5" fill="none"/>
-            <ellipse cx="0" cy="-68" rx="7" ry="10" fill="#ab47bc"/>
-            <ellipse cx="0" cy="-56" rx="8" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-44" rx="8" ry="10" fill="#ab47bc"/>
-            <ellipse cx="0" cy="-32" rx="9" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-20" rx="9" ry="10" fill="#ab47bc"/>
-          </g>
-          <g transform="translate(300,215)">
-            <path d="M0,65 Q0,22 0,-60" stroke="#78909c" stroke-width="2.5" fill="none"/>
-            <ellipse cx="0" cy="-60" rx="7" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-48" rx="8" ry="10" fill="#7b1fa2"/>
-            <ellipse cx="0" cy="-36" rx="8" ry="10" fill="#9c27b0"/>
-            <ellipse cx="0" cy="-24" rx="9" ry="10" fill="#7b1fa2"/>
-          </g>
-        </g>
-      </svg>
+      <img src="images/lavender2.png" alt="Lavender Fields">
       <div class="variety-count">6 styles</div>
       <div class="variety-overlay">
         <div class="variety-name">Lavender</div>
@@ -1306,45 +2290,80 @@
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
+<!-- TESTIMONIALS & CAROUSEL -->
 <section class="testimonials">
   <div class="testimonials-header">
     <div class="section-label">Love Notes</div>
     <h2>What our customers <em>say</em></h2>
   </div>
-  <div class="testi-grid">
-    <div class="testi-card">
-      <div class="testi-quote">"</div>
-      <p class="testi-text">She was over the moon! The roses were fresh and the arrangement looked exactly like the photo. Delivery arrived before noon. Will definitely be ordering again soon!</p>
-      <div class="testi-footer">
-        <div>
-          <div class="testi-name">Adaeze O.</div>
-          <div class="testi-loc">Lagos, Nigeria</div>
+  
+  <div class="testi-carousel-container">
+    <div class="testi-carousel-wrapper">
+      <div class="testi-track" id="testiTrack">
+        <!-- Testimonial 1 -->
+        <div class="testi-slide">
+          <div class="testi-card">
+            <div class="testi-quote">"</div>
+            <p class="testi-text">She was over the moon! The roses were fresh and the arrangement looked exactly like the photo. Delivery arrived before noon. Will definitely be ordering again soon!</p>
+            <div class="testi-footer">
+              <div>
+                <div class="testi-name">Adaeze O.</div>
+                <div class="testi-loc">Lagos, Nigeria</div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
         </div>
-        <div class="stars">★★★★★</div>
+        <!-- Testimonial 2 -->
+        <div class="testi-slide">
+          <div class="testi-card">
+            <div class="testi-quote">"</div>
+            <p class="testi-text">Absolutely breathtaking bouquet. I ordered the white lily arrangement for my mum's birthday and she literally cried happy tears. Pony is the best flower shop I've found!</p>
+            <div class="testi-footer">
+              <div>
+                <div class="testi-name">Emeka K.</div>
+                <div class="testi-loc">Abuja, Nigeria</div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+        <!-- Testimonial 3 -->
+        <div class="testi-slide">
+          <div class="testi-card">
+            <div class="testi-quote">"</div>
+            <p class="testi-text">Fast delivery, stunning flowers, and the personalized card made it so special. I've ordered three times now and they never disappoint. 10/10 every single time!</p>
+            <div class="testi-footer">
+              <div>
+                <div class="testi-name">Ngozi A.</div>
+                <div class="testi-loc">Port Harcourt, Nigeria</div>
+              </div>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="testi-card">
-      <div class="testi-quote">"</div>
-      <p class="testi-text">Absolutely breathtaking bouquet. I ordered the white lily arrangement for my mum's birthday and she literally cried happy tears. Pony is the best flower shop I've found!</p>
-      <div class="testi-footer">
-        <div>
-          <div class="testi-name">Emeka K.</div>
-          <div class="testi-loc">Abuja, Nigeria</div>
-        </div>
-        <div class="stars">★★★★★</div>
+    
+    <!-- Navigation Buttons & Indicators -->
+    <div class="testi-controls">
+      <button class="testi-arrow-btn" id="prevTestiBtn" aria-label="Previous Testimonial">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+      <div class="testi-dots" id="testiDots">
+        <span class="testi-dot active" data-index="0"></span>
+        <span class="testi-dot" data-index="1"></span>
+        <span class="testi-dot" data-index="2"></span>
       </div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-quote">"</div>
-      <p class="testi-text">Fast delivery, stunning flowers, and the personalized card made it so special. I've ordered three times now and they never disappoint. 10/10 every single time!</p>
-      <div class="testi-footer">
-        <div>
-          <div class="testi-name">Ngozi A.</div>
-          <div class="testi-loc">Port Harcourt, Nigeria</div>
-        </div>
-        <div class="stars">★★★★★</div>
-      </div>
+      <button class="testi-arrow-btn" id="nextTestiBtn" aria-label="Next Testimonial">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
     </div>
   </div>
 </section>
@@ -1381,44 +2400,244 @@
     <div class="footer-col">
       <h4>Shop</h4>
       <ul>
-        <li><a href="#">Roses</a></li>
-        <li><a href="#">Orchids</a></li>
-        <li><a href="#">Sunflowers</a></li>
-        <li><a href="#">Tulips</a></li>
-        <li><a href="#">Lavender</a></li>
-        <li><a href="#">Chrysanthemums</a></li>
+        <li><a href="#flowers">Roses</a></li>
+        <li><a href="#varieties">Orchids</a></li>
+        <li><a href="#flowers">Sunflowers</a></li>
+        <li><a href="#varieties">Tulips</a></li>
+        <li><a href="#varieties">Lavender</a></li>
+        <li><a href="#varieties">Chrysanthemums</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Occasions</h4>
       <ul>
-        <li><a href="#">Birthday</a></li>
-        <li><a href="#">Anniversary</a></li>
-        <li><a href="#">Wedding</a></li>
-        <li><a href="#">Valentine's</a></li>
-        <li><a href="#">Funeral</a></li>
-        <li><a href="#">Get Well Soon</a></li>
+        <li><a href="#occasions">Birthday</a></li>
+        <li><a href="#occasions">Anniversary</a></li>
+        <li><a href="#occasions">Wedding</a></li>
+        <li><a href="#occasions">Valentine's</a></li>
+        <li><a href="#occasions">Funeral</a></li>
+        <li><a href="#occasions">Get Well Soon</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Stay in the loop</h4>
       <p style="font-size:0.82rem;color:rgba(255,255,255,0.4);margin-bottom:0.8rem;">Get exclusive offers & new arrivals.</p>
-      <div class="newsletter-form">
-        <input type="email" placeholder="your@email.com" />
-        <button>Join</button>
-      </div>
+      <form class="newsletter-form" id="newsletterForm">
+        <input type="email" placeholder="your@email.com" required />
+        <button type="submit">Join</button>
+      </form>
       <div class="socials" style="margin-top:1.5rem;">
-        <a href="#" class="social-pill">Instagram</a>
-        <a href="#" class="social-pill">Twitter</a>
-        <a href="#" class="social-pill">WhatsApp</a>
+        <a href="#" class="social-pill btn-action-toast">Instagram</a>
+        <a href="#" class="social-pill btn-action-toast">Twitter</a>
+        <a href="#" class="social-pill btn-action-toast">WhatsApp</a>
       </div>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 Pony Flowers. All rights reserved.</span>
+    <span>© 2026 Pony Flowers. All rights reserved. | <a href="admin.html" style="color: rgba(255,255,255,0.4); text-decoration: none; font-weight: 500; font-size: 0.8rem; margin-left: 5px;">Admin Dashboard</a></span>
     <span>Made with 🌸 for flower lovers</span>
   </div>
 </footer>
+
+<!-- CART DRAWER OVERLAYS -->
+<div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-header">
+    <h3>Your Cart (<span id="cartCountHeader">0</span>)</h3>
+    <button class="close-drawer-btn" id="closeCartBtn" aria-label="Close Cart">&times;</button>
+  </div>
+  <div class="cart-drawer-body" id="cartItemsList">
+    <!-- Items dynamically injected here -->
+  </div>
+  <div class="cart-drawer-footer" id="cartFooter">
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <span class="subtotal-amount" id="cartSubtotalAmount">₦0</span>
+    </div>
+    <button class="btn-primary checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal-overlay" id="quickViewOverlay"></div>
+<div class="modal" id="quickViewModal">
+  <button class="close-modal-btn" id="closeQuickViewBtn" aria-label="Close modal">&times;</button>
+  <div class="modal-grid">
+    <div class="modal-image-sec">
+      <img src="" alt="" id="qvProductImage">
+    </div>
+    <div class="modal-info-sec">
+      <div class="qv-eyebrow" id="qvProductBadge">⭐ BEST SELLER</div>
+      <h3 id="qvProductTitle">Red Rose Bouquet</h3>
+      <div class="qv-variety" id="qvProductVariety">Rosa centifolia · 12 stems w/ Gypsophila</div>
+      <div class="qv-price" id="qvProductPrice">₦38,500</div>
+      
+      <div class="qv-divider"></div>
+      
+      <p class="qv-desc" id="qvProductDesc">
+        Indulge in the luxury of fresh velvet roses. Carefully selected and artfully arranged with delicate baby's breath (Gypsophila) and rich eucalyptus leaves, wrapped in premium signature craft paper and tied with satin ribbon. Perfect for expressing your deepest emotions.
+      </p>
+      
+      <div class="qv-divider"></div>
+      
+      <div class="qv-action-row">
+        <div class="qv-qty-selector">
+          <button class="qv-qty-btn" id="qvQtyMinusBtn">-</button>
+          <span class="qv-qty-val" id="qvQtyVal">1</span>
+          <button class="qv-qty-btn" id="qvQtyPlusBtn">+</button>
+        </div>
+        <button class="btn-primary qv-add-to-cart-btn" id="qvAddToCartBtn">
+          Add to Cart <span>→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOM BOUQUET BUILDER MODAL -->
+<div class="modal-overlay" id="customizerOverlay"></div>
+<div class="modal" id="customizerModal" style="max-width: 850px;">
+  <button class="close-modal-btn" id="closeCustomizerBtn" aria-label="Close modal">&times;</button>
+  <div class="modal-grid" style="grid-template-columns: 1fr 1.2fr;">
+    <div class="modal-image-sec" style="background:#e8677a; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; color: var(--white); text-align: center;">
+      <div class="builder-preview-flower" id="builderPreviewFlower" style="font-size: 6rem; margin-bottom: 1.5rem; animation: float 3s ease-in-out infinite;">🌹</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--white);">Your Custom Bouquet</h3>
+      <p style="font-size: 0.85rem; color: rgba(255,255,255,0.85); max-width: 260px;">Handcrafted to perfection with wrapping and greeting options</p>
+      <div class="builder-live-price" id="builderLivePrice" style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; margin-top: 2rem;">₦30,000</div>
+    </div>
+    <div class="modal-info-sec" style="padding: 2.5rem;">
+      <div class="qv-eyebrow">Creative Customizer</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--charcoal); margin-bottom: 1.5rem;">Select your components</h3>
+      
+      <form id="bouquetBuilderForm">
+        <!-- Step 1: Base Flower -->
+        <div class="builder-section">
+          <label class="builder-label">1. Choose Base Flower</label>
+          <div class="builder-options-grid">
+            <div class="builder-opt active" data-flower="Roses" data-price="25000" data-icon="🌹" data-desc="Rosa centifolia">
+              <span class="opt-icon">🌹</span>
+              <span class="opt-name">Roses</span>
+              <span class="opt-price">+₦25,000</span>
+            </div>
+            <div class="builder-opt" data-flower="Lilies" data-price="30000" data-icon="🌿" data-desc="Lilium candidum">
+              <span class="opt-icon">🌿</span>
+              <span class="opt-name">Lilies</span>
+              <span class="opt-price">+₦30,000</span>
+            </div>
+            <div class="builder-opt" data-flower="Sunflowers" data-price="20000" data-icon="🌻" data-desc="Helianthus annuus">
+              <span class="opt-icon">🌻</span>
+              <span class="opt-name">Sunflowers</span>
+              <span class="opt-price">+₦20,000</span>
+            </div>
+            <div class="builder-opt" data-flower="Orchids" data-price="35000" data-icon="🌸" data-desc="Phalaenopsis">
+              <span class="opt-icon">🌸</span>
+              <span class="opt-name">Orchids</span>
+              <span class="opt-price">+₦35,000</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2: Wrapping Style -->
+        <div class="builder-section">
+          <label class="builder-label">2. Select Premium Wrapper</label>
+          <div class="builder-options-grid">
+            <div class="builder-opt active" data-wrap="Premium Craft" data-price="5000">
+              <span class="opt-name">Premium Craft</span>
+              <span class="opt-price">+₦5,000</span>
+            </div>
+            <div class="builder-opt" data-wrap="Lux Satin Box" data-price="10000">
+              <span class="opt-name">Lux Satin Box</span>
+              <span class="opt-price">+₦10,000</span>
+            </div>
+            <div class="builder-opt" data-wrap="Minimal Ribbon" data-price="2000">
+              <span class="opt-name">Minimal Ribbon</span>
+              <span class="opt-price">+₦2,000</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 3: Add-ons -->
+        <div class="builder-section">
+          <label class="builder-label">3. Optional Add-ons</label>
+          <div class="builder-addons">
+            <label class="builder-addon-item">
+              <input type="checkbox" id="addonCard" data-price="2000">
+              <span>Personalised Handwritten Card (+₦2,000)</span>
+            </label>
+            <label class="builder-addon-item">
+              <input type="checkbox" id="addonChoc" data-price="5000">
+              <span>Chocolates Gift Box (+₦5,000)</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="qv-divider"></div>
+        
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+          Add Custom Bouquet to Cart <span>→</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT DETAILS FORM MODAL -->
+<div class="modal-overlay" id="checkoutFormOverlay"></div>
+<div class="modal" id="checkoutFormModal" style="max-width: 500px;">
+  <div class="modal-info-sec" style="padding: 2.5rem 2rem; max-height: none; overflow-y: auto;">
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--plum); margin-bottom: 0.5rem; text-align: center;">Delivery Details</h3>
+    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.5rem; text-align: center;">Complete your order details below to receive your fresh blooms.</p>
+    <form id="checkoutDetailsForm" style="display: flex; flex-direction: column; gap: 1rem; width: 100%;">
+      <div style="display: flex; flex-direction: column; gap: 0.4rem; text-align: left;">
+        <label for="checkoutName" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-light);">Full Name</label>
+        <input type="text" id="checkoutName" required style="padding: 0.75rem; border-radius: 8px; border: 1.5px solid rgba(92,45,78,0.15); background: var(--white); font-family: inherit; font-size: 0.92rem; color: var(--text); outline: none; transition: border-color 0.2s;" placeholder="e.g. Jane Doe">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0.4rem; text-align: left;">
+        <label for="checkoutPhone" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-light);">Phone Number</label>
+        <input type="tel" id="checkoutPhone" required style="padding: 0.75rem; border-radius: 8px; border: 1.5px solid rgba(92,45,78,0.15); background: var(--white); font-family: inherit; font-size: 0.92rem; color: var(--text); outline: none; transition: border-color 0.2s;" placeholder="e.g. +234 80 1234 5678">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0.4rem; text-align: left;">
+        <label for="checkoutAddress" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-light);">Delivery Address</label>
+        <textarea id="checkoutAddress" required rows="3" style="padding: 0.75rem; border-radius: 8px; border: 1.5px solid rgba(92,45,78,0.15); background: var(--white); font-family: inherit; font-size: 0.92rem; color: var(--text); outline: none; resize: vertical; transition: border-color 0.2s;" placeholder="e.g. Apt 4B, 15 Rose Avenue, Victoria Island, Lagos"></textarea>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0.4rem; text-align: left;">
+        <label for="checkoutDate" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-light);">Delivery Date</label>
+        <input type="date" id="checkoutDate" required style="padding: 0.75rem; border-radius: 8px; border: 1.5px solid rgba(92,45,78,0.15); background: var(--white); font-family: inherit; font-size: 0.92rem; color: var(--text); outline: none; transition: border-color 0.2s;">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0.4rem; text-align: left;">
+        <label for="checkoutCardMsg" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-light);">Gift Message (Optional)</label>
+        <textarea id="checkoutCardMsg" rows="2" style="padding: 0.75rem; border-radius: 8px; border: 1.5px solid rgba(92,45,78,0.15); background: var(--white); font-family: inherit; font-size: 0.92rem; color: var(--text); outline: none; resize: vertical; transition: border-color 0.2s;" placeholder="Write a short message for the recipient..."></textarea>
+      </div>
+      <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <button type="button" class="btn-primary" id="cancelCheckoutBtn" style="background: var(--cream); color: var(--text) !important; flex: 1; justify-content: center; border: 1px solid rgba(92,45,78,0.15);">Cancel</button>
+        <button type="submit" class="btn-primary" style="flex: 2; justify-content: center;">Place Order</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- CHECKOUT SUCCESS MODAL -->
+<div class="modal-overlay" id="checkoutOverlay"></div>
+<div class="modal" id="checkoutModal" style="max-width: 450px; text-align: center;">
+  <div class="modal-info-sec" style="padding: 3rem 2rem; align-items: center; text-align: center; max-height: none;">
+    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🎉</div>
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--plum); margin-bottom: 0.8rem;">Order Placed!</h3>
+    <p style="font-size: 0.92rem; color: var(--text-light); line-height: 1.6; margin-bottom: 1.8rem;">
+      Thank you for shopping with Pony. Your fresh blooms are being selected and will be hand-delivered shortly.
+    </p>
+    <div style="background: rgba(232, 103, 122, 0.06); border-radius: 12px; padding: 1rem; width: 100%; margin-bottom: 2rem;">
+      <span style="display: block; font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem;">Order Reference</span>
+      <strong id="orderReference" style="font-size: 1.1rem; color: var(--charcoal); letter-spacing: 0.05em;">#PONY-82910</strong>
+    </div>
+    <button class="btn-primary" id="closeCheckoutBtn" style="width: 100%; justify-content: center;">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- Firebase SDKs & Wrapper -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="firebase-config.js"></script>
 
 <script>
   // Custom cursor
@@ -1432,7 +2651,7 @@
       ring.style.top = e.clientY + 'px';
     }, 60);
   });
-  document.querySelectorAll('a,button,.chip,.flower-card,.variety-card').forEach(el => {
+  document.querySelectorAll('a,button,.chip,.flower-card,.variety-card,.builder-opt,.builder-addon-item').forEach(el => {
     el.addEventListener('mouseenter', () => {
       cursor.style.width = '20px';
       cursor.style.height = '20px';
@@ -1452,28 +2671,822 @@
     document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
   });
 
-  // Add to cart feedback
-  document.querySelectorAll('.add-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const orig = this.textContent;
-      this.textContent = '✓';
-      this.style.background = '#4caf50';
-      this.style.color = '#fff';
-      setTimeout(() => {
-        this.textContent = orig;
-        this.style.background = '';
-        this.style.color = '';
-      }, 1200);
+  // Toast notifications function
+  function showToast(message, icon = '🌸') {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-msg">${message}</span>`;
+    container.appendChild(toast);
+    
+    // Force reflow
+    toast.offsetHeight;
+    
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.addEventListener('transitionend', () => {
+        toast.remove();
+      });
+    }, 3000);
+  }
+
+  /* ──── MODAL HELPER FUNCTIONS ──── */
+  function openModal(modal, overlay) {
+    overlay.classList.add('active');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modal, overlay) {
+    overlay.classList.remove('active');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  /* ──── SHOPPING CART STATE & LOGIC ──── */
+  let cart = [];
+
+  function loadCart() {
+    const data = localStorage.getItem('pony_cart');
+    if (data) {
+      try {
+        cart = JSON.parse(data);
+      } catch(e) {
+        cart = [];
+      }
+    }
+    updateCartUI();
+  }
+
+  function saveCart() {
+    localStorage.setItem('pony_cart', JSON.stringify(cart));
+  }
+
+  function addItemToCart(name, price, image, qty = 1, variety = '') {
+    const existing = cart.find(item => item.name === name && item.variety === variety);
+    if (existing) {
+      existing.qty += qty;
+    } else {
+      cart.push({ name, price, image, qty, variety });
+    }
+    saveCart();
+    updateCartUI();
+  }
+
+  function updateCartQty(name, variety, delta) {
+    const item = cart.find(i => i.name === name && i.variety === variety);
+    if (item) {
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter(i => !(i.name === name && i.variety === variety));
+      }
+      saveCart();
+      updateCartUI();
+    }
+  }
+
+  function removeCartItem(name, variety) {
+    cart = cart.filter(i => !(i.name === name && i.variety === variety));
+    saveCart();
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    const list = document.getElementById('cartItemsList');
+    const countBadge = document.getElementById('cartCount');
+    const countHeader = document.getElementById('cartCountHeader');
+    const subtotalEl = document.getElementById('cartSubtotalAmount');
+    
+    if (cart.length === 0) {
+      list.innerHTML = `
+        <div class="cart-empty-state">
+          <div class="empty-cart-icon">🛒</div>
+          <p>Your cart is empty</p>
+          <a href="#flowers" class="btn-primary close-cart-link" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Shop Flowers</a>
+        </div>
+      `;
+      countBadge.textContent = '0';
+      countHeader.textContent = '0';
+      subtotalEl.textContent = '₦0';
+      
+      const link = list.querySelector('.close-cart-link');
+      if (link) {
+        link.addEventListener('click', closeCartDrawer);
+      }
+      return;
+    }
+    
+    let totalQty = 0;
+    let subtotal = 0;
+    let html = '';
+    
+    cart.forEach(item => {
+      totalQty += item.qty;
+      subtotal += item.price * item.qty;
+      
+      html += `
+        <div class="cart-item">
+          <div class="cart-item-img">
+            <img src="${item.image}" alt="${item.name}">
+          </div>
+          <div class="cart-item-details">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-variety">${item.variety || 'Fresh stems'}</div>
+            <div class="cart-item-controls">
+              <div class="cart-qty-selector">
+                <button class="cart-qty-btn decrease-qty" data-name="${item.name}" data-variety="${item.variety}">-</button>
+                <span class="cart-qty-val">${item.qty}</span>
+                <button class="cart-qty-btn increase-qty" data-name="${item.name}" data-variety="${item.variety}">+</button>
+              </div>
+              <div class="cart-item-price">₦${(item.price * item.qty).toLocaleString()}</div>
+              <button class="cart-item-remove" data-name="${item.name}" data-variety="${item.variety}" aria-label="Remove Item">&times;</button>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    
+    list.innerHTML = html;
+    countBadge.textContent = totalQty;
+    countHeader.textContent = totalQty;
+    subtotalEl.textContent = '₦' + subtotal.toLocaleString();
+    
+    // Attach dynamic events
+    list.querySelectorAll('.decrease-qty').forEach(btn => {
+      btn.addEventListener('click', function() {
+        updateCartQty(this.getAttribute('data-name'), this.getAttribute('data-variety'), -1);
+      });
+    });
+    list.querySelectorAll('.increase-qty').forEach(btn => {
+      btn.addEventListener('click', function() {
+        updateCartQty(this.getAttribute('data-name'), this.getAttribute('data-variety'), 1);
+      });
+    });
+    list.querySelectorAll('.cart-item-remove').forEach(btn => {
+      btn.addEventListener('click', function() {
+        removeCartItem(this.getAttribute('data-name'), this.getAttribute('data-variety'));
+      });
+    });
+    
+    countBadge.classList.add('pop');
+    setTimeout(() => countBadge.classList.remove('pop'), 300);
+  }
+
+  // Cart Drawer open/close
+  const cartDrawer = document.getElementById('cartDrawer');
+  const cartDrawerOverlay = document.getElementById('cartDrawerOverlay');
+
+  function openCartDrawer() {
+    cartDrawer.classList.add('active');
+    cartDrawerOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCartDrawer() {
+    cartDrawer.classList.remove('active');
+    cartDrawerOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('cartBtn').addEventListener('click', openCartDrawer);
+  document.getElementById('closeCartBtn').addEventListener('click', closeCartDrawer);
+  cartDrawerOverlay.addEventListener('click', closeCartDrawer);
+
+  let activeCategory = 'all'; // track active category tab
+
+  const categoryNames = {
+    all: 'All Flowers', rose: 'Roses', lily: 'Lilies', orchid: 'Orchids',
+    sunflower: 'Sunflowers', tulip: 'Tulips', lavender: 'Lavender',
+    chrysanthemum: 'Chrysanthemums', hibiscus: 'Hibiscus'
+  };
+
+  const flowersGrid = document.getElementById('flowersGrid');
+  const searchInput = document.getElementById('flowerSearchInput');
+  const clearSearchBtn = document.getElementById('clearSearchBtn');
+  const emptySearchState = document.getElementById('emptySearchState');
+  const catHeadingLabel = document.getElementById('catHeadingLabel');
+  const catHeadingCount = document.getElementById('catHeadingCount');
+
+  // Event Delegation for Flowers Grid (Quick Add and Quick View Modal)
+  if (flowersGrid) {
+    flowersGrid.addEventListener('click', function(e) {
+      // 1. Quick Add button handler
+      const addBtn = e.target.closest('.add-btn');
+      if (addBtn) {
+        e.stopPropagation(); // Avoid triggering Quick View modal opening
+        const originalText = addBtn.textContent;
+        addBtn.textContent = '✓';
+        addBtn.style.background = '#4caf50';
+        addBtn.style.color = '#fff';
+        
+        const name = addBtn.getAttribute('data-name');
+        const price = parseInt(addBtn.getAttribute('data-price'));
+        const img = addBtn.getAttribute('data-image');
+        const variety = addBtn.getAttribute('data-variety');
+        
+        addItemToCart(name, price, img, 1, variety);
+        showToast(`Added ${name} to your cart!`, '🛒');
+        
+        setTimeout(() => {
+          addBtn.textContent = originalText;
+          addBtn.style.background = '';
+          addBtn.style.color = '';
+        }, 1200);
+        return;
+      }
+      
+      // 2. Quick View modal card click handler (excludes add-btn)
+      const flowerCard = e.target.closest('.flower-card');
+      if (flowerCard) {
+        const name = flowerCard.getAttribute('data-name');
+        const price = parseInt(flowerCard.getAttribute('data-price'));
+        const variety = flowerCard.getAttribute('data-variety');
+        const img = flowerCard.getAttribute('data-image');
+        const badge = flowerCard.getAttribute('data-badge') || '';
+        const desc = flowerCard.getAttribute('data-desc') || '';
+        
+        document.getElementById('qvProductImage').src = img;
+        document.getElementById('qvProductImage').alt = name;
+        document.getElementById('qvProductTitle').textContent = name;
+        document.getElementById('qvProductVariety').textContent = variety;
+        document.getElementById('qvProductPrice').textContent = '₦' + price.toLocaleString();
+        document.getElementById('qvProductDesc').textContent = desc;
+        
+        const badgeEl = document.getElementById('qvProductBadge');
+        badgeEl.textContent = badge;
+        badgeEl.className = 'qv-eyebrow';
+        if (badge) {
+          badgeEl.style.display = 'inline-block';
+          if (badge.includes('New')) badgeEl.classList.add('badge-new');
+          else if (badge.includes('Best') || badge.includes('Popular') || badge.includes('Home')) badgeEl.classList.add('badge-best');
+          else if (badge.includes('Sale') || badge.includes('Exotic')) badgeEl.classList.add('badge-sale');
+        } else {
+          badgeEl.style.display = 'none';
+        }
+        
+        let qvQty = 1;
+        const qvQtyVal = document.getElementById('qvQtyVal');
+        qvQtyVal.textContent = qvQty;
+        
+        const addToCartBtn = document.getElementById('qvAddToCartBtn');
+        const newAddToCartBtn = addToCartBtn.cloneNode(true);
+        addToCartBtn.parentNode.replaceChild(newAddToCartBtn, addToCartBtn);
+        
+        newAddToCartBtn.addEventListener('click', () => {
+          addItemToCart(name, price, img, qvQty, variety);
+          closeModal(document.getElementById('quickViewModal'), document.getElementById('quickViewOverlay'));
+          showToast(`Added ${qvQty} x ${name} to cart!`, '🛒');
+        });
+        
+        const minusBtn = document.getElementById('qvQtyMinusBtn');
+        const plusBtn = document.getElementById('qvQtyPlusBtn');
+        const newMinusBtn = minusBtn.cloneNode(true);
+        const newPlusBtn = plusBtn.cloneNode(true);
+        minusBtn.parentNode.replaceChild(newMinusBtn, minusBtn);
+        plusBtn.parentNode.replaceChild(newPlusBtn, plusBtn);
+        
+        newMinusBtn.addEventListener('click', () => {
+          if (qvQty > 1) {
+            qvQty--;
+            qvQtyVal.textContent = qvQty;
+          }
+        });
+        newPlusBtn.addEventListener('click', () => {
+          qvQty++;
+          qvQtyVal.textContent = qvQty;
+        });
+        
+        openModal(document.getElementById('quickViewModal'), document.getElementById('quickViewOverlay'));
+      }
+    });
+  }
+
+  // extract initial static products from existing HTML markup
+  function extractDefaultFlowers() {
+    const flowers = [];
+    document.querySelectorAll('.flowers-grid .flower-card').forEach(card => {
+      flowers.push({
+        id: card.getAttribute('data-id'),
+        name: card.getAttribute('data-name'),
+        price: parseInt(card.getAttribute('data-price')),
+        variety: card.getAttribute('data-variety'),
+        image: card.getAttribute('data-image'),
+        badge: card.getAttribute('data-badge') || '',
+        desc: card.getAttribute('data-desc') || '',
+        occasions: card.getAttribute('data-occasions') || '',
+        category: card.getAttribute('data-category') || ''
+      });
+    });
+    return flowers;
+  }
+
+  // dynamic rendering of catalog products
+  function renderFlowerGrid(flowers) {
+    if (!flowersGrid) return;
+    flowersGrid.innerHTML = '';
+    
+    flowers.forEach(flower => {
+      const badgeHTML = flower.badge 
+        ? `<div class="flower-badge ${getBadgeClass(flower.badge)}">${flower.badge}</div>` 
+        : '';
+        
+      const cardHTML = `
+        <div class="flower-card" data-category="${flower.category || ''}"
+             data-id="${flower.id}" data-name="${flower.name}" data-price="${flower.price}"
+             data-variety="${flower.variety}" data-image="${flower.image}" data-badge="${flower.badge || ''}"
+             data-desc="${flower.desc || ''}"
+             data-occasions="${flower.occasions || ''}">
+          <div class="flower-img">
+            <img src="${flower.image}" alt="${flower.name}">
+            ${badgeHTML}
+          </div>
+          <div class="flower-info">
+            <div class="flower-name">${flower.name}</div>
+            <div class="flower-variety">${flower.variety}</div>
+            <div class="flower-footer">
+              <div class="flower-price">₦${flower.price.toLocaleString()}</div>
+              <button class="add-btn" data-name="${flower.name}" data-price="${flower.price}" data-image="${flower.image}" data-variety="${flower.variety}">+</button>
+            </div>
+          </div>
+        </div>
+      `;
+      flowersGrid.insertAdjacentHTML('beforeend', cardHTML);
+    });
+    
+    runSearchAndFilter();
+  }
+
+  function getBadgeClass(badge) {
+    if (!badge) return '';
+    const b = badge.toLowerCase();
+    if (b.includes('new')) return 'badge-new';
+    if (b.includes('best') || b.includes('popular') || b.includes('home')) return 'badge-best';
+    if (b.includes('sale') || b.includes('exotic')) return 'badge-sale';
+    return 'badge-new';
+  }
+
+  // initialization function
+  async function initCatalog() {
+    await window.PONY_DB.init();
+    let flowers = await window.PONY_DB.getFlowers();
+    if (flowers.length < 20) {
+      console.log("🌸 Catalog is incomplete in DB. Seeding with default flowers from HTML...");
+      const defaultFlowers = extractDefaultFlowers();
+      await window.PONY_DB.saveFlowers(defaultFlowers);
+      flowers = defaultFlowers;
+    }
+    renderFlowerGrid(flowers);
+  }
+
+  /* ──── SEARCH, OCCASION & CATEGORY FILTER LOGIC ──── */
+
+
+
+  function runSearchAndFilter() {
+    const query = searchInput.value.toLowerCase().trim();
+    const activeChip = document.querySelector('.chip.active');
+    const occasion = activeChip ? activeChip.getAttribute('data-occasion') : null;
+
+    let matchCount = 0;
+
+    document.querySelectorAll('.flower-card').forEach(card => {
+      const cardName = card.getAttribute('data-name').toLowerCase();
+      const cardVariety = card.getAttribute('data-variety').toLowerCase();
+      const cardOccasions = card.getAttribute('data-occasions') || '';
+      const cardCategory = card.getAttribute('data-category') || '';
+
+      const matchesSearch = query === '' || cardName.includes(query) || cardVariety.includes(query);
+      const matchesOccasion = !occasion || cardOccasions.split(' ').includes(occasion);
+      const matchesCategory = activeCategory === 'all' || cardCategory === activeCategory;
+
+      if (matchesSearch && matchesOccasion && matchesCategory) {
+        card.style.display = 'block';
+        card.offsetHeight;
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+        matchCount++;
+      } else {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          if (card.style.opacity === '0') card.style.display = 'none';
+        }, 300);
+      }
+    });
+
+    if (occasion || query !== '' || activeCategory !== 'all') {
+      flowersGrid.classList.add('filtering');
+    } else {
+      flowersGrid.classList.remove('filtering');
+    }
+
+    // Update heading bar
+    catHeadingLabel.textContent = categoryNames[activeCategory] || 'All Flowers';
+    catHeadingCount.textContent = matchCount + ' item' + (matchCount !== 1 ? 's' : '');
+
+    emptySearchState.style.display = matchCount === 0 ? 'flex' : 'none';
+  }
+
+  // Category tab clicks
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      activeCategory = this.getAttribute('data-cat');
+      // Clear occasion chip when switching categories
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      runSearchAndFilter();
     });
   });
 
-  // Chip active state
+  // Variety card clicks → scroll to flowers and filter by category
+  document.querySelectorAll('.variety-card[data-filter-cat]').forEach(card => {
+    const activate = () => {
+      const cat = card.getAttribute('data-filter-cat');
+      // Activate matching tab
+      document.querySelectorAll('.cat-tab').forEach(t => {
+        t.classList.toggle('active', t.getAttribute('data-cat') === cat);
+      });
+      activeCategory = cat;
+      // Clear other filters
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      searchInput.value = '';
+      clearSearchBtn.style.display = 'none';
+      runSearchAndFilter();
+      // Scroll to flowers section
+      document.getElementById('flowers').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    card.addEventListener('click', activate);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+  });
+
+  searchInput.addEventListener('input', () => {
+    clearSearchBtn.style.display = searchInput.value.length > 0 ? 'block' : 'none';
+    runSearchAndFilter();
+  });
+
+  clearSearchBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    clearSearchBtn.style.display = 'none';
+    runSearchAndFilter();
+  });
+
+  document.getElementById('resetSearchFiltersBtn').addEventListener('click', () => {
+    searchInput.value = '';
+    clearSearchBtn.style.display = 'none';
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.toggle('active', t.getAttribute('data-cat') === 'all'));
+    activeCategory = 'all';
+    runSearchAndFilter();
+  });
+
   document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', function() {
-      this.style.transform = 'scale(0.95)';
-      setTimeout(() => this.style.transform = '', 120);
+      const isActive = this.classList.contains('active');
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      if (!isActive) this.classList.add('active');
+      runSearchAndFilter();
     });
   });
+
+  // Initialize heading count on load
+  runSearchAndFilter();
+
+  /* ──── FLOWER QUICK VIEW MODAL ──── */
+
+
+  document.getElementById('closeQuickViewBtn').addEventListener('click', () => {
+    closeModal(document.getElementById('quickViewModal'), document.getElementById('quickViewOverlay'));
+  });
+  document.getElementById('quickViewOverlay').addEventListener('click', () => {
+    closeModal(document.getElementById('quickViewModal'), document.getElementById('quickViewOverlay'));
+  });
+
+  /* ──── CUSTOM BOUQUET BUILDER ──── */
+  const baseFlowerOptions = document.querySelectorAll('#customizerModal [data-flower]');
+  const wrapOptions = document.querySelectorAll('#customizerModal [data-wrap]');
+  const addonCard = document.getElementById('addonCard');
+  const addonChoc = document.getElementById('addonChoc');
+  const builderPriceEl = document.getElementById('builderLivePrice');
+  const builderPreviewFlower = document.getElementById('builderPreviewFlower');
+
+  function calculateBuilderPrice() {
+    let basePrice = 0;
+    let wrapPrice = 0;
+    let addonsPrice = 0;
+    
+    const activeBase = document.querySelector('#customizerModal [data-flower].active');
+    if (activeBase) {
+      basePrice = parseInt(activeBase.getAttribute('data-price'));
+      builderPreviewFlower.textContent = activeBase.getAttribute('data-icon');
+    }
+    
+    const activeWrap = document.querySelector('#customizerModal [data-wrap].active');
+    if (activeWrap) {
+      wrapPrice = parseInt(activeWrap.getAttribute('data-price'));
+    }
+    
+    if (addonCard.checked) addonsPrice += parseInt(addonCard.getAttribute('data-price'));
+    if (addonChoc.checked) addonsPrice += parseInt(addonChoc.getAttribute('data-price'));
+    
+    const total = basePrice + wrapPrice + addonsPrice;
+    builderPriceEl.textContent = '₦' + total.toLocaleString();
+    return total;
+  }
+
+  baseFlowerOptions.forEach(opt => {
+    opt.addEventListener('click', function() {
+      baseFlowerOptions.forEach(o => o.classList.remove('active'));
+      this.classList.add('active');
+      calculateBuilderPrice();
+    });
+  });
+
+  wrapOptions.forEach(opt => {
+    opt.addEventListener('click', function() {
+      wrapOptions.forEach(o => o.classList.remove('active'));
+      this.classList.add('active');
+      calculateBuilderPrice();
+    });
+  });
+
+  addonCard.addEventListener('change', calculateBuilderPrice);
+  addonChoc.addEventListener('change', calculateBuilderPrice);
+
+  document.getElementById('closeCustomizerBtn').addEventListener('click', () => {
+    closeModal(document.getElementById('customizerModal'), document.getElementById('customizerOverlay'));
+  });
+  document.getElementById('customizerOverlay').addEventListener('click', () => {
+    closeModal(document.getElementById('customizerModal'), document.getElementById('customizerOverlay'));
+  });
+
+  // Customize Bouquet Banner Link
+  document.querySelector('.featured-text .btn-primary').addEventListener('click', (e) => {
+    e.preventDefault();
+    calculateBuilderPrice();
+    openModal(document.getElementById('customizerModal'), document.getElementById('customizerOverlay'));
+  });
+
+  // Builder submit handler
+  document.getElementById('bouquetBuilderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const activeBase = document.querySelector('#customizerModal [data-flower].active');
+    const activeWrap = document.querySelector('#customizerModal [data-wrap].active');
+    
+    const baseName = activeBase.getAttribute('data-flower');
+    const wrapName = activeWrap.getAttribute('data-wrap');
+    const flowerImg = activeBase.getAttribute('data-icon') === '🌹' ? 'images/rose1.png' :
+                      activeBase.getAttribute('data-icon') === '🌿' ? 'images/lily1.png' :
+                      activeBase.getAttribute('data-icon') === '🌻' ? 'images/sunflower1.png' : 'images/orchid1.png';
+    
+    let components = [baseName + ' Base', wrapName + ' Wrap'];
+    if (addonCard.checked) components.push('Greeting Card');
+    if (addonChoc.checked) components.push('Chocolates Box');
+    
+    const name = `Custom Bouquet (${baseName})`;
+    const variety = components.join(', ');
+    const price = calculateBuilderPrice();
+    
+    addItemToCart(name, price, flowerImg, 1, variety);
+    closeModal(document.getElementById('customizerModal'), document.getElementById('customizerOverlay'));
+    showToast('Custom bouquet added to your cart!', '💐');
+    
+    // Clear addons selections for next customizing run
+    addonCard.checked = false;
+    addonChoc.checked = false;
+  });
+
+  /* ──── TESTIMONIAL CAROUSEL ──── */
+  const testiTrack = document.getElementById('testiTrack');
+  const testiSlides = document.querySelectorAll('.testi-slide');
+  let testiIndex = 0;
+  let testiInterval;
+
+  function showTestimonial(index) {
+    if (index >= testiSlides.length) index = 0;
+    if (index < 0) index = testiSlides.length - 1;
+    testiIndex = index;
+    
+    testiTrack.style.transform = `translateX(-${testiIndex * 100}%)`;
+    
+    document.querySelectorAll('.testi-dot').forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === testiIndex);
+    });
+  }
+
+  document.getElementById('prevTestiBtn').addEventListener('click', () => {
+    showTestimonial(testiIndex - 1);
+    resetTestiTimer();
+  });
+
+  document.getElementById('nextTestiBtn').addEventListener('click', () => {
+    showTestimonial(testiIndex + 1);
+    resetTestiTimer();
+  });
+
+  document.querySelectorAll('.testi-dot').forEach(dot => {
+    dot.addEventListener('click', function() {
+      const idx = parseInt(this.getAttribute('data-index'));
+      showTestimonial(idx);
+      resetTestiTimer();
+    });
+  });
+
+  function startTestiTimer() {
+    testiInterval = setInterval(() => {
+      showTestimonial(testiIndex + 1);
+    }, 5000);
+  }
+
+  function resetTestiTimer() {
+    clearInterval(testiInterval);
+    startTestiTimer();
+  }
+
+  startTestiTimer();
+
+  /* ──── CHECKOUT PROCESS ──── */
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const checkoutModal = document.getElementById('checkoutModal');
+  const checkoutOverlay = document.getElementById('checkoutOverlay');
+  const orderRefEl = document.getElementById('orderReference');
+  
+  const checkoutFormModal = document.getElementById('checkoutFormModal');
+  const checkoutFormOverlay = document.getElementById('checkoutFormOverlay');
+  const checkoutDetailsForm = document.getElementById('checkoutDetailsForm');
+  const cancelCheckoutBtn = document.getElementById('cancelCheckoutBtn');
+
+  // Checkout button opens form
+  checkoutBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+      showToast("Your cart is empty!", "🛒");
+      return;
+    }
+    closeCartDrawer();
+    // Pre-fill delivery date with tomorrow's date by default
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('checkoutDate').value = tomorrow.toISOString().split('T')[0];
+    document.getElementById('checkoutDate').min = new Date().toISOString().split('T')[0];
+    openModal(checkoutFormModal, checkoutFormOverlay);
+  });
+
+  cancelCheckoutBtn.addEventListener('click', () => {
+    closeModal(checkoutFormModal, checkoutFormOverlay);
+  });
+  checkoutFormOverlay.addEventListener('click', () => {
+    closeModal(checkoutFormModal, checkoutFormOverlay);
+  });
+
+  // Handle Form Submission
+  checkoutDetailsForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('checkoutName').value.trim();
+    const phone = document.getElementById('checkoutPhone').value.trim();
+    const address = document.getElementById('checkoutAddress').value.trim();
+    const date = document.getElementById('checkoutDate').value;
+    const cardMsg = document.getElementById('checkoutCardMsg').value.trim();
+    
+    const ref = 'PONY-' + Math.floor(10000 + Math.random() * 90000);
+    
+    const orderData = {
+      orderReference: '#' + ref,
+      customerName: name,
+      customerPhone: phone,
+      deliveryAddress: address,
+      deliveryDate: date,
+      giftMessage: cardMsg,
+      items: cart.map(item => ({
+        name: item.name,
+        price: item.price,
+        quantity: item.qty,
+        variety: item.variety || 'Fresh stems',
+        image: item.image
+      })),
+      subtotal: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+    };
+    
+    const submitBtn = checkoutDetailsForm.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Processing...";
+    
+    try {
+      const savedOrder = await window.PONY_DB.addOrder(orderData);
+      orderRefEl.textContent = savedOrder.orderReference || orderData.orderReference;
+      
+      cart = [];
+      saveCart();
+      updateCartUI();
+      checkoutDetailsForm.reset();
+      
+      closeModal(checkoutFormModal, checkoutFormOverlay);
+      openModal(checkoutModal, checkoutOverlay);
+      
+      showToast("Order placed successfully! 🌸", "🎉");
+    } catch (err) {
+      console.error("Order submission failed:", err);
+      showToast("Failed to place order. Please try again.", "❌");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+    }
+  });
+
+  // Success modal closing handlers
+  document.getElementById('closeCheckoutBtn').addEventListener('click', () => {
+    closeModal(checkoutModal, checkoutOverlay);
+  });
+  checkoutOverlay.addEventListener('click', () => {
+    closeModal(checkoutModal, checkoutOverlay);
+  });
+
+  /* ──── HEADER ACTIONS & FORMS ──── */
+  // Mobile menu drawer toggle
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const navLinks = document.getElementById('navLinks');
+  
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenuBtn.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenuBtn.classList.remove('active');
+      navLinks.classList.remove('active');
+    });
+  });
+
+  // Dummy action buttons toast trigger
+  document.querySelectorAll('.btn-action-toast').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      showToast('This action flow is currently under construction. Stay tuned!', '⚙️');
+    });
+  });
+
+  // Newsletter submission handling
+  document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const input = this.querySelector('input[type="email"]');
+    showToast(`Successfully joined newsletter with ${input.value}!`, '🎉');
+    input.value = '';
+  });
+
+  // Load cart state on start
+  loadCart();
+
+  // Load catalog dynamically from database (or seed and load)
+  initCatalog();
 </script>
+
+  <!-- Floating AI Chat Bot -->
+<div id="ai-chat-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: flex-end;">
+    <!-- WhatsApp Widget Button -->
+    <a href="https://wa.me/2348012345678?text=Hello%20Pony%20Flowers,%20I'd%20like%20to%20inquire%20about%20flowers!" target="_blank" id="whatsapp-widget-btn" style="background-color: #25D366; color: white; border: none; padding: 15px 20px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; transition: transform 0.2s, background-color 0.2s;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.45 5.407-.003 9.806-4.394 9.809-9.799.001-2.596-1.009-5.037-2.844-6.871C16.402 2.099 13.97 1.088 12.01 1.088c-5.41 0-9.811 4.397-9.814 9.802-.001 1.703.454 3.324 1.319 4.767L2.484 21.57l6.163-1.616zM17.522 14.28c-.304-.152-1.8-.887-2.08-.988-.28-.102-.483-.153-.686.152-.203.305-.787 1.015-.965 1.22-.177.202-.355.228-.658.076-.304-.153-1.284-.474-2.447-1.512-.904-.806-1.513-1.802-1.69-2.107-.177-.304-.019-.469.133-.62.137-.136.304-.355.456-.533.152-.178.203-.305.305-.508.102-.203.05-.381-.026-.533-.076-.152-.686-1.653-.94-2.262-.247-.593-.502-.51-.686-.52-.177-.008-.38-.01-.583-.01-.203 0-.533.077-.812.382-.28.305-1.066 1.042-1.066 2.54 0 1.498 1.09 2.946 1.242 3.15.152.202 2.146 3.277 5.198 4.593.726.313 1.293.5 1.734.64.73.232 1.396.199 1.922.12.586-.087 1.8-.737 2.054-1.448.254-.71.254-1.32.178-1.448-.076-.127-.28-.203-.584-.355z"/>
+        </svg>
+        Chat on WhatsApp
+    </a>
+
+    <!-- Chat Button -->
+    <button id="chat-toggle-btn" style="background-color: #e27d60; color: white; border: none; padding: 15px 20px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-weight: bold;">
+        🌸 Chat with Florist
+    </button>
+
+    <!-- Chat Box (Hidden by default) -->
+    <div id="chat-box" style="display: none; width: 350px; height: 450px; background-color: #fdfbf7; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border: 1px solid #e0dcd3; flex-direction: column; overflow: hidden; margin-bottom: 10px;">
+        <!-- Header -->
+        <div style="background-color: #e27d60; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between;">
+            <span>Florist Assistant</span>
+            <span id="close-chat" style="cursor: pointer;">✕</span>
+        </div>
+        <!-- Messages Area -->
+        <div id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto; font-size: 14px; line-height: 1.4;">
+            <p style="background: #f0ede6; padding: 10px; border-radius: 10px; margin-bottom: 10px; max-width: 85%;">
+                Hello there! I'm your florist assistant. Are you looking for flowers to celebrate a special occasion?
+            </p>
+        </div>
+        <!-- Input Footer -->
+        <div style="display: flex; padding: 10px; border-top: 1px solid #e0dcd3; background: white;">
+            <input type="text" id="chat-input" placeholder="Tell me about the occasion..." style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 20px; outline: none;">
+            <button id="send-btn" style="background: #e27d60; color: white; border: none; padding: 10px 15px; margin-left: 5px; border-radius: 50%; cursor: pointer;">➔</button>
+        </div>
+    </div>
+</div>
+
+<script src="ai-chat.js"></script>
+
 </body>
 </html>
