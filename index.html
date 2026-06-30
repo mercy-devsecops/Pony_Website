@@ -2703,12 +2703,18 @@
     overlay.classList.add('active');
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    if (typeof updateFloatingWidgetsVisibility === 'function') {
+      updateFloatingWidgetsVisibility();
+    }
   }
 
   function closeModal(modal, overlay) {
     overlay.classList.remove('active');
     modal.classList.remove('active');
     document.body.style.overflow = '';
+    if (typeof updateFloatingWidgetsVisibility === 'function') {
+      updateFloatingWidgetsVisibility();
+    }
   }
 
   /* ──── SHOPPING CART STATE & LOGIC ──── */
@@ -2848,17 +2854,51 @@
     cartDrawer.classList.add('active');
     cartDrawerOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+    updateFloatingWidgetsVisibility();
   }
 
   function closeCartDrawer() {
     cartDrawer.classList.remove('active');
     cartDrawerOverlay.classList.remove('active');
     document.body.style.overflow = '';
+    updateFloatingWidgetsVisibility();
   }
 
   document.getElementById('cartBtn').addEventListener('click', openCartDrawer);
   document.getElementById('closeCartBtn').addEventListener('click', closeCartDrawer);
   cartDrawerOverlay.addEventListener('click', closeCartDrawer);
+
+  // Floating AI & WhatsApp Widgets visibility control
+  function updateFloatingWidgetsVisibility() {
+    const container = document.getElementById('ai-chat-container');
+    if (!container) return;
+
+    const cartOpen = cartDrawer && cartDrawer.classList.contains('active');
+    const checkoutFormOpen = document.getElementById('checkoutFormModal')?.classList.contains('active');
+    const checkoutSuccessOpen = document.getElementById('checkoutModal')?.classList.contains('active');
+
+    // Hide if scroll is near the bottom of the page (footer area)
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.documentElement.scrollHeight - 350; // 350px from page bottom
+    const nearBottom = scrollPosition >= threshold;
+
+    if (cartOpen || checkoutFormOpen || checkoutSuccessOpen || nearBottom) {
+      container.style.opacity = '0';
+      container.style.transform = 'translateY(20px)';
+      container.style.pointerEvents = 'none';
+      container.style.visibility = 'hidden';
+    } else {
+      container.style.opacity = '1';
+      container.style.transform = 'translateY(0)';
+      container.style.pointerEvents = 'auto';
+      container.style.visibility = 'visible';
+    }
+  }
+
+  window.addEventListener('scroll', updateFloatingWidgetsVisibility);
+  window.addEventListener('resize', updateFloatingWidgetsVisibility);
+  // Initial run
+  setTimeout(updateFloatingWidgetsVisibility, 100);
 
   let activeCategory = 'all'; // track active category tab
 
@@ -3451,7 +3491,7 @@
 </script>
 
   <!-- Floating AI Chat Bot -->
-<div id="ai-chat-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: flex-end;">
+<div id="ai-chat-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: flex-end; transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;">
     <!-- WhatsApp Widget Button -->
     <a href="https://wa.me/2348012345678?text=Hello%20Pony%20Flowers,%20I'd%20like%20to%20inquire%20about%20flowers!" target="_blank" id="whatsapp-widget-btn" style="background-color: #25D366; color: white; border: none; padding: 15px 20px; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; transition: transform 0.2s, background-color 0.2s;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
