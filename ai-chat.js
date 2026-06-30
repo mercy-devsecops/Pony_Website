@@ -124,23 +124,15 @@ document.addEventListener("DOMContentLoaded", () => {
             // small delay (prevents fast spam requests)
             await new Promise(r => setTimeout(r, 800));
 
-            const apiKey = ""
-
             const response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+                `/api/chat`,
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `You are a helpful florist assistant. Answer clearly and simply.
-
-User question: ${messageText}`
-                            }]
-                        }]
+                        message: messageText
                     })
                 }
             );
