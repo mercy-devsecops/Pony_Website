@@ -654,6 +654,7 @@
                 <tr>
                   <th>Ref</th>
                   <th>Customer</th>
+                  <th>Email</th>
                   <th>Phone</th>
                   <th>Delivery Date</th>
                   <th>Subtotal</th>
@@ -982,6 +983,7 @@
             <h4 style="font-family:'Playfair Display', serif; color:var(--plum); margin-bottom:0.5rem; border-bottom: 1px solid var(--border); padding-bottom:0.3rem;">Delivery Address</h4>
             <p style="font-size:0.9rem; font-weight:700; color:var(--charcoal);" id="odName">Jane Doe</p>
             <p style="font-size:0.88rem; color:var(--text-light); margin-top:0.2rem;" id="odPhone">+234 80 1234 5678</p>
+            <p style="font-size:0.88rem; color:var(--text-light); margin-top:0.2rem;" id="odEmail">example@gmail.com</p>
             <p style="font-size:0.88rem; color:var(--text-light); line-height:1.4; margin-top:0.4rem;" id="odAddress">Apt 4B, 15 Rose Avenue, Victoria Island, Lagos</p>
           </div>
           <div>
@@ -1457,6 +1459,7 @@
       const filteredOrders = ordersList.filter(order => {
         const matchesSearch = order.customerName.toLowerCase().includes(query) || 
                               order.orderReference.toLowerCase().includes(query) ||
+                              (order.customerEmail && order.customerEmail.toLowerCase().includes(query)) ||
                               (order.customerPhone && order.customerPhone.includes(query));
         
         let matchesStatus = true;
@@ -1472,7 +1475,7 @@
       });
 
       if (filteredOrders.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-light);padding:3rem;">No orders match the filter criteria.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text-light);padding:3rem;">No orders match the filter criteria.</td></tr>`;
         return;
       }
 
@@ -1482,6 +1485,7 @@
         tr.innerHTML = `
           <td><strong>${order.orderReference}</strong></td>
           <td>${order.customerName}</td>
+          <td>${order.customerEmail || 'N/A'}</td>
           <td>${order.customerPhone || 'N/A'}</td>
           <td>${dateStr}</td>
           <td><strong>₦${(order.subtotal || 0).toLocaleString()}</strong></td>
@@ -1552,6 +1556,7 @@
       
       document.getElementById('odName').textContent = selectedOrder.customerName;
       document.getElementById('odPhone').textContent = selectedOrder.customerPhone || 'N/A';
+      document.getElementById('odEmail').textContent = selectedOrder.customerEmail || 'N/A';
       document.getElementById('odAddress').textContent = selectedOrder.deliveryAddress;
       
       const dateStr = selectedOrder.deliveryDate 
