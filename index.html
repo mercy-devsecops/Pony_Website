@@ -3452,15 +3452,24 @@
     submitBtn.textContent = "Processing...";
     
     try {
-      // 2. PAYMENT GATEWAY STAGE (MOCKING PAYSTACK INTERFACE)
-      // This is where you will integrate Paystack.
-      const paymentSuccess = await simulatePaymentGateway(orderData);
-      if (!paymentSuccess) {
-        showToast("Payment was not completed. Please try again.", "❌");
-        return;
+      // 2. PAYMENT GATEWAY STAGE (REAL PAYSTACK REDIRECT INTEGRATION)
+      const paystackRes = await fetch('/api/paystack-init', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+          amount: calculatedSubtotal * 100 // Convert NGN to Kobo (subunit of Currency)
+        })
+      });
+
+      const paystackData = await paystackRes.json();
+      if (!paystackRes.ok || !paystackData.status || !paystackData.data || !paystackData.data.authorization_url) {
+        throw new Error(paystackData.message || paystackData.error?.message || "Failed to initialize payment transaction.");
       }
       
-      // 3. FINAL SAVE STAGE (Runs only after payment confirmation)
+      // 3. FINAL SAVE STAGE (Saves the order details to the database before redirecting)
       const savedOrder = await window.PONY_DB.addOrder(orderData);
       orderRefEl.textContent = savedOrder.orderReference || orderData.orderReference;
       
@@ -3469,51 +3478,18 @@
       updateCartUI();
       checkoutDetailsForm.reset();
       
-      closeModal(checkoutFormModal, checkoutFormOverlay);
-      openModal(checkoutModal, checkoutOverlay);
-      
-      showToast("Order placed successfully! 🌸", "🎉");
+      // Redirect customer to Paystack billing page
+      window.location.href = paystackData.data.authorization_url;
     } catch (err) {
-      console.error("Checkout process failed:", err);
-      showToast("An error occurred during checkout. Please try again.", "❌");
+      console.error("Checkout transaction initialization failed:", err);
+      showToast(err.message || "An error occurred during checkout payment setup. Please try again.", "❌");
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = originalBtnText;
     }
   });
 
-  /**
-   * Mock payment wrapper prepared for Paystack Integration.
-   * To implement Paystack later, follow these steps:
-   * 1. Include Paystack inline JS SDK in index.html head or dynamically import it:
-   *    Include script tag from: https://js.paystack.co/v1/inline.js
-   * 2. Replace this simulated implementation with Paystack's initialization popup:
-   *    const handler = PaystackPop.setup({
-   *      key: 'YOUR_PAYSTACK_PUBLIC_KEY', // Put your public key here
-   *      email: 'customer@example.com',    // Customer email (add an input field or fallback)
-   *      amount: orderData.subtotal * 100, // Amount in kobo/cents
-   *      ref: orderData.orderReference,    // Reference number
-   *      callback: function(response){
-   *         // Payment successful: response.reference
-   *         resolve(true);
-   *      },
-   *      onClose: function(){
-   *         // Customer closed window
-   *         resolve(false);
-   *      }
-   *    });
-   *    handler.openIframe();
-   */
-  async function simulatePaymentGateway(orderData) {
-    console.log("🌸 simulatedPaymentGateway: Initializing checkout connection...", orderData);
-    // Currently, payment mock defaults instantly to success.
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log("🌸 simulatedPaymentGateway: Mock payment verification successful for ref " + orderData.orderReference);
-        resolve(true);
-      }, 1000);
-    });
-  }
+
 
   // Success modal closing handlers
   document.getElementById('closeCheckoutBtn').addEventListener('click', () => {
