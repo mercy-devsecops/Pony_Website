@@ -2593,6 +2593,10 @@
         <input type="text" id="checkoutName" required style="padding: 0.75rem; border-radius: 8px; border: 1.5px solid rgba(92,45,78,0.15); background: var(--white); font-family: inherit; font-size: 0.92rem; color: var(--text); outline: none; transition: border-color 0.2s;" placeholder="e.g. Jane Doe">
       </div>
       <div style="display: flex; flex-direction: column; gap: 0.4rem; text-align: left;">
+        <label for="checkoutEmail" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-light);">Email Address</label>
+        <input type="email" id="checkoutEmail" required style="padding: 0.75rem; border-radius: 8px; border: 1.5px solid rgba(92,45,78,0.15); background: var(--white); font-family: inherit; font-size: 0.92rem; color: var(--text); outline: none; transition: border-color 0.2s;" placeholder="example@gmail.com">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0.4rem; text-align: left;">
         <label for="checkoutPhone" style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-light);">Phone Number</label>
         <input type="tel" id="checkoutPhone" required style="padding: 0.75rem; border-radius: 8px; border: 1.5px solid rgba(92,45,78,0.15); background: var(--white); font-family: inherit; font-size: 0.92rem; color: var(--text); outline: none; transition: border-color 0.2s;" placeholder="e.g. +234 80 1234 5678">
       </div>
@@ -3397,12 +3401,13 @@
     }
 
     const name = document.getElementById('checkoutName').value.trim();
+    const email = document.getElementById('checkoutEmail').value.trim();
     const phone = document.getElementById('checkoutPhone').value.trim();
     const address = document.getElementById('checkoutAddress').value.trim();
     const date = document.getElementById('checkoutDate').value;
     const cardMsg = document.getElementById('checkoutCardMsg').value.trim();
     
-    if (!name || !phone || !address || !date) {
+    if (!name || !email || !phone || !address || !date) {
       showToast("Please fill in all required delivery details.", "⚠️");
       return;
     }
@@ -3426,6 +3431,7 @@
     const orderData = {
       orderReference: '#' + ref,
       customerName: name,
+      customerEmail: email,
       customerPhone: phone,
       deliveryAddress: address,
       deliveryDate: date,
