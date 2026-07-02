@@ -39,7 +39,9 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         email: email,
-        amount: numAmount
+        amount: numAmount,
+        currency: "NGN",
+        callback_url: "https://pony-website-eight.vercel.app/payment-success"
       })
     });
 
