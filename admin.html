@@ -990,6 +990,7 @@
             <h4 style="font-family:'Playfair Display', serif; color:var(--plum); margin-bottom:0.5rem; border-bottom: 1px solid var(--border); padding-bottom:0.3rem;">Delivery Details</h4>
             <p style="font-size:0.88rem; color:var(--text);"><span style="color:var(--text-light);">Delivery Date:</span> <strong id="odDate">June 20, 2026</strong></p>
             <p style="font-size:0.88rem; color:var(--text); margin-top:0.3rem;"><span style="color:var(--text-light);">Date Placed:</span> <span id="odPlaced">June 19, 2026</span></p>
+            <p style="font-size:0.88rem; color:var(--text); margin-top:0.3rem;" id="odPayRefGroup"><span style="color:var(--text-light);">Payment Ref:</span> <strong id="odPayRef">N/A</strong></p>
             <div style="background:rgba(232, 103, 122, 0.05); padding:0.8rem; border-radius:8px; margin-top:0.8rem; border:1px solid rgba(232, 103, 122, 0.12);">
               <span style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:var(--rose); display:block; margin-bottom:0.2rem;">Message Card</span>
               <p style="font-size:0.85rem; font-style:italic; color:var(--text); line-height:1.4;" id="odMessage">No card message attached.</p>
@@ -1460,6 +1461,7 @@
         const matchesSearch = order.customerName.toLowerCase().includes(query) || 
                               order.orderReference.toLowerCase().includes(query) ||
                               (order.customerEmail && order.customerEmail.toLowerCase().includes(query)) ||
+                              (order.paymentReference && order.paymentReference.toLowerCase().includes(query)) ||
                               (order.customerPhone && order.customerPhone.includes(query));
         
         let matchesStatus = true;
@@ -1571,6 +1573,14 @@
       
       document.getElementById('odMessage').textContent = selectedOrder.giftMessage ? `"${selectedOrder.giftMessage}"` : 'No card message attached.';
       document.getElementById('odTotal').textContent = '₦' + (selectedOrder.subtotal || 0).toLocaleString();
+
+      // Show/Hide Paystack Payment Reference
+      if (selectedOrder.paymentReference) {
+        document.getElementById('odPayRef').textContent = selectedOrder.paymentReference;
+        document.getElementById('odPayRefGroup').style.display = 'block';
+      } else {
+        document.getElementById('odPayRefGroup').style.display = 'none';
+      }
 
       // Render Items list table
       const tbody = document.getElementById('odItemsTableBody');
