@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Verification — Pony Flowers</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --plum: #5c2d4e;
+      --rose: #e8677a;
+      --cream: #fdfbf7;
+      --white: #ffffff;
+      --charcoal: #2a2a2a;
+      --text: #4a4a4a;
+      --text-light: #7e7e7e;
+      --border: #f0ece1;
+      --green: #2e7d32;
+      --red: #c62828;
+      --orange: #ef6c00;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--cream);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    .container {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(92, 45, 78, 0.05);
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 550px;
+      padding: 3rem 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--plum);
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .icon-wrapper {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    /* Status Styles */
+    .status-loading .icon-wrapper {
+      border: 4px solid var(--border);
+      border-top-color: var(--rose);
+      animation: spin 1s linear infinite;
+    }
+
+    .status-success .icon-wrapper {
+      background-color: rgba(46, 125, 50, 0.1);
+      color: var(--green);
+    }
+
+    .status-failed .icon-wrapper {
+      background-color: rgba(198, 40, 40, 0.1);
+      color: var(--red);
+    }
+
+    .status-cancelled .icon-wrapper {
+      background-color: rgba(239, 108, 0, 0.1);
+      color: var(--orange);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--plum);
+      margin-bottom: 1rem;
+    }
+
+    p.message {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .details-box {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    .details-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .details-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .details-label {
+      color: var(--text-light);
+    }
+
+    .details-value {
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--plum);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background-color: #4a213e;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background-color: var(--cream);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    /* Utility Display Control */
+    .state-panel {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="logo">PONY FLOWERS</div>
+
+    <!-- 1. LOADING STATE -->
+    <div id="panel-loading" class="state-panel active status-loading">
+      <div class="icon-wrapper"></div>
+      <h2>Verifying Payment</h2>
+      <p class="message">We're verifying your payment transaction details with Paystack. Please do not close or reload this page.</p>
+    </div>
+
+    <!-- 2. SUCCESS STATE -->
+    <div id="panel-success" class="state-panel status-success">
+      <div class="icon-wrapper">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h2>Payment Successful</h2>
+      <p class="message">Thank you for your order. Your payment was verified, and your flowers are now being prepared for delivery!</p>
+      
+      <div class="details-box">
+        <div class="details-row">
+          <span class="details-label">Order Ref:</span>
+          <span class="details-value" id="success-order-ref">N/A</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Payment Ref:</span>
+          <span class="details-value" id="success-pay-ref">N/A</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <a href="/" class="btn btn-primary">Continue Shopping</a>
+      </div>
+    </div>
+
+    <!-- 3. FAILURE STATE -->
+    <div id="panel-failed" class="state-panel status-failed">
+      <div class="icon-wrapper">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+      <h2>Payment Failed</h2>
+      <p class="message">Unfortunately, your payment transaction could not be verified by Paystack. No order has been created.</p>
+      
+      <div class="btn-group">
+        <a href="/" class="btn btn-primary">Return to Checkout</a>
+      </div>
+    </div>
+
+    <!-- 4. CANCELLED STATE -->
+    <div id="panel-cancelled" class="state-panel status-cancelled">
+      <div class="icon-wrapper">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <h2>Payment Cancelled</h2>
+      <p class="message">You cancelled the payment before completing the transaction. Your shopping cart is still available.</p>
+      
+      <div class="btn-group">
+        <a href="/" class="btn btn-primary">Return to Checkout</a>
+        <a href="/" class="btn btn-secondary">Continue Shopping</a>
+      </div>
+    </div>
+
+    <!-- 5. ERROR STATE -->
+    <div id="panel-error" class="state-panel status-failed">
+      <div class="icon-wrapper">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <h2>Verifying Payment</h2>
+      <p class="message">We're unable to verify your payment right now. If you were charged, please contact customer support with your payment reference.</p>
+      
+      <div class="details-box" id="error-details-box" style="display: none;">
+        <div class="details-row">
+          <span class="details-label">Payment Ref:</span>
+          <span class="details-value" id="error-pay-ref">N/A</span>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <a href="/" class="btn btn-primary">Continue Shopping</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Firebase SDKs & Wrapper -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="../firebase-config.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const reference = urlParams.get('reference');
+
+      // Panels
+      const panelLoading = document.getElementById('panel-loading');
+      const panelSuccess = document.getElementById('panel-success');
+      const panelFailed = document.getElementById('panel-failed');
+      const panelCancelled = document.getElementById('panel-cancelled');
+      const panelError = document.getElementById('panel-error');
+
+      function showPanel(panel) {
+        document.querySelectorAll('.state-panel').forEach(p => p.classList.remove('active'));
+        panel.classList.add('active');
+      }
+
+      // Check Reference
+      if (!reference) {
+        document.querySelector('#panel-error h2').textContent = "Invalid Payment Reference";
+        document.querySelector('#panel-error .message').textContent = "We could not find a valid payment transaction reference in the URL.";
+        showPanel(panelError);
+        return;
+      }
+
+      // If customer cancelled (often indicated by a missing pending order or specific status, or user landing with abort)
+      // Paystack doesn't typically redirect to callback_url on cancellation unless explicitly set, but if they return manually:
+      const pendingOrderStr = localStorage.getItem('pony_pending_order');
+      if (!pendingOrderStr) {
+        // No pending order was found in local storage, might be a manually loaded or cancelled flow
+        showPanel(panelCancelled);
+        return;
+      }
+
+      const pendingOrder = JSON.parse(pendingOrderStr);
+
+      try {
+        // Initialize Database Wrapper
+        if (window.PONY_DB && typeof window.PONY_DB.init === 'function') {
+          await window.PONY_DB.init();
+        }
+
+        // Verify with api/paystack-verify serverless endpoint
+        const response = await fetch('/api/paystack-verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ reference: reference })
+        });
+
+        const verifyData = await response.json();
+
+        if (response.ok && verifyData.status === true && verifyData.data && verifyData.data.status === "success") {
+          // Complete and Save Order Data
+          const finalOrder = {
+            ...pendingOrder,
+            paymentReference: reference,
+            paymentStatus: "Paid",
+            timestamp: new Date().toISOString()
+          };
+
+          // Save completed order to Firestore
+          const savedOrder = await window.PONY_DB.addOrder(finalOrder);
+
+          // Render Success Information
+          document.getElementById('success-order-ref').textContent = savedOrder.orderReference || finalOrder.orderReference;
+          document.getElementById('success-pay-ref').textContent = reference;
+
+          // Clear cart and pending order
+          localStorage.removeItem('pony_cart');
+          localStorage.removeItem('pony_pending_order');
+
+          showPanel(panelSuccess);
+        } else {
+          // Verification failed or was not successful (unpaid, cancelled, etc.)
+          console.warn("Paystack verification status not successful:", verifyData);
+          
+          if (verifyData.data && (verifyData.data.status === "failed" || verifyData.data.status === "reversed")) {
+            showPanel(panelFailed);
+          } else {
+            // Cancelled or abandoned transaction
+            showPanel(panelCancelled);
+          }
+        }
+      } catch (err) {
+        console.error("Order verification process failed:", err);
+        // Render Error Information
+        document.getElementById('error-pay-ref').textContent = reference;
+        document.getElementById('error-details-box').style.display = 'block';
+        showPanel(panelError);
+      }
+    });
+  </script>
+</body>
+</html>

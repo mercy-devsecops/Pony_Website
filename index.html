@@ -3469,14 +3469,15 @@
         throw new Error(paystackData.message || paystackData.error?.message || "Failed to initialize payment transaction.");
       }
       
-      // 3. FINAL SAVE STAGE (Saves the order details to the database before redirecting)
-      const savedOrder = await window.PONY_DB.addOrder(orderData);
-      orderRefEl.textContent = savedOrder.orderReference || orderData.orderReference;
+      // Save order metadata temporarily as pending in localStorage
+      // We will only save it permanently to Firestore on the payment-success page after verification
+      orderData.paymentReference = paystackData.data.reference;
+      orderData.paymentMethod = "Paystack";
+      localStorage.setItem('pony_pending_order', JSON.stringify(orderData));
       
-      cart = [];
-      saveCart();
-      updateCartUI();
+      // Reset form and close modal, but DO NOT clear cart yet (in case payment is cancelled)
       checkoutDetailsForm.reset();
+      closeModal(checkoutFormModal, checkoutFormOverlay);
       
       // Redirect customer to Paystack billing page
       window.location.href = paystackData.data.authorization_url;
