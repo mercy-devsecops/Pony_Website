@@ -49,7 +49,7 @@ https://pony-website-eight.vercel.app
 
 ## Payment Success
 
-![Payment Success](screenshots/payment-succesful.png)
+![Payment Success](screenshots/payment succesful.png)
 
 ---
 
