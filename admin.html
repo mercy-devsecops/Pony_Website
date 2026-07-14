@@ -545,7 +545,7 @@
         <h1 id="panelTitle">Overview Dashboard</h1>
       </div>
       <div class="header-status">
-        <span class="status-pill local" id="dbStatusPill">
+        <span class="status-pill local" id="dbStatusPill" style="display: none;">
           <span class="status-dot"></span>
           <span id="dbStatusText">Local Sandbox</span>
         </span>
@@ -617,14 +617,6 @@
               <button class="btn-primary" style="width:100%; justify-content:center; border-radius:12px; padding:0.9rem;" onclick="openAddFlowerModal()">
                 ➕ Add New Flower
               </button>
-              <button class="btn-secondary" style="width:100%; justify-content:center; border-radius:12px; padding:0.9rem;" onclick="switchTab('firebase')">
-                ⚙️ Database Setup Wizard
-              </button>
-              <div style="background:var(--cream); padding:1.2rem; border-radius:12px; border:1px dashed var(--border); margin-top:0.5rem; text-align:center;">
-                <p style="font-size:0.8rem; color:var(--text-light); line-height:1.5;">
-                  <strong>Pony Flower Shop</strong> operates in client-only mode by default. Connect to Firebase in the config tab to save orders and products in the cloud.
-                </p>
-              </div>
             </div>
           </div>
         </div>

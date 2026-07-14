@@ -1,4 +1,11 @@
+import { isRateLimited } from './utils/rate-limit.js';
+
 export default async function handler(req, res) {
+  // Rate Limiting
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'anonymous';
+  if (isRateLimited(ip, 10, 60000)) {
+    return res.status(429).json({ error: { message: "Too many requests. Please try again later." } });
+  }
   // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', 'https://pony-website-eight.vercel.app');
